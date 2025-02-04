@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const pageRoutes = require('./routes/pagesRoutes');
+const pageRoutes = require("./routes/pagesRoutes");
 const swaggerUi = require("swagger-ui-express");
 const openApiDocumentation = require("./swagger.json");
 const bcrypt = require("bcrypt");
@@ -41,7 +41,7 @@ app.post("/users/reg", async (req, res) => {
 
     res.status(201).json({ message: "Вы успешно зарегестрировались", newUser });
   } catch (err) {
-    console.error("Ошибка регистраии", err);
+    console.error("Ошибка регистрации", err);
     res.status(400).json({ message: "Ошибка при регистрации" });
   }
 });
