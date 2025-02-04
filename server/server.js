@@ -10,13 +10,15 @@ const Users = require("./db/models/users");
 const app = express();
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
-// app.get('/', (req, res) => {
-//     res.send('Hello world!');
-// });
+const pagesPath = path.join(__dirname, "..", "public", "pages");
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(pagesPath, "index.html"));
+});
 
 app.post("/users/reg", async (req, res) => {
   const {

@@ -1,0 +1,8 @@
+.container{
+    display: flex;
+    align-items: center;
+}
+.mainTitle{
+    color: green;
+    text-align: center;
+}
