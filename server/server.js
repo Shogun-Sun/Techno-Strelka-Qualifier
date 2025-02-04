@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
+const pageRoutes = require('./routes/pagesRoutes');
 const swaggerUi = require("swagger-ui-express");
 const openApiDocumentation = require("./swagger.json");
 const bcrypt = require("bcrypt");
@@ -11,14 +12,11 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
+const pagesPath = path.join(__dirname, "..", "public", "pages");
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
-const pagesPath = path.join(__dirname, "..", "public", "pages");
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(pagesPath, "index.html"));
-});
+app.use(pageRoutes);
 
 app.post("/users/reg", async (req, res) => {
   const {
