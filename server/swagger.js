@@ -1,15 +1,15 @@
-const swaggerAutogen = require('swagger-autogen')();
+const swaggerAutogen = require("swagger-autogen")();
 
 const doc = {
   info: {
-    title: 'API Документация',
-    description: 'Автоматически сгенерированная документация',
+    title: "API Документация",
+    description: "Автоматически сгенерированная документация",
   },
-  host: 'localhost:3000',
-  schemes: ['http'],
+  host: "localhost:3000",
+  schemes: ["http"],
 };
 
-const outputFile = './swagger.json'; 
-const endpointsFiles = ['./server.js'];     
+const outputFile = "./swagger.json";
+const endpointsFiles = ["./server.js"];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
