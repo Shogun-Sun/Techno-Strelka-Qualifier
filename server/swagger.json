@@ -41,9 +41,36 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
           },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/users/log": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_email": {
+                  "example": "any"
+                },
+                "user_password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
           "400": {
             "description": "Bad Request"
           }

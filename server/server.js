@@ -46,6 +46,31 @@ app.post("/users/reg", async (req, res) => {
   }
 });
 
+app.post("/users/log", async (req, res) => {
+  const { user_email, user_password } = req.body;
+
+  try {
+    const user = await Users.findOne({
+      where: {
+        user_email,
+      },
+    });
+
+    if (!user) {
+      res.status(404).json({ message: "Пользователь не найден" });
+    } else {
+      if (await bcrypt.compare(user_password, user.user_password)) {
+        res.status(200).json({ message: "Успешный вход" });
+      } else {
+        res.status(404).json({ message: "Неверный пользователь или пароль" });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "Ошибка входа" });
+  }
+});
+
 app.listen(Number(process.env.PORT), () => {
   console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
   console.log(
