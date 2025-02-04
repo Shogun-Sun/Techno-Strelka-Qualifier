@@ -6,7 +6,6 @@ const Users = sequelize.define('Users', {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-
     },
 
     user_name: {
@@ -40,6 +39,12 @@ const Users = sequelize.define('Users', {
 }, {
     timestamps: true,
 });
+
+    Users.beforeSave((user) => {
+        if(user.user_patronymic.trim() === ''){
+            user.user_patronymic = null;
+        };
+    });
 
 (async () => {
     await Users.sync();

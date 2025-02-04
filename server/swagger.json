@@ -11,12 +11,41 @@
     "http"
   ],
   "paths": {
-    "/": {
-      "get": {
+    "/users/reg": {
+      "post": {
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_name": {
+                  "example": "any"
+                },
+                "user_lastname": {
+                  "example": "any"
+                },
+                "user_patronymic": {
+                  "example": "any"
+                },
+                "user_email": {
+                  "example": "any"
+                },
+                "user_password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
