@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="login_out.css">      
+</head>
+<body>
+    <main class="flex justify-center items-center min-w-[100Wh] min-h-[100vh]">
+        <div id="login_form" class="w-[400px] h-[420px] rounded-10 shadow-2xl shadow-slate-400 py-3 px-6 flex flex-col justify-around  md:w-[480px] md:h-[500px]">
+            <!-- md  >  768px -->
+            <div id="form_header" class="">
+                <img class="h-10 mb-2 mx-auto w-auto md:h-14 md:mb-3" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+                <h1 class="text-xl  text-center font-semibold text-slate-900 md:text-3xl">
+                    Войти в личный кабинет
+                </h1>
+            </div>
+            <div id="form_body" class="py-3 px-5 h-52 md:h-60 flex flex-col justify-around">
+                <div class="h-20 flex flex-col justify-around md:justify-between">
+                    <label for="login" class="text-lg mb-2 text-slate-900 md:mb-3 md:text-xl">Login</label>
+                    <input id="login" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                </div>
+                <div class="h-20 flex flex-col justify-around md:justify-between">
+                    <label for="password" class="text-lg mb-2 text-slate-900 md:mb-3 md:text-xl">Password</label>
+                    <input id="password" type="password" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                </div>
+            </div>
+            <div id="form_footer" class="h-20 flex flex-col items-center justify-between px-5">
+                <div>
+                    <p class="text-base text-gray-400 text-center">if you don't have an account 
+                        <a id="openModal" class=" underline decoration-1 decoration-indigo-700 text-indigo-700 cursor-pointer">register</a>
+                    </p>
+                </div>
+                <button class="text-lg h-8 w-full rounded-10 bg-indigo-700 text-white md:text-xl md:h-10 md:py-2 hover:bg-indigo-500">
+                    Войти
+                </button>
+            </div>
+        </div>
+
+        <div id="modal" class="fixed inset-0 bg-slate-900 bg-opacity-60 items-center justify-center opacity-0 hidden transition-opacity duration-500">
+            <div id="mainModal" class="bg-white rounded-10 shadow-2xl w-10/12 h-[550px] md:w-[490px] md:h-[570px] lg:w-[520px] lg:h-[600px] p-6 transform transition-transform duration-500 flex 
+            flex-col justify-between scale-95">
+                <!-- Заголовок -->
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-semibold text-center pl-3">Регистрация</h2>
+                    <button id="closeModal" class="border-2 border-white rounded-10 hover:border-2 hover:border-indigo-700">
+                         <svg class="w-[25px] h-[25px] fill-red-500 stroke-indigo-700 stroke-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M6 18 17.94 6M18 18 6.06 6"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Контент -->
+                <div class="px-5 flex flex-col justify-around">
+                    <div class="h-20 flex flex-col justify-around">
+                        <label for="email" class="text-lg text-slate-900 md:text-xl">Email</label>
+                        <input id="email" type="email" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                    </div>
+                    <div class="h-20 flex flex-col justify-around">
+                        <label for="fio" class="text-lg text-slate-900 md:text-xl">FIO</label>
+                        <input id="fio" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                    </div>
+                    <div class="h-20 flex flex-col justify-around">
+                        <label for="reg_password" class="text-lg text-slate-900 md:text-xl">Password</label>
+                        <input id="reg_password" type="password" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                    </div>
+                    <div class="h-20 flex flex-col justify-around">
+                        <label for="reg_password_2" class="text-lg text-slate-900 md:text-xl">Reapet Password</label>
+                        <input id="reg_password_2" type="password" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                    </div>
+                </div>
+
+                <!-- Кнопки -->
+                <div class="flex justify-between space-x-4 h-16">
+                    <button id="cancelButton" class="p-1 text-sm sm:text-lg h-8 w-full rounded-10 bg-rose-700 text-white md:text-xl md:h-10 md:py-1 hover:bg-rose-500">
+                        Отмена
+                    </button>
+                    <button class="p-1 text-xs sm:text-lg h-8 w-full rounded-10 bg-indigo-700 text-white md:text-xl md:h-10 md:py-1 hover:bg-indigo-500">
+                        Зарегестрироваться
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+        const phoneScreen = 640;
+        const openModalButton = document.getElementById('openModal');
+        const modal = document.getElementById('modal');
+        const closeModalButton = document.getElementById('closeModal');
+        const cancelButton = document.getElementById('cancelButton');
+        const modalContent = document.getElementById("mainModal");
+
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+            modal.classList.add('flex');    
+            modal.classList.add('opacity-100');
+            }, 10);
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+            modal.classList.add('hidden');
+            }, 10);
+        };
+
+        closeModalButton.addEventListener('click', closeModal);
+        cancelButton.addEventListener('click', closeModal);
+
+        if(screen.width < phoneScreen)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        </script>
+    </main>
+</body>
+</html>
