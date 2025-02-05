@@ -12,7 +12,6 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
-const pagesPath = path.join(__dirname, "..", "public", "pages");
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
