@@ -3,7 +3,6 @@ document.querySelector("#login_btn").onclick = login_function
 
 function login_function() {
     let login_user_data = {}
-    let massenges = [];
    
     login_user_data.user_email = document.querySelector("#login")
     login_user_data.user_password = document.querySelector("#password")
@@ -23,7 +22,11 @@ function login_function() {
         })
         .then(res => res.json())
         .then((res) => {
-            console.log(res)
+            if (res.message == "Успешный вход") {
+                window.location.href = "/";
+            } else {
+                alert(res.message)
+            }
         })
     }
 }
@@ -32,6 +35,7 @@ function login_function() {
 function create_err(element, message) {
     let errors = document.createElement("p")
     errors.classList.add("errors", "text-pink-600")
+    element.classList.add("border-pink-600")
     errors.innerText = message
     element.parentNode.append(errors)
 }
@@ -45,8 +49,8 @@ function validate(user_data) {
             messages.push("Заполните поле")
             pass = false
         } else { 
-            if ((elem.id != "fio") && (elem.value.length < 5 || elem.value.length > 20)) {
-                messages.push("поле должно содержать от 5 до 20 символов")
+            if ((!["fio", "email", "login"].includes(elem.id)) && (elem.value.length < 8 || elem.value.length > 20)) {
+                messages.push("поле должно содержать от 8 до 20 символов")
                 pass = false
             }
             if ((elem.id == "login" || elem.id == "email" ) && (!elem.value.includes("@"))) {
@@ -81,6 +85,9 @@ function convert(user_data) {
 function del_errs() {
     document.querySelectorAll(".errors").forEach((err) => {
         err.remove()
+    })
+    document.querySelectorAll("input").forEach((input) => {
+        input.classList.remove("border-pink-600")
     })
 }
 //-----------------------------------registration
@@ -119,7 +126,11 @@ function reg_function() {
         })
         .then(res => res.json())
         .then((res) => {
-            console.log(res)
+            if (res.message == "Успешный вход") {
+                window.location.href = "/";
+            } else {
+                alert(res.message)
+            }
         })
     }
 }
