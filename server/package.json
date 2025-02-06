@@ -16,5 +16,8 @@
     "sqlite3": "^5.1.7",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/yandex-maps": "^2.1.36"
   }
 }
