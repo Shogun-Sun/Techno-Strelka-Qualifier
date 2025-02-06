@@ -17,11 +17,11 @@
                 </h1>
             </div>
             <div id="form_body" class="py-3 px-5 h-52 md:h-60 flex flex-col justify-around">
-                <div class="h-20 flex flex-col justify-around md:justify-between">
+                <div class="flex flex-col justify-around md:justify-between">
                     <label for="login" class="text-lg mb-2 text-slate-900 md:mb-3 md:text-xl">Login</label>
-                    <input id="login" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                    <input id="login" type ="email" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
                 </div>
-                <div class="h-20 flex flex-col justify-around md:justify-between">
+                <div class="flex flex-col justify-around md:justify-between">
                     <label for="password" class="text-lg mb-2 text-slate-900 md:mb-3 md:text-xl">Password</label>
                     <input id="password" type="password" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
                 </div>
@@ -32,7 +32,7 @@
                         <a id="openModal" class=" underline decoration-1 decoration-indigo-700 text-indigo-700 cursor-pointer">register</a>
                     </p>
                 </div>
-                <button class="text-lg h-8 w-full rounded-10 bg-indigo-700 text-white md:text-xl md:h-10 md:py-2 hover:bg-indigo-500">
+                <button id="login_btn" class="text-lg h-8 w-full rounded-10 bg-indigo-700 text-white md:text-xl md:h-10 md:py-2 hover:bg-indigo-500">
                     Войти
                 </button>
             </div>
@@ -55,7 +55,7 @@
                 <div class="px-5 flex flex-col justify-around">
                     <div class="h-20 flex flex-col justify-around">
                         <label for="email" class="text-lg text-slate-900 md:text-xl">Email</label>
-                        <input id="email" type="email" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-indigo-700 invalid:border-pink-700 invalid:text-pink-600">
+                        <input id="email" type="email" class="w-full h-8 border border-gray-500 rounded-10 md:h-9 px-2  invalid:outline-pink-700 invalid:text-pink-600 focus:outline-indigo-700">
                     </div>
                     <div class="h-20 flex flex-col justify-around">
                         <label for="fio" class="text-lg text-slate-900 md:text-xl">FIO</label>
@@ -76,7 +76,7 @@
                     <button id="cancelButton" class="p-1 text-sm sm:text-lg h-8 w-full rounded-10 bg-rose-700 text-white md:text-xl md:h-10 md:py-1 hover:bg-rose-500">
                         Отмена
                     </button>
-                    <button class="p-1 text-xs sm:text-lg h-8 w-full rounded-10 bg-indigo-700 text-white md:text-xl md:h-10 md:py-1 hover:bg-indigo-500">
+                    <button id="reg_btn" class="p-1 text-xs sm:text-lg h-8 w-full rounded-10 bg-indigo-700 text-white md:text-xl md:h-10 md:py-1 hover:bg-indigo-500">
                         Зарегестрироваться
                     </button>
                 </div>
@@ -121,5 +121,6 @@
         });
         </script>
     </main>
+    <script src="/JS/login.js"></script>
 </body>
 </html>
