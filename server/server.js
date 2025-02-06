@@ -7,6 +7,8 @@ const openApiDocumentation = require("./swagger.json");
 const bcrypt = require("bcrypt");
 
 const Users = require("./db/models/users");
+const Routes = require("./db/models/routes");
+const RoutesPoints = require("./db/models/routesPoints");
 
 const app = express();
 
@@ -67,6 +69,45 @@ app.post("/users/log", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Ошибка входа" });
+  }
+});
+
+app.post("/maps/new/route", async (req, res) => {
+  const { name_route, total_distance, total_time } = req.body;
+
+  try {
+    const route = await Routes.create({
+      name_route,
+      total_distance,
+      total_time,
+    });
+
+    res.status(200).json({ route_id: route.id_route });
+
+  } catch (err) {
+    console.error("Ошибка при создании нового маршрута" + err);
+  }
+
+});
+
+app.post("/maps/new/route/points", async (req, res) => {
+  const { route_id, points } = req.body;
+
+  try {
+    const savedPoints = await RoutesPoints.bulkCreate(
+      points.map(point => ({
+        route_id: route_id,
+        latitude: point.latitude,
+        longitude: point.longitude
+      }))
+    );
+    
+    res.status(200).json({ message: 'Метки сохранены успешно' });
+    
+  } catch (error) {
+    console.error(error);
+    
+    res.status(500).json({ error: 'Ошибка при сохранении точек' });
   }
 });
 
