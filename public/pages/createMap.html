@@ -36,7 +36,12 @@
             </div>
             <div id="pictures">
                 <lable for="inputpicture">Загрузить фотографии маршрута:</lable>
-                <input id="inputpicture" class="save" type="file">
+
+                  <form action="http://localhost:3000/upload/images" method="POST" enctype="multipart/form-data">
+                    <input id="inputpicture" class="save" type="file" name="file" />
+                    <button type="submit">Загрузить файл</button>
+                  </form>
+            
                 <div id="puctureArea"></div>
             </div>
         </div>
