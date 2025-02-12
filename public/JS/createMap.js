@@ -119,34 +119,41 @@ function init() {
         console.log("Длина: " + activeRoute.properties.get("distance").text);
         console.log("Время прохождения: " + activeRoute.properties.get("duration").text);
     });
+
+    savebtn.onclick = () => {
+        let savedRoute = {}
+        let sevedPoints = []
+        let saveNodeList = document.querySelectorAll(".savepoint")
+        for (let i = 0; i<saveNodeList.length; i +=2) {
+            let pointdesc = {}
+            ymaps.geocode(saveNodeList[i+1].value).then( 
+                function (res) { 
+                    let firstGeoObject = res.geoObjects.get(0); 
+                    let coord = firstGeoObject.geometry.getCoordinates();  
+                    pointdesc.coord = coord
+                }, 
+                function (error) { 
+                    console.error('Ошибка геокодирования адреса:', error);
+                    alert("Ошибка, проверьте достоверность всех адресов"); 
+                } 
+            );
+            pointdesc.addres = saveNodeList[i+1].value,
+            pointdesc.name = saveNodeList[i].value,
+            sevedPoints.push(pointdesc)
+        }
+        savedRoute.points = sevedPoints
+        savedRoute.description = document.querySelector("#description").value
+        savedRoute.name = document.querySelector("#routename").value
+        multiRoute.model.events.add("requestsuccess", function (event) {
+            var activeRoute = multiRoute.getActiveRoute();
+            savedRoute.distanse = activeRoute.properties.get("distance").text
+            savedRoute.time = activeRoute.properties.get("duration").text
+        });
+        console.log(savedRoute)
+    }
 }
 
-savebtn.onclick = () => {
-    let savedRoute = {}
-    let sevedPoints = []
-    let saveNodeList = document.querySelectorAll(".savepoint")
-    for (let i = 0; i<saveNodeList.length; i +=2) {
-        let pointdesc = {}
-        ymaps.geocode(saveNodeList[i+1].value).then( 
-            function (res) { 
-                let firstGeoObject = res.geoObjects.get(0); 
-                let coord = firstGeoObject.geometry.getCoordinates();  
-                pointdesc.coord = coord
-            }, 
-            function (error) { 
-                console.error('Ошибка геокодирования адреса:', error);
-                alert("Ошибка, проверьте достоверность всех адресов"); 
-            } 
-        );
-        pointdesc.addres = saveNodeList[i+1].value,
-        pointdesc.name = saveNodeList[i].value,
-        sevedPoints.push(pointdesc)
-    }
-    savedRoute.points = sevedPoints
-    savedRoute.description = document.querySelector("#description").value
-    savedRoute.name = document.querySelector("#routename").value
-    console.log(savedRoute)
-}
+
 document.querySelector("#inputpicture").onchange = (event) => {
     let reader = new FileReader();
     let img = document.createElement("img")
