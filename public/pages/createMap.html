@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/login_out.css">
+    <title>create map</title>
+</head>
+<body class="">
+    <main class="grid grid-cols-2 gap-3">
+        <div id="map" class="h-[500px] w-full"></div>
+        <div id="userPoints" class="flex flex-col gap-4">
+            <div class="flex flex-col">
+                <lable for="routename">Название маршрута:</lable>
+                <input id="routename" class="border-2">
+            </div>
+            <div id="points">
+                <div class="point grid grid-cols-2 grid-rows-2 gap-x-3  gap-y-0 border-2 rounded-lg bg-indigo-300">
+                    <p class="col-span-2 m-0">Добавьте начало вашего маршрута</p>
+                    <div class="flex flex-col">
+                        <lable>Название точки:</lable>
+                        <input class="savepoint addresname border-2">
+                    </div>
+                    <div class="flex flex-col">
+                        <lable>Адрес точки:</lable>
+                        <input class="savepoint addres border-2">
+                        <button class="border-2">выбрать точку на карте</button>
+                    </div>
+                </div>
+            </div>
+            <button id="newPoint" class="border-2">Добавить метку</button>
+            <div>
+                <lable for="description">Описание маршрута:</lable>
+                <textarea id="description" class="save h-[100px] w-full border-2"></textarea>
+            </div>
+            <div id="pictures">
+                <lable for="inputpicture">Загрузить фотографии маршрута:</lable>
+                <input id="inputpicture" class="save" type="file">
+                <div id="puctureArea"></div>
+            </div>
+        </div>
+        <div id="buttons">
+            <button id="savebtn" class="border-2">Сохранить маршрут</button>
+        </div>
+    </main>
+
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=cfb17578-6c78-4dbc-9099-c50949c99d19&lang=ru_RU" type="text/javascript"></script>
+    <script type="module" src="./JS/createMap.js"></script>
+</body>
+</html>
