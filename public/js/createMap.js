@@ -12,7 +12,7 @@ function init() {
         zoom: 13,
         controls:[]
     })
-
+    
     map.controls.add('geolocationControl'); // удаляем геолокацию
     map.controls.add('searchControl'); // удаляем поиск
     map.controls.add('trafficControl'); // удаляем контроль трафика
@@ -20,6 +20,7 @@ function init() {
     map.controls.add('fullscreenControl'); // удаляем кнопку перехода в полноэкранный режим
     map.controls.add('zoomControl'); // удаляем контрол зуммирования
     map.controls.add('rulerControl'); // удаляем контрол правил
+    
 
 
     let multiRoute = new ymaps.multiRouter.MultiRoute({

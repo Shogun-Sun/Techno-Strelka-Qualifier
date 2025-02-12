@@ -13,9 +13,6 @@ router.get('/users/log-reg/page' , (req, res) => {
 })
 
 router.get('/map', (req, res) => {
-  res.sendFile(path.join(pagesPath, 'maps.html'));
-})
-router.get('/createMap', (req, res) => {
   res.sendFile(path.join(pagesPath, 'createMap.html'));
 })
 
