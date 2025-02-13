@@ -3,6 +3,7 @@ let photos = []
 let newPoint = document.querySelector("#newPoint")
 let points = document.querySelector("#points")
 let savebtn = document.querySelector("#savebtn")
+let clickAddres = -1
 let pointCount = 1
 
 //--------------------------------------------------------------карта
@@ -12,7 +13,30 @@ function init() {
         zoom: 13,
         controls:[]
     })
+
+    map.events.add('click', function (e) {
+        if (clickAddres != null) {
+            var coords = e.get('coords');
+            addreses[clickAddres.index] = coords
+            clickAddres.target.value = coords
+            map.geoObjects.remove(multiRoute)
+            multiRoute = new ymaps.multiRouter.MultiRoute({
+                referencePoints: addreses
+            }, {
+                boundsAutoApply: true,
+            })
+            map.geoObjects.add(multiRoute)
+            clickAddres = null
+        }
+    }); 
     
+    document.querySelector("#selectAddres").onclick = () => {
+        clickAddres =  clickAddres = {
+            target: document.querySelector(".addres"),
+            index: 0,
+        }
+    }
+
     map.controls.add('geolocationControl'); // удаляем геолокацию
     map.controls.add('searchControl'); // удаляем поиск
     map.controls.add('trafficControl'); // удаляем контроль трафика
@@ -82,6 +106,14 @@ function init() {
             })
             map.geoObjects.add(multiRoute)
         })
+
+        addres_button.onclick = () => {
+            clickAddres = {
+                target: addres_input,
+                index: cnt,
+            }
+        }
+
         addres_input.addEventListener("blur", (elem) => {
             map.geoObjects.remove(multiRoute)
             addreses[cnt] = addres_input.value
@@ -151,6 +183,9 @@ function init() {
             savedRoute.time = activeRoute.properties.get("duration").text
         });
         console.log(savedRoute)
+
+
+        
     }
 }
 
