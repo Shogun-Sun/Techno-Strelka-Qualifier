@@ -10,6 +10,8 @@ const Users = require("./db/models/users");
 const Routes = require("./db/models/routes");
 const RoutesPoints = require("./db/models/routesPoints");
 
+const upload = require("./modules/fileManager");
+
 const app = express();
 
 app.use(express.json());
@@ -110,6 +112,15 @@ app.post("/maps/new/route/points", async (req, res) => {
     res.status(500).json({ error: 'Ошибка при сохранении точек' });
   }
 });
+
+app.post("/upload/images", upload.single('file'), (req, res) => {
+  try{
+    res.status(200).json({message: "файл успешно загружен"});
+  } catch(err){
+    res.status(400).json({message: "Произошла ошибка при загрузке файла"});
+  }
+    
+})
 
 app.listen(Number(process.env.PORT), () => {
   console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
