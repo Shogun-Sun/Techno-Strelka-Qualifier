@@ -189,14 +189,57 @@ function init() {
     }
 }
 
+const selectedFiles = [];
 
-document.querySelector("#inputpicture").onchange = (event) => {
-    let reader = new FileReader();
-    let img = document.createElement("img")
-    reader.onload = e => img.src = e.target.result;
-    reader.readAsDataURL(event.target.files[0]);
-    document.querySelector("#puctureArea").append(img)    
-}
+document.querySelector("#inputpicture").addEventListener("change", (event) => {
+    const files = event.target.files;
+
+    for (const file of files) {
+        let reader = new FileReader();
+        let img = document.createElement("img");
+
+        reader.onload = e => {
+            img.src = e.target.result;
+            img.style.width = "100px"; 
+            document.querySelector("#puctureArea").append(img);
+        };
+
+        reader.readAsDataURL(file);
+        selectedFiles.push(file); 
+    }
+
+});
+
+document.querySelector("#uploadButton").addEventListener("click", async () => {
+    if (selectedFiles.length === 0) {
+        alert("Вы не выбрали картинки!");
+        return;
+    }
+
+    const formData = new FormData();
+    selectedFiles.forEach((file, index) => {
+        formData.append('file', file);
+    });
+
+    try {
+        const response = await fetch("http://localhost:3000/upload/images", {
+            method: "POST",
+            body: formData
+        });
+
+        if (response.ok) {
+            alert("Файлы успешно загружены!");
+            selectedFiles.length = 0; 
+            document.querySelector("#puctureArea").innerHTML = ""; 
+        } else {
+            alert("Ошибка при загрузке файлов");
+        }
+    } catch (error) {
+        console.error("Ошибка:", error);
+        alert("Произошла ошибка");
+    }
+});
+
 
 
 ymaps.ready(init)
