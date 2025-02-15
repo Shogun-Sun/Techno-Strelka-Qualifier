@@ -182,10 +182,18 @@ function init() {
             savedRoute.distanse = activeRoute.properties.get("distance").text
             savedRoute.time = activeRoute.properties.get("duration").text
         });
-        console.log(savedRoute)
+        console.log(savedRoute);
 
-
-        
+        fetch("http://localhost:3000/upload/new/route", {
+            method: "POST",
+            body: JSON.stringify(savedRoute),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then(res => res.json)
+        .then((data) => {
+        })
     }
 }
 
