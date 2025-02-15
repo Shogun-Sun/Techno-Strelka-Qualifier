@@ -15,5 +15,8 @@ router.get('/users/log-reg/page' , (req, res) => {
 router.get('/map', (req, res) => {
   res.sendFile(path.join(pagesPath, 'createMap.html'));
 })
+router.get('/main', (req, res) => {
+  res.sendFile(path.join(pagesPath, 'main_page.html'));
+})
 
 module.exports = router;

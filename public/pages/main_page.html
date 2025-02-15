@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главный экран</title>
+    <link rel="stylesheet" href="/css/login_out.css">
+</head>
+<body class="dark:bg-slate-800">    
+    <nav class="w-full flex justify-center md:justify-center items-center pt-2 px-2 fixed z-[41] group/nav">
+
+        <div id="main_icon" class="w-32 md:w-36 lg:bg-white top-[7px] lg:top-[10px] left-3 md:left-5 rounded-3xl fixed z-[41] flex items-center justify-between h-[39px] lg:w-40 px-3 lg:dark:bg-slate-800
+          dark:text-white lg:dark:border lg:dark:border-white">
+            <svg class="h-5 w-6 md:h-6 md:w-7 stroke-1 fill-yellow-400 group-hover/nav:fill-white lg:group-hover/nav:fill-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path d="M512 96c0 50.2-59.1 125.1-84.6 155c-3.8 4.4-9.4 6.1-14.5 5L320 256c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c53 0 96 43 96 96s-43 96-96 96l-276.4 0c8.7-9.9 19.3-22.6 30-36.8c6.3-8.4 12.8-17.6 19-27.2L416 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0c-53 0-96-43-96-96s43-96 96-96l39.8 0c-21-31.5-39.8-67.7-39.8-96c0-53 43-96 96-96s96 43 96 96zM117.1 489.1c-3.8 4.3-7.2 8.1-10.1 11.3l-1.8 2-.2-.2c-6 4.6-14.6 4-20-1.8C59.8 473 0 402.5 0 352c0-53 43-96 96-96s96 43 96 96c0 30-21.1 67-43.5 97.9c-10.7 14.7-21.7 28-30.8 38.5l-.6 .7zM128 352a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zM416 128a32 32 0 1 0 0-64 32 32 0 1 0 0 64z"/>
+            </svg>
+            <p class="text-base text-slate-900 font-semibold pt-1 dark:text-yellow-400 group-hover/nav:text-white  md:text-xl md:pt-0 lg:group-hover/nav:text-slate-900 lg:group-hover/nav:dark:text-yellow-500">TOUROU</p>
+        </div>
+
+        <div class="lg:bg-white w-12 h-10 top-[7px]  md:top-[10px] right-5 rounded-3xl fixed z-[41] flex items-center justify-center
+            lg:dark:bg-slate-800 lg:dark:border lg:dark:border-white">
+            <button type="button" id="theme-toggle" >
+                    <span class="dark:hidden">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+                            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" class="fill-none stroke-yellow-500 group-hover/nav:stroke-white lg:group-hover/nav:stroke-yellow-500"></path>
+                            <path d="M12 4v1M17.66 6.344l-.828.828M20.005 12.004h-1M17.66 17.664l-.828-.828M12 20.01V19M6.34 17.664l.835-.836M3.995 12.004h1.01M6 6l.835.836" class="stroke-yellow-500 group-hover/nav:stroke-white lg:group-hover/nav:stroke-yellow-500"></path>
+                        </svg>
+                    </span>
+                    <span class="hidden dark:inline">
+                        <svg viewBox="0 0 24 24" fill="none" class="w-8 h-8">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17.715 15.15A6.5 6.5 0 0 1 9 6.035C6.106 6.922 4 9.645 4 12.867c0 3.94 3.153 7.136 7.042 7.136 3.101 0 5.734-2.032 6.673-4.853Z" class="fill-teal-500/20"></path>
+                            <path d="m17.715 15.15.95.316a1 1 0 0 0-1.445-1.185l.495.869ZM9 6.035l.846.534a1 1 0 0 0-1.14-1.49L9 6.035Zm8.221 8.246a5.47 5.47 0 0 1-2.72.718v2a7.47 7.47 0 0 0 3.71-.98l-.99-1.738Zm-2.72.718A5.5 5.5 0 0 1 9 9.5H7a7.5 7.5 0 0 0 7.5 7.5v-2ZM9 9.5c0-1.079.31-2.082.845-2.93L8.153 5.5A7.47 7.47 0 0 0 7 9.5h2Zm-4 3.368C5 10.089 6.815 7.75 9.292 6.99L8.706 5.08C5.397 6.094 3 9.201 3 12.867h2Zm6.042 6.136C7.718 19.003 5 16.268 5 12.867H3c0 4.48 3.588 8.136 8.042 8.136v-2Zm5.725-4.17c-.81 2.433-3.074 4.17-5.725 4.17v2c3.552 0 6.553-2.327 7.622-5.537l-1.897-.632Z" class="fill-teal-500"></path>
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M17 3a1 1 0 0 1 1 1 2 2 0 0 0 2 2 1 1 0 1 1 0 2 2 2 0 0 0-2 2 1 1 0 1 1-2 0 2 2 0 0 0-2-2 1 1 0 1 1 0-2 2 2 0 0 0 2-2 1 1 0 0 1 1-1Z" class="fill-teal-500"></path>
+                        </svg>
+                    </span>
+            </button>
+        </div>
+
+        <button id="openModal" class="lg:hidden w-full text-base px-4 py-2 rounded-full text-slate-800 font-semibold
+        hover:bg-yellow-400 hover:text-white z-40 h-10 bg-white dark:bg-slate-800 dark:text-gray-200 dark:border dark:border-white">
+            Меню
+        </button>
+
+        <div id="desktopMenu" class="h-10 md:w-[640px] px-2 border border-slate-300 rounded-3xl flex flex-row justify-around items-center bg-white z-10
+        dark:bg-slate-800 ">
+            <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
+                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Main</a>
+            </div>
+            <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
+                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Profile</a>
+            </div>
+            <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
+                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Private</a>
+            </div>
+            <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
+                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Public</a>
+            </div>
+            <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
+                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Раздел</a>
+            </div>
+            <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
+                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Log in</a>
+            </div>   
+        </div>
+ 
+       <div id="modal" class="fixed inset-0 bg-slate-800 bg-opacity-60 items-start justify-center opacity-0 hidden transition-opacity duration-300 z-50">
+            <div id="mainModal" class=" bg-white rounded-3xl shadow-2xl w-[97%] mt-3 px-5 py-8 transform transition-transform duration-300 flex 
+            flex-col justify-around scale-95 filter-none gap-4 blur-sm z-50 dark:bg-slate-800">
+                <!-- Заголовок -->
+                <div class="flex justify-between items-center p-3">
+                    <h2 class="text-base sm:text-lg font-semibold text-center pl-3 text-yellow-500 ">Navigation</h2>
+                    <button id="closeModal" class="border-2 border-white rounded-10 hover:border-2 hover:border-yellow-500 dark:border-yellow-500">
+                        <svg class="w-[25px] h-[25px]  stroke-yellow-500 stroke-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M6 18 17.94 6M18 18 6.06 6"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class=" flex flex-col items-center gap-8 p-3">
+                    <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Main</a>
+                    </div>
+                    <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Profile</a>
+                    </div>
+                    <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Private</a>
+                    </div>
+                    <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Public</a>
+                    </div>
+                    <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Раздел 5</a>
+                    </div>
+                    <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Log in</a>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </nav> 
+
+    <!-- navbar complete -->
+
+    <main class="flex flex-col gap-7 lg:gap-10">
+        <div id="description_img" class="w-full h-[100vh] shadow-in">
+            <div id="description" class="w-full h-full flex flex-col justify-center items-center md:items-start lg:items-center gap-8 ">
+                <h1 class="text-3xl text-center w-full md:text-left px-8  md:text-5xl sm:w-10/12 md:w-3/4 text-white lg:w-full lg:text-center font-semibold lg:px-3 text-balance ">
+                    Создавайте, сохраняйте и делитесь своими маршрутами.
+                </h1>
+                <p class="text-center w-full md:text-left px-8 sm:w-2/3 lg:w-full lg:p-0 text-lg md:text-2xl lg:text-center text-gray-300">
+                    Откройте для себя новые места и поделитесь своими приключениями с друзьями
+                </p>
+                <button class="ml-0 sm:ml-8 lg:ml-0 bg-yellow-500 text-black hover:shadow-xl hover:shadow-slate-900 text-base md:text-xl rounded-40 px-4 py-3 md:px-5 md:py-3 outline-none
+                 hover:bg-yellow-400 flex items-center justify-around">
+                    Создать маршрут  
+                    <svg class="w-9 h-7 stroke-1 md:stroke-2 stroke-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 12H5m14 0-4 4m4-4-4-4"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- main img complete -->
+
+
+        <h1 class="text-center text-4xl md:text-5xl lg:text-6xl text-slate-900 font-semibold w-full mx-auto pb-2 lg:pb-4 dark:text-white px-6">Embark on a journey of your emotions</h1>
+        <div id="images" class=" flex justify-center w-full ">
+            <div id="small_imgs" class="w-full h-[300px] lg:h-[350px] relative rounded-[10px_10px_0px_0px] flex gap-6 snap-x snap-mandatory overflow-x-auto px-8 items-center
+            dark:bg-slate-800 z-0 ">
+                <div class="snap-center shrink-0 ">
+                    <img class="pictures" src="https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80">
+                </div>
+                <div class="snap-center shrink-0 ">
+                    <img class="pictures" src="https://images.unsplash.com/photo-1540206351-d6465b3ac5c1?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80">
+                </div>
+                <div class="snap-center shrink-0">
+                    <img class="pictures" src="https://images.unsplash.com/photo-1622890806166-111d7f6c7c97?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80">
+                </div>
+                <div class="snap-center shrink-0">
+                    <img class="pictures" src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80">
+                </div>
+                <div class="snap-center shrink-0">
+                    <img class="pictures" src="https://images.unsplash.com/photo-1575424909138-46b05e5919ec?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80">
+                </div>
+                <div class="snap-center shrink-0">
+                    <img class="pictures" src="https://images.unsplash.com/photo-1559333086-b0a56225a93c?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;fit=crop&amp;w=320&amp;h=160&amp;q=80">
+                </div>        
+            </div>
+        </div>
+
+        <div id="features" class="mx-auto w-11/12 py-10 flex flex-col gap-16 md:gap-20 lg:gap-24 ">
+
+            <div class="lg:flex flex-row-reverse justify-between w-full h-[560px] sm:h-[640px] lg:h-[500px] gap-4 lg:gap-3 ">
+                <div class="w-full lg:w-4/12 flex flex-col justify-center items-center lg:items-start pr-5 rounded-10 mb-5">
+                    <h1 class="text-center text-3xl text-yellow-500 font-semibold px-2 lg:text-left w-full">Создвай маршруты</h1>
+                    <p class="text-center lg:text-left text-lg text-slate-800 pt-4 w-[85%] text-pretty font-normal dark:text-gray-300 px-2 ">
+                        Создавай маршруты в любой точке планеты. Нажми на нужное место или введи координаты. Если строишь маршрут в городе, используй адрес. 
+                    </p>
+                </div>
+                <div class="w-full h-[350px] sm:h-[480px] lg:h-full lg:w-8/12 rounded-10 flex justify-center items-center bg-slate-200">
+                    здесь будет изображение 
+                </div>
+            </div>
+
+            <div class="lg:flex justify-between w-full h-[560px] sm:h-[640px] lg:h-[500px] gap-4 lg:gap-0">
+                <div class="w-full lg:w-4/12 flex flex-col justify-center items-center lg:items-end pr-5 rounded-10 mb-5">
+                    <h1 class="text-center text-3xl text-yellow-500 font-semibold px-2 lg:text-right w-full">Публикуй свой маршрут</h1>
+                    <p class="text-center lg:text-right text-lg text-slate-800 pt-4 w-[85%] text-pretty font-normal dark:text-gray-300 px-2">
+                        Если хочешь, чтобы все видели твой маршрут, сделай его публичным. Но придётся немного подождать, пока он пройдёт проверку.
+                    </p>
+                </div>
+                <div class="w-full h-[350px] sm:h-[480px] lg:h-full lg:w-8/12 rounded-10 flex justify-center items-center bg-slate-200 ">
+                    здесь будет изображение 
+                </div>
+            </div>
+
+            <div class="lg:flex flex-row-reverse justify-between w-full h-[560px] sm:h-[640px] lg:h-[500px] gap-4 lg:gap-3">
+                <div class="w-full lg:w-4/12 flex flex-col justify-center items-center lg:items-start pr-5 rounded-10 mb-5">
+                    <h1 class="text-center text-3xl text-yellow-500 font-semibold px-2 lg:text-left w-full">Храни маршрут файлом</h1>
+                    <p class="text-center lg:text-left text-lg text-slate-800 pt-4 w-[85%] text-pretty font-normal dark:text-gray-300 px-2">
+                        В нашем сервисе доступен экспорт в формат gpx, kml, kmz; 
+                    </p>
+                </div>
+                <div class="w-full h-[350px] sm:h-[480px] lg:h-full lg:w-8/12 rounded-10 flex justify-center items-center bg-slate-200">
+                    здесь будет изображение 
+                </div>
+            </div>
+
+            <div class="lg:flex justify-between w-full h-[560px] sm:h-[640px] lg:h-[500px] gap-4 lg:gap-0">
+                <div class="w-full lg:w-4/12 flex flex-col justify-center items-center lg:items-end pr-5 rounded-10 mb-5">
+                    <h1 class="text-center text-3xl text-yellow-500 font-semibold px-2 lg:text-right w-full">Изменяй маршрут</h1>
+                    <p class="text-center lg:text-right text-lg text-slate-800 pt-4 w-[85%] text-pretty font-normal dark:text-gray-300 px-2">
+                        Не бойся изменять мршрут, история правок будет храниться в твоём профиле.
+                    </p>
+                </div>
+                <div class="w-full h-[350px] sm:h-[480px] lg:h-full lg:w-8/12 rounded-10 flex justify-center items-center bg-slate-200 ">
+                    здесь будет изображение 
+                </div>
+            </div>
+
+            <div class="lg:flex flex-row-reverse justify-between w-full h-[560px] sm:h-[640px] lg:h-[500px] gap-4 lg:gap-3 ">
+                <div class="w-full lg:w-4/12 flex flex-col justify-center items-center lg:items-start pr-5 rounded-10 mb-5">
+                    <h1 class="text-center text-3xl text-yellow-500 font-semibold px-2 lg:text-left w-full">Подсказки</h1>
+                    <p class="text-center lg:text-left text-lg text-slate-800 pt-4 w-[85%] text-pretty font-normal dark:text-gray-300 px-2">
+                        В нашем сервисе доступен поиск мест поблизости. Просто введите то, что вы ищете, и мы покажем вам подходящие варианты.
+                    </p>
+                </div>
+                <div class="w-full h-[350px] sm:h-[480px] lg:h-full lg:w-8/12 rounded-10 flex justify-center items-center bg-slate-200">
+                    здесь будет изображение 
+                </div>
+            </div>
+
+            <div class="lg:flex justify-between w-full h-[560px] sm:h-[640px] lg:h-[500px] gap-4 lg:gap-0">
+                <div class="w-full lg:w-4/12 flex flex-col justify-center items-center lg:items-end pr-5 rounded-10 mb-5">
+                    <h1 class="text-center text-3xl text-yellow-500 font-semibold px-2 lg:text-right w-full">Коментируй</h1>
+                    <p class="text-center lg:text-right text-lg text-slate-800 pt-4 w-[85%] text-pretty font-normal dark:text-gray-300 px-2 ">
+                        Посетил чей-то маршрут и хочешь поделиться впечатлениями? Оставляй свои комментарии, оценки и отметки о прохождении.
+                    </p>
+                </div>
+                <div class="w-full h-[350px] sm:h-[480px] lg:h-full lg:w-8/12 rounded-10 flex justify-center items-center bg-slate-200 ">
+                    Здесь будет изображение
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/public/js/nav.js"></script>
+    <script src="/public/js/darkmode.js"></script>
+</body>
+</html>
