@@ -147,12 +147,6 @@ function init() {
 
 
 
-    multiRoute.model.events.add("requestsuccess", function (event) {
-        var activeRoute = multiRoute.getActiveRoute();
-        console.log("Длина: " + activeRoute.properties.get("distance").text);
-        console.log("Время прохождения: " + activeRoute.properties.get("duration").text);
-    });
-
     savebtn.onclick = () => {
         let savedRoute = {}
         let sevedPoints = []
@@ -177,11 +171,9 @@ function init() {
         savedRoute.points = sevedPoints
         savedRoute.description = document.querySelector("#description").value
         savedRoute.name = document.querySelector("#routename").value
-        multiRoute.model.events.add("requestsuccess", function (event) {
             var activeRoute = multiRoute.getActiveRoute();
             savedRoute.distanse = activeRoute.properties.get("distance").text
             savedRoute.time = activeRoute.properties.get("duration").text
-        });
         console.log(savedRoute);
 
         fetch("http://localhost:3000/upload/new/route", {
