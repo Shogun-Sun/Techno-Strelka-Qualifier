@@ -5,7 +5,7 @@ const path = require("path");
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
 router.get("/", (req, res) => {
-  res.sendFile(path.join(pagesPath, "index.html"));
+  res.sendFile(path.join(pagesPath, "main_page.html"));
 });
 
 router.get('/users/log-reg/page' , (req, res) => {
