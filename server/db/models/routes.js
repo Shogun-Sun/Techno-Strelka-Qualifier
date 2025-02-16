@@ -31,8 +31,5 @@ const Routes = sequelize.define(
     }
 );
 
-(async () => {
-    await Routes.sync();
-})();
 
 module.exports = Routes;

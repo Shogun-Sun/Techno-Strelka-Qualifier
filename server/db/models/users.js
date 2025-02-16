@@ -50,8 +50,4 @@ Users.beforeSave((user) => {
   }
 });
 
-(async () => {
-  await Users.sync();
-})();
-
 module.exports = Users;

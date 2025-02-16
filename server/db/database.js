@@ -10,6 +10,7 @@ const sequelize = new Sequelize({
 (async () => {
   try {
     await sequelize.authenticate();
+    await sequelize.sync({force: true});
     console.log("Успешное подключение к БД");
   } catch (error) {
     console.error("База данных не подключена", error);
