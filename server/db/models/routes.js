@@ -1,16 +1,16 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const { sequelize } = require('../database');
 
 const Routes = sequelize.define(
     'Routes',
     {
-        id_route: {
+        route_id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
         
-        name_route: {
+        route_name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -30,6 +30,5 @@ const Routes = sequelize.define(
         timestamps: true,
     }
 );
-
 
 module.exports = Routes;

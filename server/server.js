@@ -7,10 +7,10 @@ const openApiDocumentation = require("./swagger.json");
 const bcrypt = require("bcrypt");
 
 const Users = require("./db/models/users");
-const Routes = require("./db/models/routes");
-const RoutesPoints = require("./db/models/routesPoints");
 
 const upload = require("./modules/fileManager");
+const syncModels = require("./db/syncModels");
+const { connectDB } = require("./db/database");
 
 const app = express();
 
@@ -91,9 +91,13 @@ app.post("/upload/images", upload.array("file"), (req, res) => {
   }
 });
 
-app.listen(Number(process.env.PORT), () => {
-  console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
-  console.log(
-    `Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
-  );
-});
+(async () => {
+  await connectDB();
+  await syncModels();
+  app.listen(Number(process.env.PORT), () => {
+    console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
+    console.log(
+      `Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
+    );
+  });
+})();
