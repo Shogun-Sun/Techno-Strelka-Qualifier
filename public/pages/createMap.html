@@ -8,7 +8,7 @@
     <title>create map</title>
 </head>
 <body class="dark:bg-slate-800">
-    <nav class="w-full flex justify-center md:justify-center items-center pt-2 px-2 fixed z-[41] group/nav">
+    <nav class="w-full flex justify-center md:justify-center items-center pt-2 px-2 fixed z-[41] group/nav -mt-14">
 
         <div id="main_icon" class="w-32 md:w-36 lg:bg-white top-[7px] lg:top-[8px] left-3 md:left-5 rounded-3xl fixed z-[41] flex items-center justify-between h-[39px] lg:w-40 px-3 lg:dark:bg-slate-800
           dark:text-white lg:dark:border lg:dark:border-white">
@@ -78,36 +78,36 @@
                 </div>
                 <div class=" flex flex-col items-center gap-8 p-3">
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Main</a>
+                        <a href="/" class="text-xl text-gray-800 dark:text-gray-300">Main</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
                         <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Profile</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Private</a>
+                        <a href="/map" class="text-xl text-gray-800 dark:text-gray-300">Private</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
                         <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Public</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Раздел 5</a>
+                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Модерация</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Log in</a>
+                        <a href="/log-reg" class="text-xl text-gray-800 dark:text-gray-300">Log in</a>
                     </div>   
                 </div>
             </div>
         </div>
     </nav>     
 
-    <main class="lg:flex justify-between gap-4 mt-14 px-4 ">
-        <div id="map" class="w-full lg:w-1/2 pb-4 rounded-10 h-[630px]"></div>
+    <main class="lg:flex justify-between gap-8 lg:gap-4 mt-14 px-4 ">
+        <div id="map" class="w-full lg:w-1/2 pb-4 rounded-10 h-[50vh] md:h-[70vh] lg:h-[630px] border-2 border-rose-700"></div>
 
-        <div id="userPoints" class="flex flex-col w-full lg:w-1/2  pb-4 px-4 justify-between gap-3">
+        <div id="userPoints" class="flex flex-col w-full lg:w-1/2 mt-4 md:mt-0 pb-4 px-4 justify-between gap-3">
 
-            <div class="flex flex-col gap-2 mb-2">
+            <div class="flex flex-col gap-2 mb-2 justify-center">
                 <lable for="routename" class="text-slate-900 text-center text-3xl font-medium dark:text-gray-300">Маршрут</lable>
-                <input id="routename" class="w-96 mx-auto h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-yellow-500
+                <input id="routename" class="w-64 md:w-96 mx-auto h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-yellow-500
                 invalid:border-pink-700 invalid:text-pink-600 text-xl dark:bg-gray-200">
             </div>
 
@@ -134,25 +134,25 @@
                 focus:border-yellow-500 p-3 text-lg text-slate-900 dark:bg-gray-200"></textarea>
             </div>
 
-            <div id="pictures" class="border border-yellow-400/50 w-full h-44 relative rounded-[10px_10px_0_0] flex gap-5 snap-x snap-mandatory
+            <div id="pictures" class="border border-yellow-400/50 w-full h-32 md:h-44 relative rounded-[10px_10px_0_0] flex gap-5 snap-x snap-mandatory
              overflow-x-auto px-5 items-center dark:bg-slate-800 z-0 scroll-smooth scrollbar-gutter-stable py-4">
                     
-                    <div class="flex items-center justify-center w-32 h-full">
-                        <label for="inputpicture" class="flex flex-col items-center justify-center w-32 h-full border-2 border-gray-300
-                        border-dashed rounded-lg cursor-pointer bg-gray-50dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600
-                         dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                            <div class="flex flex-col items-center justify-center ">
-                                <svg class="w-8 h-8 text-yellow-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                </svg>
-                                <p class="text-sm dark:text-gray-400 text-center"><span class="font-semibold text-yellow-500">Click to upload</span> </p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 text-center px-2">SVG, PNG, JPG or GIF</p>
-                            </div>
-                            <input id="inputpicture" type="file" class="hidden" />
-                        </label>
-                    </div> 
+                <div class="flex items-center justify-center w-28 md:w-32 h-full">
+                    <label for="inputpicture" class="flex flex-col items-center justify-center w-32 h-full border-2 border-gray-300
+                    border-dashed rounded-lg cursor-pointer bg-gray-50dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600
+                     dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                        <div class="flex flex-col items-center justify-center ">
+                            <svg class="w-8 h-8 text-yellow-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                            </svg>
+                            <p class="text-sm dark:text-gray-400 text-center"><span class="font-semibold text-yellow-500">Click to upload</span> </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 text-center px-2">SVG, PNG, JPG or GIF</p>
+                        </div>
+                        <input id="inputpicture" type="file" class="hidden" />
+                    </label>
+                </div> 
 
-                <div id="puctureArea" class="h-full flex space-x-4"></div>
+                <div id="puctureArea" class="h-full flex space-x-4 w-full"></div>
                 
                 <!-- <button id="uploadButton" class="">Загрузить картинки</button> -->
             </div>

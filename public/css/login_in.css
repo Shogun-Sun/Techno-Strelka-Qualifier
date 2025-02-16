@@ -56,5 +56,5 @@
     @apply mt-4 mx-auto w-52 text-lg h-6 flex items-center justify-center rounded-10 bg-yellow-500 text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400
 }
 .point_input{
-    @apply mx-auto w-96 h-6 border border-gray-500 rounded-10 md:h-7 px-2 focus:outline-yellow-500 invalid:border-pink-700 invalid:text-pink-600 dark:bg-gray-200 
+    @apply mx-auto w-64 md:w-96 h-6 border border-gray-500 rounded-10 md:h-7 px-2 focus:outline-yellow-500 invalid:border-pink-700 invalid:text-pink-600 dark:bg-gray-200 
 }
