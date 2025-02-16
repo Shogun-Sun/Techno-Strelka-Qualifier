@@ -32,7 +32,7 @@ function init() {
     }); 
     
     document.querySelector("#selectAddres").onclick = () => {
-        clickAddres =  clickAddres = {
+        clickAddres = clickAddres = {
             target: document.querySelector(".addres"),
             index: 0,
         }
@@ -59,20 +59,16 @@ function init() {
         let cnt = pointCount
 
         let point = document.createElement("div")
-        point.className = "point grid grid-cols-2 grid-rows-2 gap-x-3  gap-y-0 border-2 rounded-lg bg-indigo-300"
+        point.className = "point"
 
-        let caption = document.createElement("p")
-        caption.className = "col-span-2 m-0"
-        caption.innerText="Добавьте следующую точку вашего маршрута"
-
-        let name_div = document.createElement("div")
-        name_div.className = "flex flex-col"
         let name_lable = document.createElement("lable")
-        name_lable.innerText = "Название точки:"
+        name_lable.innerText = "Название";
+        name_lable.classList.add("point_lable");
         let name_input = document.createElement("input")
-        name_input.className = "savepoint addresname border-2"
+        name_input.className = "savepoint addresname point_input"
         let delete_button = document.createElement("button")
         delete_button.innerText = "Удалить точку"
+        delete_button.classList.add('point_btn')
 
         delete_button.onclick = () => {
             map.geoObjects.remove(multiRoute)
@@ -86,16 +82,16 @@ function init() {
             point.remove()
         }
 
-        name_div.append(name_lable, name_input, delete_button)
+        point.append(name_lable, name_input)
 
-        let addres_div = document.createElement("div")
-        addres_div.className = "flex flex-col"
         let addres_lable = document.createElement("lable")
-        addres_lable.innerText = "Адрес точки:"
+        addres_lable.innerText = "Адрес";
+        addres_lable.classList.add('point_lable')
         let addres_input = document.createElement("input")
-        addres_input.className = "savepoint addres border-2"
+        addres_input.className = "savepoint addres  point_input"
         let addres_button = document.createElement("button")
-        addres_button.innerText = "Выбрать точку на карте"
+        addres_button.innerText = "Поставить на карте"
+        addres_button.classList.add('point_btn')
 
         name_input.addEventListener("blur", (elem) => {
             map.geoObjects.remove(multiRoute)
@@ -125,10 +121,13 @@ function init() {
             })
             map.geoObjects.add(multiRoute)
         })
+        let div_btns = document.createElement('div');
+        div_btns.className = 'flex flex-betwen'
+        
+        div_btns.append(delete_button, addres_button)
 
-        addres_div.append(addres_lable, addres_input, addres_button)
+        point.append(addres_lable, addres_input, div_btns)
 
-        point.append(caption, name_div, addres_div)
         points.appendChild(point)
         console.log(cnt)
         pointCount = pointCount + 1   
@@ -199,7 +198,8 @@ document.querySelector("#inputpicture").addEventListener("change", (event) => {
 
         reader.onload = e => {
             img.src = e.target.result;
-            img.style.width = "100px"; 
+            // img.style.width = "100px";
+            img.className = "rounded-10 h-full w-full shadow-2xl shadow-slate-900"; 
             document.querySelector("#puctureArea").append(img);
         };
 

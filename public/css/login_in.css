@@ -6,7 +6,7 @@
     font-family: Arial;
 }
 #description_img{
-    background-image: url("/public/pictures/forest.jpg");
+    background-image: url("./pictures/forest.jpg");
     background-repeat: no-repeat ;
     background-size: cover;
     background-position: 50%;
@@ -24,4 +24,37 @@
 }
 #small_imgs::-webkit-scrollbar-thumb {
     @apply rounded-xl h-[4px] bg-yellow-500
+}
+
+#pictures::-webkit-scrollbar {
+    @apply -mt-[10px] h-[6px] w-[100%] rounded-xl bg-transparent
+}
+#pictures::-webkit-scrollbar-track {
+    @apply px-[3px] bg-white rounded-xl dark:bg-slate-800 
+}
+#pictures::-webkit-scrollbar-thumb {
+    @apply rounded-xl h-[6px] bg-yellow-500
+}
+
+#points::-webkit-scrollbar {
+    @apply m-[3px] h-[6px] w-[100%] rounded-xl bg-transparent
+}
+#points::-webkit-scrollbar-track {
+    @apply px-[3px] bg-white rounded-xl dark:bg-slate-800 
+}
+#points::-webkit-scrollbar-thumb {
+    @apply rounded-xl h-[4px] bg-yellow-500
+}
+
+.point{
+    @apply rounded-10 shrink-0 flex flex-col px-4 py-1 h-[200px] shadow-2xl shadow-slate-300
+}
+.point_lable{
+    @apply text-center text-lg text-slate-900 mt-2 mb-1 dark:text-gray-300
+}
+.point_btn{
+    @apply mt-4 mx-auto w-52 text-lg h-6 flex items-center justify-center rounded-10 bg-yellow-500 text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400
+}
+.point_input{
+    @apply mx-auto w-96 h-6 border border-gray-500 rounded-10 md:h-7 px-2 focus:outline-yellow-500 invalid:border-pink-700 invalid:text-pink-600 dark:bg-gray-200 
 }

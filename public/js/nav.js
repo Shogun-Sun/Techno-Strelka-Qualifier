@@ -3,16 +3,6 @@ const modal = document.getElementById('modal');
 const closeModalButton = document.getElementById('closeModal');
 const modalContent = document.getElementById("mainModal");
 
-const handleResize = () => {
-    if (window.innerWidth >= 1024) {
-        desktopMenu.classList.remove('hidden');
-        mobileMenu.classList.add('hidden');
-    } else {
-        desktopMenu.classList.add('hidden');
-}};
-window.addEventListener('resize', handleResize);
-handleResize();
-
 openModalButton.addEventListener('click', () => {
     modal.classList.remove('hidden');
     setTimeout(() => {
@@ -32,10 +22,6 @@ const closeModal = () => {
     }, 10);
 };
 
-if(window.innerWidth > 1024){
-    closeModal;
-    alert("OK")
-}    
 closeModalButton.addEventListener('click', closeModal);
 
 modal.addEventListener('click', (e) => {
@@ -43,3 +29,16 @@ modal.addEventListener('click', (e) => {
         closeModal();
     }
 });
+
+const handleResize = () => {
+    if (window.innerWidth > 1024) {
+        document.querySelector("#desktopMenu").classList.remove('hidden');
+        openModalButton.classList.add('hidden');
+        closeModal();
+    } else {
+        document.querySelector("#desktopMenu").classList.add('hidden');
+        openModalButton.classList.remove('hidden')
+}};
+window.addEventListener('resize', handleResize);
+handleResize();
+
