@@ -150,7 +150,7 @@ function init() {
     savebtn.onclick = async () => {
         let savedRoute = {}
         let sevedPoints = []
-        let saveNodeList = document.querySelectorAll(".savepoint")
+        let saveNodeList = document.querySelectorAll(".savepoint");
         for (let i = 0; i<saveNodeList.length; i +=2) {
             let pointdesc = {}
             await ymaps.geocode(saveNodeList[i+1].value).then( 
@@ -166,6 +166,7 @@ function init() {
             );
             pointdesc.addres = saveNodeList[i+1].value,
             pointdesc.name = saveNodeList[i].value,
+            pointdesc.order = (i / 2) + 1;
             sevedPoints.push(pointdesc)
         }
         savedRoute.points = sevedPoints
@@ -176,16 +177,32 @@ function init() {
             savedRoute.time = activeRoute.properties.get("duration").text
         console.log(savedRoute);
 
-        fetch("http://localhost:3000/upload/new/route", {
+        fetch("http://localhost:3000/route/upload/new/route", {
             method: "POST",
             body: JSON.stringify(savedRoute),
             headers: {
                 "Content-Type": "application/json",
             },
         })
-        .then(res => res.json)
+        .then(res => res.json())
         .then((data) => {
-        })
+            const routeId = data.id; // Получаем route_id (в ответе он должен быть id)
+            const formData = new FormData();
+            selectedFiles.forEach((file) => {
+                formData.append('file', file);
+            });
+        
+            // Передаем route_id через URL
+            fetch(`http://localhost:3000/route/upload/new/route/images?route_id=${routeId}`, {
+                method: "POST",
+                body: formData,
+            })
+            .then(res => res.json())
+            .then((data) => {
+                alert("Файлы успешно загружены!");
+            })
+            .catch(err => alert('Файлы не загружены!', err));
+        });
     }
 }
 
@@ -208,37 +225,5 @@ document.querySelector("#inputpicture").addEventListener("change", (event) => {
     }
 
 });
-
-document.querySelector("#uploadButton").addEventListener("click", async () => {
-    if (selectedFiles.length === 0) {
-        alert("Вы не выбрали картинки!");
-        return;
-    }
-
-    const formData = new FormData();
-    selectedFiles.forEach((file, index) => {
-        formData.append('file', file);
-    });
-
-    try {
-        const response = await fetch("http://localhost:3000/upload/images", {
-            method: "POST",
-            body: formData
-        });
-
-        if (response.ok) {
-            alert("Файлы успешно загружены!");
-            selectedFiles.length = 0; 
-            document.querySelector("#puctureArea").innerHTML = ""; 
-        } else {
-            alert("Ошибка при загрузке файлов");
-        }
-    } catch (error) {
-        console.error("Ошибка:", error);
-        alert("Произошла ошибка");
-    }
-});
-
-
 
 ymaps.ready(init)

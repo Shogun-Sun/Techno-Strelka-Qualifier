@@ -9,25 +9,45 @@ const Routes = sequelize.define(
             autoIncrement: true,
             primaryKey: true,
         },
-        
+
         route_name: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(100),
             allowNull: false,
         },
 
-        total_distance: {
-            type: DataTypes.FLOAT,
+        route_images: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
+
+        description: {
+            type: DataTypes.TEXT,
             allowNull: false,
         },
 
-        total_time: {
+        distance: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+
+        time: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+
+        status: {
+            type: DataTypes.ENUM('public', 'private'),
+            allowNull: false,
+            defaultValue: 'public',
+        },
+
+        user_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-        }
+            allowNull: true,
+        },
     },
-
     {
-        timestamps: true,
+        timestamps: true, 
     }
 );
 
