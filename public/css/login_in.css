@@ -47,7 +47,7 @@
 }
 
 .point{
-    @apply rounded-10 shrink-0 flex flex-col px-4 py-1 h-[200px] shadow-2xl shadow-slate-300
+    @apply rounded-10 shrink-0 flex flex-col px-4 py-1 h-[200px] bg-gray-50 shadow-2xl dark:bg-slate-700 shadow-slate-300 dark:shadow-slate-900
 }
 .point_lable{
     @apply text-center text-lg text-slate-900 mt-2 mb-1 dark:text-gray-300

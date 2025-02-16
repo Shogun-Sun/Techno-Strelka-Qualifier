@@ -10,6 +10,9 @@ router.get("/", (req, res) => {
 router.get('/map', (req, res) => {
   res.sendFile(path.join(pagesPath, 'createMap.html'));
 })
+router.get('/log-reg', (req, res) => {
+  res.sendFile(path.join(pagesPath, 'login.html'));
+})
 router.get('/main', (req, res) => {
   res.sendFile(path.join(pagesPath, 'main_page.html'));
 })

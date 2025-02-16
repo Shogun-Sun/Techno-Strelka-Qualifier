@@ -126,8 +126,22 @@ function reg_function() {
         })
         .then(res => res.json())
         .then((res) => {
-            if (res.message == "Успешный вход") {
-                window.location.href = "/";
+            if (res.message == "Вы успешно зарегистрировались") {
+                alert(res.message)
+                document.querySelector("#login").value = document.querySelector("#email").value;
+                document.querySelector("#fio").value = '';
+                document.querySelector("#email").value = '';
+                document.querySelector("#reg_password").value = ''; 
+                document.querySelector("#reg_password_2").value = '';
+
+                const modal = document.getElementById('modal');
+                modal.classList.remove('opacity-100');
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                modal.classList.add('hidden');
+                }, 10);
+
             } else {
                 alert(res.message)
             }

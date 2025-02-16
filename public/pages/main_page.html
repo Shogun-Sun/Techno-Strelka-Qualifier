@@ -42,24 +42,24 @@
         </button>
 
         <div id="desktopMenu" class="h-10 md:w-[640px] px-2 border border-slate-300 rounded-3xl flex flex-row justify-around items-center bg-white z-10
-        dark:bg-slate-800 ">
+        dark:bg-slate-800 fixed top-[7px]">
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Main</a>
+                <a href="/" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Main</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Profile</a>
+                <a href="/" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Profile</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Private</a>
+                <a href="/map" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Private</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Public</a>
+                <a href="/" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Public</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Раздел</a>
+                <a href="/" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Модерация</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="#" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Log in</a>
+                <a href="/log-reg" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Log in</a>
             </div>   
         </div>
  
@@ -77,22 +77,22 @@
                 </div>
                 <div class=" flex flex-col items-center gap-8 p-3">
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Main</a>
+                        <a href="/main" class="text-xl text-gray-800 dark:text-gray-300">Main</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Profile</a>
+                        <a href="/" class="text-xl text-gray-800 dark:text-gray-300">Profile</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Private</a>
+                        <a href="/map" class="text-xl text-gray-800 dark:text-gray-300">Private</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Public</a>
+                        <a href="/" class="text-xl text-gray-800 dark:text-gray-300">Public</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Раздел 5</a>
+                        <a href="/" class="text-xl text-gray-800 dark:text-gray-300">Модерация</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="#" class="text-xl text-gray-800 dark:text-gray-300">Log in</a>
+                        <a href="/log-reg" class="text-xl text-gray-800 dark:text-gray-300">Log in</a>
                     </div>   
                 </div>
             </div>
@@ -110,7 +110,7 @@
                 <p class="text-center w-full md:text-left px-8 sm:w-2/3 lg:w-full lg:p-0 text-lg md:text-2xl lg:text-center text-gray-300">
                     Откройте для себя новые места и поделитесь своими приключениями с друзьями
                 </p>
-                <button class="ml-0 sm:ml-8 lg:ml-0 bg-yellow-500 text-black hover:shadow-xl hover:shadow-slate-900 text-base md:text-xl rounded-40 px-4 py-3 md:px-5 md:py-3 outline-none
+                <button onclick="location.href='/map';" class="ml-0 sm:ml-8 lg:ml-0 bg-yellow-500 text-black hover:shadow-xl hover:shadow-slate-900 text-base md:text-xl rounded-40 px-4 py-3 md:px-5 md:py-3 outline-none
                  hover:bg-yellow-400 flex items-center justify-around">
                     Создать маршрут  
                     <svg class="w-9 h-7 stroke-1 md:stroke-2 stroke-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
