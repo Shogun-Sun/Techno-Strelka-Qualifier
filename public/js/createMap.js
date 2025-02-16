@@ -177,7 +177,7 @@ function init() {
             savedRoute.time = activeRoute.properties.get("duration").text
         console.log(savedRoute);
 
-        fetch("http://localhost:3000/route/upload/new/route", {
+        fetch("/route/upload/new/route", {
             method: "POST",
             body: JSON.stringify(savedRoute),
             headers: {
@@ -193,7 +193,7 @@ function init() {
             });
         
             // Передаем route_id через URL
-            fetch(`http://localhost:3000/route/upload/new/route/images?route_id=${routeId}`, {
+            fetch(`/route/upload/new/route/images?route_id=${routeId}`, {
                 method: "POST",
                 body: formData,
             })
