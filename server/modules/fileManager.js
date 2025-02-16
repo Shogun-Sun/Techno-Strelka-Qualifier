@@ -1,9 +1,18 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require('fs');
 
-const storage = multer.diskStorage({
+const uploadRouteImagesDir = path.join(__dirname, '..', '/storages', 'routeImages');
+const uploadUserDataDir = path.join(__dirname, '..', '/storages', 'usersData');
+
+if (!fs.existsSync(uploadRouteImagesDir) || !fs.existsSync(uploadUserDataDir)) {
+    fs.mkdirSync(uploadRouteImagesDir, { recursive: true });
+    fs.mkdirSync(uploadUserDataDir, {recursive: true});
+};
+
+const routeImagesStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '..', 'images'));
+        cb(null, uploadRouteImagesDir);
     },
     
     filename: (req, file, cb) => {
@@ -12,9 +21,16 @@ const storage = multer.diskStorage({
     },
 });
 
-const upload = multer({
-    storage: storage,
+const userDataStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, )
+    }
+})
+
+
+const uploadRouteImages = multer({
+    storage: routeImagesStorage,
     limits: {fileSize: 10 * 1024 * 1024}
 });
 
-module.exports = upload;
+module.exports = { uploadRouteImages };

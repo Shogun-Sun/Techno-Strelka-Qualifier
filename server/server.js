@@ -8,7 +8,7 @@ const bcrypt = require("bcrypt");
 
 const Users = require("./db/models/users");
 
-const upload = require("./modules/fileManager");
+const {uploadRouteImages} = require("./modules/fileManager");
 const syncModels = require("./db/syncModels");
 const { connectDB } = require("./db/database");
 
@@ -83,7 +83,7 @@ app.post("/upload/new/route", async (req, res) => {
   }
 });
 
-app.post("/upload/images", upload.array("file"), (req, res) => {
+app.post("/upload/images", uploadRouteImages.array("file"), (req, res) => {
   try {
     res.status(200).json({ message: "Файл успешно загружен" });
   } catch (err) {
