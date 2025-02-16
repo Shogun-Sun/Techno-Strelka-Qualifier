@@ -13,7 +13,7 @@ function login_function() {
     
     if (pass == true) {
         convert(login_user_data)
-        fetch("/users/log", {
+        fetch("/user/log", {
             method:"POST",
             headers: {
                 "Content-Type": "application/json",
@@ -117,7 +117,7 @@ function reg_function() {
 
         console.log(reg_user_data)
 
-        fetch("/users/reg", {
+        fetch("/user/reg", {
             method:"POST",
             headers: {
                 "Content-Type": "application/json",

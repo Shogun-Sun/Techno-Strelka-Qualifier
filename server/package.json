@@ -12,6 +12,7 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7",
     "swagger-autogen": "^2.23.7",

@@ -5,6 +5,7 @@ let points = document.querySelector("#points")
 let savebtn = document.querySelector("#savebtn")
 let clickAddres = -1
 let pointCount = 1
+const selectedFiles = [];
 
 //--------------------------------------------------------------карта
 function init() {
@@ -147,13 +148,13 @@ function init() {
 
 
 
-    savebtn.onclick = () => {
+    savebtn.onclick = async () => {
         let savedRoute = {}
         let sevedPoints = []
         let saveNodeList = document.querySelectorAll(".savepoint")
         for (let i = 0; i<saveNodeList.length; i +=2) {
             let pointdesc = {}
-            ymaps.geocode(saveNodeList[i+1].value).then( 
+            await ymaps.geocode(saveNodeList[i+1].value).then( 
                 function (res) { 
                     let firstGeoObject = res.geoObjects.get(0); 
                     let coord = firstGeoObject.geometry.getCoordinates();  
@@ -188,8 +189,6 @@ function init() {
         })
     }
 }
-
-const selectedFiles = [];
 
 document.querySelector("#inputpicture").addEventListener("change", (event) => {
     const files = event.target.files;

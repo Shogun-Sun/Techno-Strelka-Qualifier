@@ -7,11 +7,6 @@ const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 router.get("/", (req, res) => {
   res.sendFile(path.join(pagesPath, "main_page.html"));
 });
-
-router.get('/users/log-reg/page' , (req, res) => {
-  res.sendFile(path.join(pagesPath, 'login.html'));
-})
-
 router.get('/map', (req, res) => {
   res.sendFile(path.join(pagesPath, 'createMap.html'));
 })
