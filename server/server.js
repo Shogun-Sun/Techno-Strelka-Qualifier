@@ -11,11 +11,10 @@ const app = express();
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
-app.use("/storages", express.static(path.join(__dirname, "storages")));
-
-app.use("/doc", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
 //Маршруты
+app.use("/storages", express.static(path.join(__dirname, "storages")));
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 app.use(require("./routes/pagesRoutes"));
 app.use(require("./routes/userRoutes"));
 app.use(require("./routes/routeRoutes"));
@@ -25,8 +24,6 @@ app.use(require("./routes/routeRoutes"));
   await syncModels();
   app.listen(Number(process.env.PORT), () => {
     console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
-    console.log(
-      `Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
-    );
+    console.log(`Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`);
   });
 })();
