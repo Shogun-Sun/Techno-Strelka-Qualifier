@@ -112,7 +112,13 @@ router.post("/route/get/route/by/id", async (req, res) => {
       where: {
         route_id: route_id,
       },
-      raw: true,
+      include: [
+        {
+          model: Points,
+          where: { route_id: route_id },
+          required: false,
+        },
+      ],
     });
     res
       .status(200)
