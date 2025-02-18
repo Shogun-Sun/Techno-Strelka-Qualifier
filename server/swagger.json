@@ -183,9 +183,16 @@
         "description": "",
         "parameters": [
           {
-            "name": "route_id",
-            "in": "query",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "route_id": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {

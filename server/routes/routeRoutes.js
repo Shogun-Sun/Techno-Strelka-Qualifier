@@ -50,7 +50,8 @@ router.post(
   "/route/upload/new/route/images",
   uploadRouteImages.array("file"),
   async (req, res) => {
-    const { route_id } = req.query;
+    const { route_id } = req.body;
+
     const uploadImageRout = path.join(
       __dirname,
       "..",
