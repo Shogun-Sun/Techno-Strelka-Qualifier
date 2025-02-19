@@ -20,15 +20,14 @@ router.post(
     } = req.body;
 
     let { point_data } = req.body;
-    
-    if(typeof point_data === "string"){
+
+    if (typeof point_data === "string") {
       point_data = JSON.parse(point_data);
     }
 
-    const transacrion = await sequelize.transaction();
+    const transaction = await sequelize.transaction();
 
-    try{
-
+    try {
       const images = req.files.map((f) => f.filename);
       const imagesPaths = images.join(",");
 
@@ -36,7 +35,7 @@ router.post(
         route_status: status || "public",
         user_id: user_id || null,
       });
-  
+
       const routesHistory = await RoutesHistory.create({
         route_id: route.route_id,
         route_name,
@@ -45,20 +44,19 @@ router.post(
         route_time,
         route_images: imagesPaths,
       });
-  
+
       const point = await Points.create({
         route_id: route.route_id,
         point_data,
       });
 
-      await transacrion.commit();
-      res.status(200).json({message: "Маршрут успешно добавлен"});
-    }catch(err){
-      await transacrion.rollback();
+      await transaction.commit();
+      res.status(200).json({ message: "Маршрут успешно добавлен" });
+    } catch (err) {
+      await transaction.rollback();
       console.error("Ошибка при добавлении нового маршрута:", err);
-      res.status(400).json({message: "Маршрут не сохранен"});
+      res.status(400).json({ message: "Маршрут не сохранен" });
     }
-
   }
 );
 router.get("/route/get/all/public/routes/data", async (req, res) => {
@@ -113,41 +111,69 @@ router.post("/route/get/route/by/id", async (req, res) => {
     res.status(400).json({ message: "Ошибка получения маршрута" });
   }
 });
-router.post("/route/update/route", uploadRouteImages.array("file"), async (req, res) => {
-  const {
-    route_id,
-    point_data,
-    route_name,
-    route_description,
-    route_distance,
-    route_time,
-  } = req.body;
-  const transaction = await sequelize.transaction();
-  try {
-    const images = req.files.map((f) => f.filename);
-    const imagesPaths = images.join(",");
-
-    const updateRoute = await RoutesHistory.create({
+router.post(
+  "/route/update/route",
+  uploadRouteImages.array("file"),
+  async (req, res) => {
+    const {
       route_id,
+      point_data,
       route_name,
-      route_images: imagesPaths,
       route_description,
       route_distance,
       route_time,
+    } = req.body;
+    const transaction = await sequelize.transaction();
+    try {
+      const images = req.files.map((f) => f.filename);
+      const imagesPaths = images.join(",");
+
+      const updateRoute = await RoutesHistory.create({
+        route_id,
+        route_name,
+        route_images: imagesPaths,
+        route_description,
+        route_distance,
+        route_time,
+      });
+
+      const updatePoints = await Points.create({
+        route_id,
+        point_data,
+      });
+
+      transaction.commit();
+
+      res.status(200).json({ message: "Маршрут успешно обновлен" });
+    } catch (err) {
+      transaction.rollback();
+      console.error("Ошибка обновления маршрута", err);
+      res.status(500).json({ message: "Ошибка обновления маршрута" });
+    }
+  }
+);
+router.delete("/route/delete/route", async (req, res) => {
+  const { route_id } = req.body;
+  const transaction = await sequelize.transaction();
+  try {
+    await RoutesHistory.destroy({
+      where: { route_id },
     });
 
-    const updatePoints = await Points.create({
-      route_id,
-      point_data,
+    await Points.destroy({
+      where: { route_id },
     });
 
-    transaction.commit();
+    await Routes.destroy({
+      where: { route_id },
+    });
 
-    res.status(200).json({ message: "Маршрут успешно обновлен" });
+    await transaction.commit();
+    res.status(200).json({ message: "Маршрут успешно удален" });
   } catch (err) {
     transaction.rollback();
-    console.error("Ошибка обновления маршрута", err);
-    res.status(500).json({ message: "Ошибка обновления маршрута" });
+    console.error("Ошибка удаления маршрута:", err);
+    res.status(500).json({ message: "Произошла внутрення ошибка" });
   }
 });
 

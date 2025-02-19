@@ -149,9 +149,6 @@
                 "user_id": {
                   "example": "any"
                 },
-                "point_data": {
-                  "example": "any"
-                },
                 "route_description": {
                   "example": "any"
                 },
@@ -165,6 +162,9 @@
                   "example": "any"
                 },
                 "status": {
+                  "example": "any"
+                },
+                "point_data": {
                   "example": "any"
                 }
               }
@@ -257,6 +257,30 @@
           "200": {
             "description": "OK"
           },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/route/delete/route": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "route_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
           "500": {
             "description": "Internal Server Error"
           }
