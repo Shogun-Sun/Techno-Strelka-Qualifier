@@ -182,33 +182,44 @@ function init() {
         (pointdesc.order = i / 2 + 1);
       sevedPoints.push(pointdesc);
     }
-    savedRoute.points = sevedPoints;
-    savedRoute.route_description = document.querySelector("#description").value;
-    savedRoute.route_name = document.querySelector("#routename").value;
+
+    // savedRoute.point_data = sevedPoints;
+    // savedRoute.route_description = document.querySelector("#description").value;
+    // savedRoute.route_name = document.querySelector("#routename").value;
+    // var activeRoute = multiRoute.getActiveRoute();
+    // savedRoute.route_distance = activeRoute.properties.get("distance").text;
+    // savedRoute.route_time = activeRoute.properties.get("duration").text;
+    // console.log(savedRoute);
+
+    // const newRouteResponse = await fetch("/route/upload/new/route", {
+    //   method: "POST",
+    //   body: JSON.stringify(savedRoute),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+
+    // const newRouteData = await newRouteResponse.json();
+    // const routeId = await newRouteData.id;
+
+    // formData.append("route_id", routeId);
+
     var activeRoute = multiRoute.getActiveRoute();
-    savedRoute.route_distance = activeRoute.properties.get("distance").text;
-    savedRoute.route_time = activeRoute.properties.get("duration").text;
-    console.log(savedRoute);
-
-    const newRouteResponse = await fetch("/route/upload/new/route", {
-      method: "POST",
-      body: JSON.stringify(savedRoute),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const newRouteData = await newRouteResponse.json();
-    const routeId = await newRouteData.id;
 
     const formData = new FormData();
     selectedFiles.forEach((file) => {
       formData.append("file", file);
     });
 
-    formData.append("route_id", routeId);
+    // formData.append("user_id", );
+    formData.append("point_data", JSON.stringify(sevedPoints));
+    formData.append("route_description", document.querySelector("#description").value);
+    formData.append("route_name", document.querySelector("#routename").value);
+    formData.append("route_distance", activeRoute.properties.get("distance").text);
+    formData.append("route_time", activeRoute.properties.get("duration").text);
+    //formData.append("status", )
 
-    const uploadResponse = await fetch(`/route/upload/new/route/images`, {
+    const uploadResponse = await fetch(`/route/upload/new/route`, {
       method: "POST",
       body: formData,
     });

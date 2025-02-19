@@ -149,7 +149,7 @@
                 "user_id": {
                   "example": "any"
                 },
-                "points": {
+                "point_data": {
                   "example": "any"
                 },
                 "route_description": {
@@ -175,40 +175,13 @@
           "200": {
             "description": "OK"
           },
-          "500": {
-            "description": "Internal Server Error"
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
     },
-    "/route/upload/new/route/images": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "route_id": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/route/get/all/public/routes/names": {
+    "/route/get/all/public/routes/data": {
       "get": {
         "description": "",
         "responses": {
@@ -248,28 +221,8 @@
         }
       }
     },
-    "/route/get/route/images/by/id": {
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "route_id",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
     "/route/update/route": {
-      "put": {
+      "post": {
         "description": "",
         "parameters": [
           {
@@ -281,19 +234,19 @@
                 "route_id": {
                   "example": "any"
                 },
-                "name": {
+                "point_data": {
                   "example": "any"
                 },
-                "description": {
+                "route_name": {
                   "example": "any"
                 },
-                "distance": {
+                "route_description": {
                   "example": "any"
                 },
-                "time": {
+                "route_distance": {
                   "example": "any"
                 },
-                "status": {
+                "route_time": {
                   "example": "any"
                 }
               }

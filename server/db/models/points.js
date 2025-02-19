@@ -24,10 +24,28 @@ const Points = sequelize.define(
       type: DataTypes.JSON,
       allowNull: false,
     },
+
+    point_status: {
+      type: DataTypes.ENUM("new", "old"),
+      allowNull: false,
+      defaultValue: "new",
+    },
+
+    edited_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
     timestamps: false,
   }
 );
+
+Points.beforeCreate(async (newPointHistory, options) => {
+  await Points.update(
+    { point_status: "old" },
+    { where: { point_id: newPointHistory.route_id } }
+  );
+});
 
 module.exports = Points;

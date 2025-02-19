@@ -24,6 +24,8 @@ app.use(require("./routes/routeRoutes"));
   await syncModels();
   app.listen(Number(process.env.PORT), () => {
     console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
-    console.log(`Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`);
+    console.log(
+      `Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
+    );
   });
 })();
