@@ -10,5 +10,5 @@ const syncModels = async () => {
       console.error('Ошибка синхронизации моделей: ', err);
     }
   };
-
+  
 module.exports = syncModels;

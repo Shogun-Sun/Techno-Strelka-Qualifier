@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../database');
+const Users = require('./users');
 
 const Routes = sequelize.define(
     'Routes',
@@ -10,44 +11,23 @@ const Routes = sequelize.define(
             primaryKey: true,
         },
 
-        route_name: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-
-        route_images: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-        },
-
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
-
-        distance: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-
-        time: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-
-        status: {
+        route_status: {
             type: DataTypes.ENUM('public', 'private'),
             allowNull: false,
             defaultValue: 'public',
         },
 
-        user_id: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
+        // user_id: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: true,
+        //     references: {
+        //         model: Users,
+        //         key: 'user_id',
+        //     }
+        // },
     },
     {
-        timestamps: true, 
+        timestamps: false, 
     }
 );
 

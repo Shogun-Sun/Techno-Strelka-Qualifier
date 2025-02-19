@@ -6,7 +6,7 @@ const Routes = require('./routes');
 const RoutesHistory = sequelize.define(
     'RoutesHistory', 
     {
-        history_id: {
+        route_history_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -21,33 +21,28 @@ const RoutesHistory = sequelize.define(
             },
         },
 
-        old_route_name: {
+        route_name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
 
-        old_route_images: {
+        route_images: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
 
-        old_description: {
+        route_description: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
 
-        old_distance: {
+        route_distance: {
             type: DataTypes.STRING(100),
             allowNull: false,
         },
 
-        old_time: {
+        route_time: {
             type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-
-        old_status: {
-            type: DataTypes.ENUM('public', 'private'),
             allowNull: false,
         },
 

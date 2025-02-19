@@ -9,70 +9,60 @@ const RoutesHistory = require("../db/models/routesHistory");
 const { uploadRouteImages } = require("../modules/fileManager");
 
 router.post("/route/upload/new/route", async (req, res) => {
-  const { points, description, name, distanse, time, status } = req.body;
+  const {
+    user_id,
+    points,
+    route_description,
+    route_name,
+    route_distance,
+    route_time,
+    status,
+  } = req.body;
+
+  const transaction = await sequelize.transaction();
+
   try {
     const route = await Routes.create({
-      route_name: name,
-      description: description,
-      distance: distanse,
-      time,
+      route_status: status || "public",
+      user_id: user_id || null,
     });
 
-    points.forEach(async (element) => {
-      await Points.create({
-        route_id: route.route_id,
-        name: element.name,
-        address: element.addres,
-        coordinates: JSON.stringify(element.coord),
-        order: element.order,
-      });
+    const routesHistory = await RoutesHistory.create({
+      route_id: route.route_id,
+      route_name,
+      route_description,
+      route_distance,
+      route_time,
+      route_images: "",
     });
 
-    const uploadImageRout = path.join(
-      __dirname,
-      "..",
-      "storages",
-      "routeImages",
-      `${route.route_id}`
-    );
-    fs.mkdirSync(uploadImageRout, { recursive: true });
+    const point = await Points.create({
+      route_id: route.route_id,
+      point_data: points,
+    });
+
+    await transaction.commit();
 
     res
       .status(200)
       .json({ message: "Маршрут успешно сохранен", id: route.route_id });
   } catch (error) {
+    await transaction.rollback();
     console.error("Ошибка при получении маршрута:", error);
     res.status(500).json({ message: "Ошибка при обработке маршрута" });
   }
 });
 
-router.post(
-  "/route/upload/new/route/images",
+router.post("/route/upload/new/route/images",
   uploadRouteImages.array("file"),
   async (req, res) => {
     const { route_id } = req.body;
-
-    const uploadImageRout = path.join(
-      __dirname,
-      "..",
-      "storages",
-      "routeImages",
-      `${route_id}`
-    );
-    fs.mkdirSync(uploadImageRout, { recursive: true });
-
-    const images = req.files.map((f) => {
-      const tempPath = f.path;
-      const fileName = f.filename;
-      const newPath = path.join(uploadImageRout, path.basename(f.path));
-      fs.renameSync(tempPath, newPath);
-      return fileName;
-    });
-
+    
+    const images = req.files.map((f) => f.filename);
     const imagesPaths = images.join(",");
 
     try {
-      await Routes.update(
+      await RoutesHistory.update(
         { route_images: imagesPaths },
         { where: { route_id: route_id } }
       );

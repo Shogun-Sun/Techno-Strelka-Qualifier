@@ -146,19 +146,22 @@
             "schema": {
               "type": "object",
               "properties": {
+                "user_id": {
+                  "example": "any"
+                },
                 "points": {
                   "example": "any"
                 },
-                "description": {
+                "route_description": {
                   "example": "any"
                 },
-                "name": {
+                "route_name": {
                   "example": "any"
                 },
-                "distanse": {
+                "route_distance": {
                   "example": "any"
                 },
-                "time": {
+                "route_time": {
                   "example": "any"
                 },
                 "status": {

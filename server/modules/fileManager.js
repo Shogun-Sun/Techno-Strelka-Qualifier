@@ -1,6 +1,7 @@
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
+const crypto = require('crypto');
 
 const storagesDir = path.join(__dirname, '..', '/storages');
 const uploadRouteImagesDir = path.join(__dirname, '..', '/storages', 'routeImages');
@@ -19,7 +20,7 @@ const routeImagesStorage = multer.diskStorage({
     
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname); 
-    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
+    cb(null, `${crypto.randomUUID()}${ext}`);
     },
 });
 

@@ -183,11 +183,11 @@ function init() {
       sevedPoints.push(pointdesc);
     }
     savedRoute.points = sevedPoints;
-    savedRoute.description = document.querySelector("#description").value;
-    savedRoute.name = document.querySelector("#routename").value;
+    savedRoute.route_description = document.querySelector("#description").value;
+    savedRoute.route_name = document.querySelector("#routename").value;
     var activeRoute = multiRoute.getActiveRoute();
-    savedRoute.distanse = activeRoute.properties.get("distance").text;
-    savedRoute.time = activeRoute.properties.get("duration").text;
+    savedRoute.route_distance = activeRoute.properties.get("distance").text;
+    savedRoute.route_time = activeRoute.properties.get("duration").text;
     console.log(savedRoute);
 
     const newRouteResponse = await fetch("/route/upload/new/route", {
