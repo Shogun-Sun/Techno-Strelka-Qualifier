@@ -3,7 +3,7 @@ const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const path = require("path");
 const Users = require("../db/models/users");
-const { Sessions } = require('../db/models/sessions');
+const { Sessions } = require("../db/models/sessions");
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
@@ -53,6 +53,21 @@ userRouter.post("/user/log", async (req, res) => {
 
     const isMatch = await bcrypt.compare(user_password, user.user_password);
     if (isMatch) {
+      const activeSessionsCount = await Sessions.count({
+        where: { user_id: user.user_id },
+      });
+
+      if (activeSessionsCount >= Number(process.env.MAX_SESSIONS)) {
+        const oldSession = await Sessions.findOne({
+          where: { user_id: user.user_id },
+          order: [["expires", "ASC"]],
+        });
+
+        if (oldSession) {
+          await oldSession.destroy();
+        }
+      }
+
       req.session.userId = user.user_id;
       req.session.user = {
         id: user.user_id,

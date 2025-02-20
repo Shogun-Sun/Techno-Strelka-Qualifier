@@ -3,7 +3,7 @@ const Routes = require("./models/routes");
 const Points = require("./models/points");
 const RoutesHistory = require("./models/routesHistory");
 const Comments = require("./models/comments");
-const { Sessions } = require('./models/sessions');
+const { Sessions } = require("./models/sessions");
 
 const setupAssociations = () => {
   Users.hasMany(Sessions, { foreignKey: "user_id" });
