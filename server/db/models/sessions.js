@@ -1,40 +1,31 @@
-const { DataTypes } = require('sequelize');
-const { sequelize } = require('../database');
-const Users = require('./users');
+const { DataTypes } = require("sequelize");
+const { sequelize } = require("../database");
+const Users = require("../models/users");
 
-const Sessions = sequelize.define(
-    'Sessions', 
-    {
-        session_id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-        },
-
-        session_token: {
-            type: DataTypes.STRING(255),
-            allowNull: false,
-            unique: true,
-        },
-
-        user_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: Users,
-                key: 'user_id',
-            },
-        },
-
-        expiration_date: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
+const Session = sequelize.define(
+  "Session",
+  {
+    sid: {
+      type: DataTypes.STRING,
+      primaryKey: true,
     },
-
-    {
-        timestamps: true,
-    }
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: Users,
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
+    expires: {
+      type: DataTypes.DATE,
+    },
+    data: {
+      type: DataTypes.TEXT,
+    },
+  },
+  {}
 );
 
-module.exports = Sessions;
+module.exports = Session;

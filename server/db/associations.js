@@ -9,20 +9,23 @@ const setupAssociations = () => {
   Users.hasMany(Sessions, { foreignKey: "user_id" });
   Sessions.belongsTo(Users, { foreignKey: "user_id" });
 
-  Routes.hasMany(Points, { foreignKey: "route_id", onDelete: 'CASCADE'});
-  Points.belongsTo(Routes, { foreignKey: "route_id", onDelete: 'CASCADE'});
+  Routes.hasMany(Points, { foreignKey: "route_id", onDelete: "CASCADE" });
+  Points.belongsTo(Routes, { foreignKey: "route_id", onDelete: "CASCADE" });
 
-  Routes.hasMany(RoutesHistory, { foreignKey: "route_id", onDelete: 'CASCADE'});
-  RoutesHistory.belongsTo(Routes, { foreignKey: "route_id", onDelete: 'CASCADE'});
+  Routes.hasMany(RoutesHistory, {
+    foreignKey: "route_id",
+    onDelete: "CASCADE",
+  });
+  RoutesHistory.belongsTo(Routes, {
+    foreignKey: "route_id",
+    onDelete: "CASCADE",
+  });
 
-  // Users.hasMany(Routes, {foreignKey: 'user_id'});
-  // Routes.belongsTo(Users, {foreignKey: 'user_id'});
+  Users.hasMany(Comments, { foreignKey: "user_id", onDelete: "CASCADE" });
+  Comments.belongsTo(Users, { foreignKey: "user_id", onDelete: "CASCADE" });
 
-  Users.hasMany(Comments, {foreignKey: 'user_id', onDelete: 'CASCADE'});
-  Comments.belongsTo(Users, {foreignKey: 'user_id', onDelete: 'CASCADE'});
-
-  Routes.hasMany(Comments, {foreignKey: 'route_id', onDelete: 'CASCADE'});
-  Comments.belongsTo(Routes, {foreignKey: 'route_id', onDelete: 'CASCADE'});
+  Routes.hasMany(Comments, { foreignKey: "route_id", onDelete: "CASCADE" });
+  Comments.belongsTo(Routes, { foreignKey: "route_id", onDelete: "CASCADE" });
 
   console.log("Ассоциации установлены");
 };

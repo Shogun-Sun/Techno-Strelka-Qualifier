@@ -2,10 +2,10 @@ const express = require("express");
 const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const path = require("path");
-
 const Users = require("../db/models/users");
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
+
 userRouter.get("/users/log-reg/page", (req, res) => {
   res.sendFile(path.join(pagesPath, "login.html"));
 });
@@ -20,8 +20,7 @@ userRouter.post("/user/reg", async (req, res) => {
   } = req.body;
 
   try {
-    const saltRounds = Number(process.env.SALT);
-    if (isNaN(saltRounds)) throw new Error("SALT в .env не является числом");
+    const saltRounds = Number(process.env.SALT) || 10;
 
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(user_password, salt);
@@ -32,6 +31,7 @@ userRouter.post("/user/reg", async (req, res) => {
       user_patronymic,
       user_email,
       user_password: hash,
+      user_role: "user",
     });
 
     res.status(201).json({ message: "Вы успешно зарегистрировались", newUser });
@@ -53,13 +53,32 @@ userRouter.post("/user/log", async (req, res) => {
 
     const isMatch = await bcrypt.compare(user_password, user.user_password);
     if (isMatch) {
+      req.session.user = {
+        id: user.user_id,
+        username: user.user_name,
+        lastname: user.user_lastname,
+        patronymic: user.user_patronymic,
+        email: user.user_email,
+        role: user.user_role,
+      };
+
       res.status(200).json({ message: "Успешный вход" });
     } else {
-      res.status(400).json({ message: "Неверный пользователь или пароль" });
+      res.status(401).json({ message: "Неверный пользователь или пароль" });
     }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Ошибка входа" });
+  }
+});
+
+userRouter.get("/user/get/data", async (req, res) => {
+  if (req.session.user) {
+    res
+      .status(200)
+      .json({ message: "Данные пользователя", data: req.session.user });
+  } else {
+    res.status(401).json({ message: "Извините, вы не авторизовались" });
   }
 });
 
