@@ -11,7 +11,7 @@ const selectedFiles = [];
 function init() {
   let map = new ymaps.Map("map", {
     center: [56.304681092875974, 43.983099494694265],
-    zoom: 13,
+    zoom: 7,
     controls: [],
   });
 
@@ -226,6 +226,7 @@ function init() {
 
     const uploadData = await uploadResponse.json();
     alert("Маршрут успешно сохранен");
+    window.location.href = "/";
   };
 }
 
