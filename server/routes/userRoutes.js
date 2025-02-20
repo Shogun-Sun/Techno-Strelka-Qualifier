@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const bcrypt = require("bcrypt");
 const path = require("path");
 const Users = require("../db/models/users");
+const { Sessions } = require('../db/models/sessions');
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
@@ -31,7 +32,6 @@ userRouter.post("/user/reg", async (req, res) => {
       user_patronymic,
       user_email,
       user_password: hash,
-      user_role: "user",
     });
 
     res.status(201).json({ message: "Вы успешно зарегистрировались", newUser });
@@ -53,6 +53,7 @@ userRouter.post("/user/log", async (req, res) => {
 
     const isMatch = await bcrypt.compare(user_password, user.user_password);
     if (isMatch) {
+      req.session.userId = user.user_id;
       req.session.user = {
         id: user.user_id,
         username: user.user_name,

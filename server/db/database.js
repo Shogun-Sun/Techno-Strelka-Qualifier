@@ -1,4 +1,4 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const path = require("path");
 
 //Подключение к базе данных
