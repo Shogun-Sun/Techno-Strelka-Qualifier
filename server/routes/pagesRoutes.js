@@ -16,5 +16,8 @@ router.get("/log-reg", (req, res) => {
 router.get("/main", (req, res) => {
   res.sendFile(path.join(pagesPath, "main_page.html"));
 });
+router.get("/profile", (req, res) => {
+  res.sendFile(path.join(pagesPath, "profile.html"));
+});
 
 module.exports = router;

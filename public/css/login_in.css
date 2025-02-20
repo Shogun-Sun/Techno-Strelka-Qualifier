@@ -46,6 +46,16 @@
     @apply rounded-xl h-[4px] bg-yellow-500
 }
 
+#route_area::-webkit-scrollbar {
+    @apply -mt-[10px] h-[6px] w-[100%] rounded-xl bg-transparent
+}
+#route_area::-webkit-scrollbar-track {
+    @apply px-[3px] bg-white rounded-xl dark:bg-slate-800 
+}
+#route_area::-webkit-scrollbar-thumb {
+    @apply rounded-xl h-[6px] bg-yellow-500
+}
+
 .point{
     @apply rounded-10 shrink-0 flex flex-col px-4 py-1 h-[200px] bg-gray-50 shadow-2xl dark:bg-slate-700 shadow-slate-300 dark:shadow-slate-900
 }
