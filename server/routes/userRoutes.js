@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const Users = require("../db/models/users");
 const { Sessions } = require("../db/models/sessions");
-const { uploadImages } = require('../modules/fileManager');
+const { uploadImages } = require("../modules/fileManager");
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
@@ -27,8 +27,8 @@ userRouter.post("/user/reg", async (req, res) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(user_password, salt);
 
-    if(req.session.user){
-      return res.status(400).json({message: 'Ищвините, вы уже авторизованы'});
+    if (req.session.user) {
+      return res.status(400).json({ message: "Ищвините, вы уже авторизованы" });
     }
 
     const newUser = await Users.create({
@@ -37,10 +37,12 @@ userRouter.post("/user/reg", async (req, res) => {
       user_patronymic,
       user_email,
       user_password: hash,
-      user_avatar: 'default-avatar-profile-icon.jpg',
+      user_avatar: "default-avatar-profile-icon.jpg",
     });
 
-    return res.status(201).json({ message: "Вы успешно зарегистрировались", newUser });
+    return res
+      .status(201)
+      .json({ message: "Вы успешно зарегистрировались", newUser });
   } catch (err) {
     console.error("Ошибка регистрации", err);
     return res.status(400).json({ message: "Ошибка при регистрации" });
@@ -51,8 +53,8 @@ userRouter.post("/user/log", async (req, res) => {
   const { user_email, user_password } = req.body;
 
   try {
-    if(req.session.user){
-      return res.status(400).json({message: 'Извините, вы уже авторизованы'});
+    if (req.session.user) {
+      return res.status(400).json({ message: "Извините, вы уже авторизованы" });
     }
 
     const user = await Users.findOne({ where: { user_email } });
@@ -91,12 +93,23 @@ userRouter.post("/user/log", async (req, res) => {
 
       return res.status(200).json({ message: "Успешный вход" });
     } else {
-      return res.status(401).json({ message: "Неверный пользователь или пароль" });
+      return res
+        .status(401)
+        .json({ message: "Неверный пользователь или пароль" });
     }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Ошибка входа" });
   }
+});
+
+userRouter.post("/user/logout", async (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Ошибка выхода из сессии" });
+    }
+    return res.status(200).json({ message: "Вы успешно вышли из сессии" });
+  });
 });
 
 userRouter.get("/user/get/data", async (req, res) => {
@@ -109,22 +122,24 @@ userRouter.get("/user/get/data", async (req, res) => {
   }
 });
 
-userRouter.post("/user/upload/new/avatar", uploadImages.array("file"), async(req, res) => {
-  const { user_id } = req.body;
+userRouter.post(
+  "/user/upload/new/avatar",
+  uploadImages.array("file"),
+  async (req, res) => {
+    const { user_id } = req.body;
 
-  try{
-    await Users.update(
-      {user_avatar},
-      {
-      where: {user_id},
-
-      }
-    )
-    return res.status(200).json({message: 'Аватар успешно обновлен'});
-  } catch(err){
-    
-    return res.status(500).json({message: 'Ошибка обновления аватара'});
+    try {
+      await Users.update(
+        { user_avatar },
+        {
+          where: { user_id },
+        }
+      );
+      return res.status(200).json({ message: "Аватар успешно обновлен" });
+    } catch (err) {
+      return res.status(500).json({ message: "Ошибка обновления аватара" });
+    }
   }
-})
+);
 
 module.exports = userRouter;
