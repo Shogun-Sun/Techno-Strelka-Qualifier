@@ -36,7 +36,7 @@ router.post(
 
       const route = await Routes.create({
         route_status: status || "public",
-        user_id: req.session.user,
+        user_id: req.session.user.id,
       });
 
       const routesHistory = await RoutesHistory.create({

@@ -27,6 +27,10 @@ userRouter.post("/user/reg", async (req, res) => {
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(user_password, salt);
 
+    if(req.session.user){
+      return res.status(400).json({message: 'Ищвините, вы уже авторизованы'});
+    }
+
     const newUser = await Users.create({
       user_name,
       user_lastname,
@@ -36,10 +40,10 @@ userRouter.post("/user/reg", async (req, res) => {
       user_avatar: 'default-avatar-profile-icon.jpg',
     });
 
-    res.status(201).json({ message: "Вы успешно зарегистрировались", newUser });
+    return res.status(201).json({ message: "Вы успешно зарегистрировались", newUser });
   } catch (err) {
     console.error("Ошибка регистрации", err);
-    res.status(400).json({ message: "Ошибка при регистрации" });
+    return res.status(400).json({ message: "Ошибка при регистрации" });
   }
 });
 
@@ -47,6 +51,10 @@ userRouter.post("/user/log", async (req, res) => {
   const { user_email, user_password } = req.body;
 
   try {
+    if(req.session.user){
+      return res.status(400).json({message: 'Извините, вы уже авторизованы'});
+    }
+
     const user = await Users.findOne({ where: { user_email } });
 
     if (!user) {
@@ -81,23 +89,23 @@ userRouter.post("/user/log", async (req, res) => {
         avatar: user.user_avatar,
       };
 
-      res.status(200).json({ message: "Успешный вход" });
+      return res.status(200).json({ message: "Успешный вход" });
     } else {
-      res.status(401).json({ message: "Неверный пользователь или пароль" });
+      return res.status(401).json({ message: "Неверный пользователь или пароль" });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Ошибка входа" });
+    return res.status(500).json({ message: "Ошибка входа" });
   }
 });
 
 userRouter.get("/user/get/data", async (req, res) => {
   if (req.session.user) {
-    res
+    return res
       .status(200)
       .json({ message: "Данные пользователя", data: req.session.user });
   } else {
-    res.status(401).json({ message: "Извините, вы не авторизовались" });
+    return res.status(401).json({ message: "Извините, вы не авторизовались" });
   }
 });
 
