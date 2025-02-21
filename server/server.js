@@ -23,6 +23,7 @@ const app = express();
   app.use(require("./routes/pagesRoutes"));
   app.use(require("./routes/userRoutes"));
   app.use(require("./routes/routeRoutes"));
+  app.use(require("./routes/ratingsRoutes"));
 
   app.listen(Number(process.env.PORT), () => {
     console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);

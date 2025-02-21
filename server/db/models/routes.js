@@ -17,14 +17,14 @@ const Routes = sequelize.define(
       defaultValue: "public",
     },
 
-    // user_id: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: true,
-    //     references: {
-    //         model: Users,
-    //         key: 'user_id',
-    //     }
-    // },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: Users,
+            key: 'user_id',
+        }
+    },
   },
   {
     timestamps: false,
