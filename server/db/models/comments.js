@@ -12,11 +12,6 @@ const Comments = sequelize.define(
             primaryKey: true,
         },
 
-        comment_text: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-
         user_id: {
             type: DataTypes.INTEGER,
             references: {
@@ -31,6 +26,11 @@ const Comments = sequelize.define(
                 model: Routes,
                 key: 'route_id',
             },
+        },
+
+        comment_text: {
+            type: DataTypes.TEXT,
+            allowNull: false
         },
 
     },

@@ -4,19 +4,18 @@ const fs = require("fs");
 const crypto = require("crypto");
 
 const storagesDir = path.join(__dirname, "..", "storages");
-const uploadRouteImagesDir = path.join(storagesDir, "routeImages");
-const userSessionsDataDir = path.join(storagesDir, "userSessionsData");
+const uploadImagesDir = path.join(storagesDir, "images");
 
-[storagesDir, uploadRouteImagesDir, userSessionsDataDir].forEach((dir) => {
+[storagesDir, uploadImagesDir].forEach((dir) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 });
 
 
-const routeImagesStorage = multer.diskStorage({
+const imagesStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadRouteImagesDir);
+    cb(null, uploadImagesDir);
   },
 
   filename: (req, file, cb) => {
@@ -40,8 +39,8 @@ const routeImagesFilter = (req, file, cb) => {
   }
 };
 
-const uploadRouteImages = multer({
-  storage: routeImagesStorage,
+const uploadImages = multer({
+  storage: imagesStorage,
   limits: { fileSize: 4 * 1024 * 1024 },
   fileFilter: routeImagesFilter,
 });
@@ -52,4 +51,4 @@ const userDataStorage = multer.diskStorage({
   },
 });
 
-module.exports = { uploadRouteImages };
+module.exports = { uploadImages };

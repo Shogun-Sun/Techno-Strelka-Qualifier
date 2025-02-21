@@ -57,10 +57,11 @@ ratingsRouter.post("/ratingroute/get/rating/route/id", async(req, res) => {
             }
         });
 
-        res.status(200).json({message: 'Рейтинг успешно получен', likes: likeRatingData, dislikes: dislikeRatingData});
+        return res.status(200).json({message: 'Рейтинг успешно получен', likes: likeRatingData, dislikes: dislikeRatingData});
 
     }catch(err){
         console.error('Ошибка получения рейтинга маршрута', err);
+        return res.status(500).json({message: "Ошибка получения рейтинга"});
     }
 });
 

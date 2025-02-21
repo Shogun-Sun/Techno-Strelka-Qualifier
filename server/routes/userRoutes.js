@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const path = require("path");
 const Users = require("../db/models/users");
 const { Sessions } = require("../db/models/sessions");
+const { uploadImages } = require('../modules/fileManager');
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
@@ -32,6 +33,7 @@ userRouter.post("/user/reg", async (req, res) => {
       user_patronymic,
       user_email,
       user_password: hash,
+      user_avatar: 'default-avatar-profile-icon.jpg',
     });
 
     res.status(201).json({ message: "Вы успешно зарегистрировались", newUser });
@@ -76,6 +78,7 @@ userRouter.post("/user/log", async (req, res) => {
         patronymic: user.user_patronymic,
         email: user.user_email,
         role: user.user_role,
+        avatar: user.user_avatar,
       };
 
       res.status(200).json({ message: "Успешный вход" });
@@ -97,5 +100,23 @@ userRouter.get("/user/get/data", async (req, res) => {
     res.status(401).json({ message: "Извините, вы не авторизовались" });
   }
 });
+
+userRouter.post("/user/upload/new/avatar", uploadImages.array("file"), async(req, res) => {
+  const { user_id } = req.body;
+
+  try{
+    await Users.update(
+      {user_avatar},
+      {
+      where: {user_id},
+
+      }
+    )
+    return res.status(200).json({message: 'Аватар успешно обновлен'});
+  } catch(err){
+    
+    return res.status(500).json({message: 'Ошибка обновления аватара'});
+  }
+})
 
 module.exports = userRouter;
