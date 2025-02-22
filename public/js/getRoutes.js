@@ -155,91 +155,31 @@ async function renderRoute (route_id) {
         comments_div.className = "mx-3"
         comments_div.id= "comments_div"
 
-        // fetch("/comment/get/route/comments", {
-        //     method:"POST",
-        //     headers:{
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({route_id}),
-        // })
-        // .then(res=> res.json())
-        // .then((commentsResponse) => {
-        //     commentsResponse = commentsResponse.data
-        //     console.log(commentsResponse)
-        //     commentsResponse.forEach((comment) => {
-        //         let com_div = document.createElement("div")
-        //         com_div.className = "border-2 rounded-xl my-2 p-2"
+        let rating = document.createElement("div")
+            rating.className = "flex gap-5 h-10"
+            rating.id="rating"
 
-        //         let com_text = document.createElement("span")
-        //         com_text.innerText = comment.comment_text
-        //         com_text.className = "pl-14"
+        
 
-        //         let com_date = document.createElement("span")
-        //         time = comment.createdAt.split("T")
-        //         console.log(time)
-        //         com_date.innerText = time[0] + " " + time[1].slice(0, 5)
-        //         com_date.className = ""
+       
 
-        //         let com_user = document.createElement("span")
-        //         com_user.innerText = comment.User.user_lastname + " " + comment.User.user_name
-        //         com_user.className = ""
 
-        //         let user_image = document.createElement("img")
-        //         user_image.src = `/storages/usersData/${comment.User.user_avatar}`
-        //         user_image.className = "rounded-full h-10 w-10"
 
-        //         let imageAndUser = document.createElement("div")
-        //         imageAndUser.className = "flex items-end gap-4"
-        //         imageAndUser.append(user_image, com_user)
-
-        //         let userName_Date = document.createElement("div")
-        //         userName_Date.className = "flex justify-between"
-        //         userName_Date.append(imageAndUser, com_date)
-
-        //         com_div.append(userName_Date, com_text)
-        //         allComments.append(com_div)
-        //     })
-        //         comments_div.append(allComments)
-        //         if (current_user.data) {
-        //             let createComment_div = document.createElement("div")
-        //             createComment_div.classList = ""
-
-        //             let com_input = document.createElement("input")
-        //             com_input.className = ""
-
-        //             let commit_btn = document.createElement("button")
-        //             commit_btn.classList = ""
-        //             commit_btn.innerText = "Отправить"
-        //             commit_btn.onclick = () => {
-        //                 let sendMessange = {
-        //                     user_id: current_user.data.id,
-        //                     route_id: active_route.Route.route_id,
-        //                     comment_text: com_input.value
-        //                 }
-        //                 console.log(sendMessange)
-        //                 fetch("/comment/new/route/comment", {
-        //                     method:"POST",
-        //                     headers:{
-        //                         "Content-Type": "application/json",
-        //                     },
-        //                     body: JSON.stringify(sendMessange),
-        //                 })
-        //                 .then(res=> res.json())
-        //                 .then((res)=> {
-        //                     console.log(res)
-        //                 })
-        //             }
-        //             createComment_div.append(com_input, commit_btn)
-        //             comments_div.append(createComment_div)
-        //         }
-
-        // })
         distanse_time_div.append(act_distance, act_time)
         route_info.append(act_description_div, distanse_time_div)
-        main.append(back_button, routeMap, className_conteiner, route_info, userPoints, allImages, comments_div)
+        main.append(back_button, routeMap, className_conteiner, route_info, userPoints, allImages, rating, comments_div)
         document.querySelector("body").append(main)
 
+        render_rating()
         renderComments()
+
+        const socket = io('http://localhost:3000'); 
+
+        socket.on('newComment', (comments) => {
+            console.log('Соединение с сервером установлено');
+            console.log(comments);
+            renderComments()
+        });
 
         function init() {
             let map = new ymaps.Map("map", {
@@ -271,11 +211,6 @@ async function renderRoute (route_id) {
                 boundsAutoApply: true,
             })
             map.geoObjects.add(multiRoute)
-
-
-         
-
-
         }
 
         ymaps.ready(init)   
@@ -384,4 +319,75 @@ function renderComments() {
             document.querySelector("main").append(comments_div)
         
         })
+}
+
+
+function render_rating() {
+    fetch("/ratingroute/get/rating/route/id", {
+        method: "POST",
+        headers: {
+            "Content-Type": "Application/json",
+        },
+        body: JSON.stringify({route_id: active_route.Route.route_id})
+    })
+    .then(res => res.json())
+    .then((route_rating) => {
+        console.log(route_rating)
+
+        let like_div = document.createElement("div")
+        like_div.className = "flex gap-3 items-center"
+        like_div.onclick = () => {
+            fetch("/ratingroute/post/rating", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json",
+                },
+                body: JSON.stringify({route_id: active_route.Route.route_id, user_id: current_user.data.id, rating: "1"})
+            })
+            .then(res=>res.json())
+            .then((res) => {
+                console.log(res)
+                document.querySelector("#rating").innerHTML=""
+                render_rating()
+            })
+        }
+
+        let like_icon = document.createElement("img")
+        like_icon.className = "w-10, h-10"
+        like_icon.src = "/storages/images/like_icon.png"
+
+        let like_count = document.createElement("span")
+        like_count.className = ""
+        like_count.innerText =  route_rating.likes
+
+        let dislike_div = document.createElement("div")
+        dislike_div.className = "flex gap-3 items-center"
+        dislike_div.onclick = () => {
+            fetch("/ratingroute/post/rating", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json",
+                },
+                body: JSON.stringify({route_id: active_route.Route.route_id, user_id: current_user.data.id, rating: "-1"})
+            })
+            .then(res=>res.json())
+            .then((res) => {
+                console.log(res)
+                document.querySelector("#rating").innerHTML=""
+                render_rating()
+            })
+        }
+
+        let dislike_icon = document.createElement("img")
+        dislike_icon.className = "w-10 h-10 p-1"
+        dislike_icon.src = "/storages/images/dislike_icon.png"
+
+        let dislike_count = document.createElement("span")
+        dislike_count.className = ""
+        dislike_count.innerText =  route_rating.dislikes
+
+        like_div.append(like_icon, like_count)
+        dislike_div.append(dislike_icon, dislike_count)
+        document.querySelector("#rating").append(like_div, dislike_div)
+    })
 }
