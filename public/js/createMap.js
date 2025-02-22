@@ -229,6 +229,26 @@ function init() {
   };
 }
 
+fetch('', {
+  headers,
+  method
+})
+
+const socket = io('http://localhost:3000'); 
+
+socket.on('newComment', (comments) => {
+  console.log('Соединение с сервером установлено');
+  console.log(comments);
+});
+
+socket.on('connect', () => {
+  console.log(`Подключен к серверу с id: ${socket.id}`);
+});
+
+socket.on('disconnect', () => {
+  console.log('Отсоединение от сервера');
+});
+
 document.querySelector("#inputpicture").addEventListener("change", (event) => {
   const files = event.target.files;
 
