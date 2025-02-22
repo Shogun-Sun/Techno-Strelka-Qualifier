@@ -14,7 +14,7 @@ fetch("/user/get/data", {
 })
 .then(res=>res.json())
 .then((userData) => {
-    console.log(userData)
+    // console.log(userData)
     if(userData.message != "Извините, вы не авторизовались") {
         if (userData.data.role == "user") {
             moderation_div.forEach(elem => elem.remove())
@@ -31,13 +31,13 @@ fetch("/user/get/data", {
                 })
                 .then(res=> res.json())
                 .then((userOutMessage) => {
-                    console.log(userOutMessage)
+                    // console.log(userOutMessage)
                 })
             }
         })
         
     } else {
-        console.log(moderation_div)
+        // console.log(moderation_div)
         moderation_div.forEach(elem => elem.remove())   
     }
 })

@@ -16,11 +16,11 @@ const io = socketIo(server);
 const Comments = require('./db/models/comments');
 
 // WebSocket
-io.on("connection", async (socket) => {
-  const comments = await Comments.findAll();
-  socket.emit("comments", comments);
+// io.on("connection", async (socket) => {
+//   const comments = await Comments.findAll();
+//   socket.emit("comments", comments);
  
-});
+// });
 
 (async () => {
   await connectDB();

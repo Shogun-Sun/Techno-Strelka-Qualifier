@@ -5,6 +5,7 @@ const path = require("path");
 const Users = require("../db/models/users");
 const { Sessions } = require("../db/models/sessions");
 const { uploadImages } = require("../modules/fileManager");
+const io = require("../server");
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
@@ -31,13 +32,22 @@ userRouter.post("/user/reg", async (req, res) => {
       return res.status(400).json({ message: "Ищвините, вы уже авторизованы" });
     }
 
+    const userCheck = await Users.findOne({
+      where: { user_email },
+    });
+    if (userCheck) {
+      return res
+        .status(409)
+        .json({ message: "Данный пользователь уже существует" });
+    }
+
     const newUser = await Users.create({
       user_name,
       user_lastname,
       user_patronymic,
       user_email,
       user_password: hash,
-      user_avatar: "default-avatar-profile-icon.jpg",
+      user_avatar: "cyclist.jpg",
     });
 
     return res
@@ -124,9 +134,10 @@ userRouter.get("/user/get/data", async (req, res) => {
 
 userRouter.post(
   "/user/upload/new/avatar",
-  uploadImages.array("file"),
+  uploadImages.single("file"),
   async (req, res) => {
     const { user_id } = req.body;
+    const user_avatar = req.file.filename;
 
     try {
       await Users.update(
@@ -135,6 +146,10 @@ userRouter.post(
           where: { user_id },
         }
       );
+      io.emit("newAvatar", user_avatar);
+
+      req.session.user.avatar = user_avatar;
+
       return res.status(200).json({ message: "Аватар успешно обновлен" });
     } catch (err) {
       return res.status(500).json({ message: "Ошибка обновления аватара" });
@@ -145,7 +160,7 @@ userRouter.post(
 userRouter.patch("/user/update/user/data", async (req, res) => {
   const { user_id, user_name, user_lastname, user_patronymic, user_email } =
     req.body;
-
+  console.log(user_id, user_name, user_lastname, user_patronymic, user_email);
   if (!user_id) {
     return res.status(400).json({ message: "user_id обязателен" });
   }
