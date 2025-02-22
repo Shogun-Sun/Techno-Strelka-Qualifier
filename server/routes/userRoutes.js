@@ -142,4 +142,32 @@ userRouter.post(
   }
 );
 
+userRouter.patch("/user/update/user/data", async (req, res) => {
+  const { user_id, user_name, user_lastname, user_patronymic, user_email } =
+    req.body;
+
+  if (!user_id) {
+    return res.status(400).json({ message: "user_id обязателен" });
+  }
+
+  if (!req.session.user) {
+    return res.status(404).json({ message: "Вы не авторизованы" });
+  }
+  try {
+    const [updatedRows] = await Users.update(
+      { user_name, user_email, user_lastname, user_patronymic },
+      { where: { user_id } }
+    );
+
+    if (updatedRows === 0) {
+      return res.status(404).json({ message: "Пользователь не найден" });
+    }
+
+    return res.status(200).json({ message: "Данные успешно обновлены" });
+  } catch (err) {
+    console.error("Ошибка обновления данных:", err);
+    return res.status(500).json({ message: "Ошибка обновления данных" });
+  }
+});
+
 module.exports = userRouter;
