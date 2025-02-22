@@ -4,6 +4,7 @@ const Comments = require("../db/models/comments");
 const Routes = require("../db/models/routes");
 const ratingsRouter = require("./ratingsRoutes");
 const Users = require("../db/models/users");
+const io = require('../server');
 
 commentRouter.post("/comment/new/route/comment", async (req, res) => {
   const { user_id, route_id, comment_text } = req.body;
@@ -13,15 +14,6 @@ commentRouter.post("/comment/new/route/comment", async (req, res) => {
       return res
         .status(400)
         .json({ message: "Комментарий должен содержать от 3 до 500 символов" });
-    }
-
-    const forbiddenWords = ["хуй", "пизда", "хуйня"];
-    for (let word of forbiddenWords) {
-      if (comment_text.includes(word)) {
-        return res
-          .status(400)
-          .json({ message: "Комментарий содержит неподобающие слова" });
-      }
     }
 
     if (!req.session.user) {
@@ -47,11 +39,13 @@ commentRouter.post("/comment/new/route/comment", async (req, res) => {
         .json({ message: "Вы уже оставили этот комментарий" });
     }
 
-    await Comments.create({
+    const newComment = await Comments.create({
       user_id,
       route_id,
       comment_text,
     });
+
+    io.emit("newComment", newComment);
 
     return res.status(200).json({ message: "Комментарий успешно опубликован" });
   } catch (err) {

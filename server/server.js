@@ -4,11 +4,23 @@ const path = require("path");
 const swaggerUi = require("swagger-ui-express");
 const openApiDocumentation = require("./swagger.json");
 const session = require("./modules/sessionManager");
-
 const syncModels = require("./db/syncModels");
 const { connectDB } = require("./db/database");
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+const Comments = require('./db/models/comments');
+
+// WebSocket
+io.on("connection", async (socket) => {
+  const comments = await Comments.findAll();
+  socket.emit("comments", comments);
+ 
+});
 
 (async () => {
   await connectDB();
@@ -26,10 +38,11 @@ const app = express();
   app.use(require("./routes/ratingsRoutes"));
   app.use(require("./routes/commentsRoutes"));
 
-  app.listen(Number(process.env.PORT), () => {
+  server.listen(Number(process.env.PORT), () => {
     console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
-    console.log(
-      `Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
+    console.log(`Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
     );
   });
 })();
+
+module.exports = io;
