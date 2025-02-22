@@ -2,6 +2,45 @@ const openModalButton = document.getElementById('openModal');
 const modal = document.getElementById('modal');
 const closeModalButton = document.getElementById('closeModal');
 const modalContent = document.getElementById("mainModal");
+const log = document.querySelectorAll(".log")
+const moderation_div = document.querySelectorAll(".moderation_div")
+
+
+fetch("/user/get/data", {
+    method:"GET",
+    headers:{
+        "Content-Type": "application/json",
+    }
+})
+.then(res=>res.json())
+.then((userData) => {
+    console.log(userData)
+    if(userData.message != "Извините, вы не авторизовались") {
+        if (userData.data.role == "user") {
+            moderation_div.forEach(elem => elem.remove())
+        }
+        log.forEach((elem) => {
+            console.log(elem)
+            elem.innerHTML = "Log out"
+            elem.onclick = () => {
+                fetch("/user/logout", {
+                    method:"Post",
+                    headers:{
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then(res=> res.json())
+                .then((userOutMessage) => {
+                    console.log(userOutMessage)
+                })
+            }
+        })
+        
+    } else {
+        console.log(moderation_div)
+        moderation_div.forEach(elem => elem.remove())   
+    }
+})
 
 openModalButton.addEventListener('click', () => {
     modal.classList.remove('hidden');

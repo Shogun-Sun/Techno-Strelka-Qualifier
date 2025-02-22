@@ -1,9 +1,26 @@
 let routes = document.querySelector("#routes")
+let current_user
+let active_route
+
+let currentDate = new Date();
+console.log(currentDate.getMonth());
 
 document.addEventListener("DOMContentLoaded", getAllRoutes)
 
 
 function getAllRoutes() {
+    fetch("/user/get/data", {
+        method:"GET",
+        headers:{
+            "Content-Type": "application/json",
+        },
+    })
+    .then(res=> res.json())
+    .then((res) => {
+        current_user = res
+        console.log(current_user)
+    })
+    
     fetch("/route/get/all/public/routes/data", {
         method:"GET",
         headers:{
@@ -19,7 +36,7 @@ function getAllRoutes() {
 
             let routeCard = document.createElement("div")
             routeCard.className = `flex flex-col justify-between items-center border-2 border-gray-900 bg-cover h-52`
-            routeCard.style.backgroundImage = `url(./storages/routeImages/${allCardImages[0]})`
+            routeCard.style.backgroundImage = `url(./storages/images/${allCardImages[0]})`
             let routeName = document.createElement("span")
             routeName.className="text-white"
             routeName.innerText = route.route_name? route.route_name : "название отсутствует"
@@ -53,7 +70,7 @@ function getAllRoutes() {
     })
 }
 
-function renderRoute (route_id) {
+async function renderRoute (route_id) {
     fetch("/route/get/route/by/id", {
         method:"POST",
         headers:{
@@ -62,8 +79,8 @@ function renderRoute (route_id) {
         body: JSON.stringify({route_id}),
     })
     .then(res => res.json())
-    .then((active_route) => {
-        active_route = active_route.data
+    .then((responseRoute) => {
+        active_route = responseRoute.data
         console.log(active_route)
         document.querySelector("main").remove()
         let main = document.createElement("main")
@@ -114,7 +131,7 @@ function renderRoute (route_id) {
         let act_images = active_route.route_images.split(",")
         act_images.forEach((image) => {
             let img = document.createElement("img")
-            img.src = `./storages/routeImages/${image}`
+            img.src = `./storages/images/${image}`
             img.classList = "max-h-full h-auto"
             allImages.append(img)
         })
@@ -134,10 +151,95 @@ function renderRoute (route_id) {
         let route_info = document.createElement("div")
         route_info.classList = "flex flex-col"
 
-        distanse_time_div.append( act_distance, act_time)
+        let comments_div = document.createElement("div")
+        comments_div.className = "mx-3"
+        comments_div.id= "comments_div"
+
+        // fetch("/comment/get/route/comments", {
+        //     method:"POST",
+        //     headers:{
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify({route_id}),
+        // })
+        // .then(res=> res.json())
+        // .then((commentsResponse) => {
+        //     commentsResponse = commentsResponse.data
+        //     console.log(commentsResponse)
+        //     commentsResponse.forEach((comment) => {
+        //         let com_div = document.createElement("div")
+        //         com_div.className = "border-2 rounded-xl my-2 p-2"
+
+        //         let com_text = document.createElement("span")
+        //         com_text.innerText = comment.comment_text
+        //         com_text.className = "pl-14"
+
+        //         let com_date = document.createElement("span")
+        //         time = comment.createdAt.split("T")
+        //         console.log(time)
+        //         com_date.innerText = time[0] + " " + time[1].slice(0, 5)
+        //         com_date.className = ""
+
+        //         let com_user = document.createElement("span")
+        //         com_user.innerText = comment.User.user_lastname + " " + comment.User.user_name
+        //         com_user.className = ""
+
+        //         let user_image = document.createElement("img")
+        //         user_image.src = `/storages/usersData/${comment.User.user_avatar}`
+        //         user_image.className = "rounded-full h-10 w-10"
+
+        //         let imageAndUser = document.createElement("div")
+        //         imageAndUser.className = "flex items-end gap-4"
+        //         imageAndUser.append(user_image, com_user)
+
+        //         let userName_Date = document.createElement("div")
+        //         userName_Date.className = "flex justify-between"
+        //         userName_Date.append(imageAndUser, com_date)
+
+        //         com_div.append(userName_Date, com_text)
+        //         allComments.append(com_div)
+        //     })
+        //         comments_div.append(allComments)
+        //         if (current_user.data) {
+        //             let createComment_div = document.createElement("div")
+        //             createComment_div.classList = ""
+
+        //             let com_input = document.createElement("input")
+        //             com_input.className = ""
+
+        //             let commit_btn = document.createElement("button")
+        //             commit_btn.classList = ""
+        //             commit_btn.innerText = "Отправить"
+        //             commit_btn.onclick = () => {
+        //                 let sendMessange = {
+        //                     user_id: current_user.data.id,
+        //                     route_id: active_route.Route.route_id,
+        //                     comment_text: com_input.value
+        //                 }
+        //                 console.log(sendMessange)
+        //                 fetch("/comment/new/route/comment", {
+        //                     method:"POST",
+        //                     headers:{
+        //                         "Content-Type": "application/json",
+        //                     },
+        //                     body: JSON.stringify(sendMessange),
+        //                 })
+        //                 .then(res=> res.json())
+        //                 .then((res)=> {
+        //                     console.log(res)
+        //                 })
+        //             }
+        //             createComment_div.append(com_input, commit_btn)
+        //             comments_div.append(createComment_div)
+        //         }
+
+        // })
+        distanse_time_div.append(act_distance, act_time)
         route_info.append(act_description_div, distanse_time_div)
-        main.append(back_button, routeMap, className_conteiner, route_info, userPoints, allImages)
+        main.append(back_button, routeMap, className_conteiner, route_info, userPoints, allImages, comments_div)
         document.querySelector("body").append(main)
+
+        renderComments()
 
         function init() {
             let map = new ymaps.Map("map", {
@@ -183,4 +285,103 @@ function renderRoute (route_id) {
         alert("Маршрут недоступен")
         console.log(err)
     })
+}
+
+
+
+
+function renderComments() {
+    console.log(active_route.Route.route_id)
+    fetch("/comment/get/route/comments", {
+            method:"POST",
+            headers:{
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({route_id: active_route.Route.route_id}),
+        })
+        .then(res=> res.json())
+        .then((commentsResponse) => {
+            commentsResponse = commentsResponse.data
+            console.log(commentsResponse)
+
+            let comments_div = document.createElement("div")
+            comments_div.className = "mx-3"
+            comments_div.id= "comments_div"
+
+            let allComments = document.createElement("div")
+            allComments.className = ""
+
+            commentsResponse.forEach((comment) => {
+
+                let com_div = document.createElement("div")
+                com_div.className = "border-2 rounded-xl my-2 p-2"
+
+                let com_text = document.createElement("span")
+                com_text.innerText = comment.comment_text
+                com_text.className = "pl-14"
+
+                let com_date = document.createElement("span")
+                time = comment.createdAt.split("T")
+                console.log(time)
+                com_date.innerText = time[0] + " " + time[1].slice(0, 5)
+                com_date.className = ""
+
+                let com_user = document.createElement("span")
+                com_user.innerText = comment.User.user_lastname + " " + comment.User.user_name
+                com_user.className = ""
+
+                let user_image = document.createElement("img")
+                user_image.src = `/storages/usersData/${comment.User.user_avatar}`
+                user_image.className = "rounded-full h-10 w-10"
+
+                let imageAndUser = document.createElement("div")
+                imageAndUser.className = "flex items-end gap-4"
+                imageAndUser.append(user_image, com_user)
+
+                let userName_Date = document.createElement("div")
+                userName_Date.className = "flex justify-between"
+                userName_Date.append(imageAndUser, com_date)
+
+                com_div.append(userName_Date, com_text)
+                allComments.append(com_div)
+            })
+            comments_div.append(allComments)
+            if (current_user.data) {
+                let createComment_div = document.createElement("div")
+                createComment_div.classList = ""
+
+                let com_input = document.createElement("input")
+                com_input.className = ""
+
+                let commit_btn = document.createElement("button")
+                commit_btn.classList = ""
+                commit_btn.innerText = "Отправить"
+                commit_btn.onclick = () => {
+                    let sendMessange = {
+                        user_id: current_user.data.id,
+                        route_id: active_route.Route.route_id,
+                        comment_text: com_input.value
+                    }
+                    console.log(sendMessange)
+                    fetch("/comment/new/route/comment", {
+                        method:"POST",
+                        headers:{
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(sendMessange),
+                    })
+                    .then(res=> res.json())
+                    .then((res)=> {
+                        console.log(res)
+                        renderComments()
+                    })
+                }
+                createComment_div.append(com_input, commit_btn)
+                comments_div.append(createComment_div)
+            }
+            
+            document.querySelector("#comments_div").remove()
+            document.querySelector("main").append(comments_div)
+        
+        })
 }

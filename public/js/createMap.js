@@ -225,7 +225,6 @@ function init() {
     });
 
     const uploadData = await uploadResponse.json();
-    alert("Маршрут успешно сохранен");
     window.location.href = "/";
   };
 }
