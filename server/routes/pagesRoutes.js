@@ -20,7 +20,7 @@ router.get("/profile", (req, res) => {
   res.sendFile(path.join(pagesPath, "profile.html"));
 });
 router.get("/allroutes", (req, res) => {
-  res.sendFile(path.join(pagesPath, "getroutes.html"))
+  res.sendFile(path.join(pagesPath, "getRoutes.html"))
 })
 
 module.exports = router;

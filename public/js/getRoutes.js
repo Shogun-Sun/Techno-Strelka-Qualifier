@@ -273,7 +273,7 @@ function renderComments() {
                 com_user.className = ""
 
                 let user_image = document.createElement("img")
-                user_image.src = `/storages/usersData/${comment.User.user_avatar}`
+                user_image.src = `/storages/images/${comment.User.user_avatar}`
                 user_image.className = "rounded-full h-10 w-10 border"
 
                 let imageAndUser = document.createElement("div")
