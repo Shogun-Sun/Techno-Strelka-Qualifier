@@ -5,11 +5,16 @@ const Points = require("../db/models/points");
 const Routes = require("../db/models/routes");
 const RoutesHistory = require("../db/models/routesHistory");
 const { uploadImages } = require("../modules/fileManager");
+const { checkUnSession, checkSession } = require("../modules/checks");
+const roleCheck = require("../modules/roleCheck");
 
 router.post(
   "/route/upload/new/route",
+  roleCheck(["user"]),
+  checkUnSession,
   uploadImages.array("file"),
   async (req, res) => {
+    const user_id = req.session.user.id;
     const {
       route_description,
       route_name,
@@ -30,13 +35,9 @@ router.post(
       const images = req.files.map((f) => f.filename);
       const imagesPaths = images.join(",");
 
-      if(!req.session.user){
-        return res.status(401).json({message: 'Извините, вы не авторизованы'});
-      };
-
       const route = await Routes.create({
         route_status: status || "public",
-        user_id: req.session.user.id,
+        user_id: user_id,
       });
 
       const routesHistory = await RoutesHistory.create({
@@ -62,6 +63,7 @@ router.post(
     }
   }
 );
+
 router.get("/route/get/all/public/routes/data", async (req, res) => {
   try {
     const routes_name = await RoutesHistory.findAll({
@@ -114,8 +116,10 @@ router.post("/route/get/route/by/id", async (req, res) => {
     return res.status(400).json({ message: "Ошибка получения маршрута" });
   }
 });
+
 router.post(
   "/route/update/route",
+  checkUnSession,
   uploadImages.array("file"),
   async (req, res) => {
     const {
@@ -155,7 +159,8 @@ router.post(
     }
   }
 );
-router.delete("/route/delete/route", async (req, res) => {
+
+router.delete("/route/delete/route", checkUnSession, async (req, res) => {
   const { route_id } = req.body;
   const transaction = await sequelize.transaction();
   try {
@@ -180,4 +185,18 @@ router.delete("/route/delete/route", async (req, res) => {
   }
 });
 
+
+  router.get("/rote/get/all/user/routes", checkUnSession, async(req, res) =>{
+    const user_id = req.session.user.id;
+    try{
+      const allUserRoutes = await Routes.findAll({
+        where: { user_id },
+      });
+
+      return res.status(200).json({message: "Маршруты успешно получены", data: allUserRoutes});
+    }catch(err){
+      console.error("Ошибка получения маршрутов пользователя:", err);
+      return res.status(500).json({message: "Ошибкаполучения маршрутов"});
+    }
+  })
 module.exports = router;

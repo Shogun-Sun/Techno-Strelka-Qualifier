@@ -4,7 +4,8 @@ const Ratings = require("../db/models/ratings");
 const Routes = require("../db/models/routes");
 
 ratingsRouter.post("/ratingroute/post/rating", async (req, res) => {
-  const { route_id, user_id, rating } = req.body;
+  const user_id = req.session.user.id;
+  const { route_id, rating } = req.body;
   
   try {
     if (!req.session.user) {

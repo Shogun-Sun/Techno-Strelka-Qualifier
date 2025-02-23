@@ -5,19 +5,17 @@ const Routes = require("../db/models/routes");
 const ratingsRouter = require("./ratingsRoutes");
 const Users = require("../db/models/users");
 const io = require('../server');
+const { checkUnSession } = require("../modules/checks");
 
-commentRouter.post("/comment/new/route/comment", async (req, res) => {
-  const { user_id, route_id, comment_text } = req.body;
+commentRouter.post("/comment/new/route/comment", checkUnSession, async (req, res) => {
+  const user_id = req.session.user.id;
+  const { route_id, comment_text } = req.body;
 
   try {
     if (!comment_text || comment_text.length < 3 || comment_text.length > 500) {
       return res
         .status(400)
         .json({ message: "Комментарий должен содержать от 3 до 500 символов" });
-    }
-
-    if (!req.session.user) {
-      return res.status(401).json({ message: "Извините, вы не авторизованы" });
     }
 
     const checkRoute = await Routes.findOne({

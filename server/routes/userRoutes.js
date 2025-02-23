@@ -5,7 +5,8 @@ const path = require("path");
 const Users = require("../db/models/users");
 const { Sessions } = require("../db/models/sessions");
 const { uploadImages } = require("../modules/fileManager");
-const io = require("../server");
+const { checkSession, checkUnSession } = require("../modules/checks");
+const fs = require("fs").promises;
 
 const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 
@@ -13,7 +14,7 @@ userRouter.get("/users/log-reg/page", (req, res) => {
   res.sendFile(path.join(pagesPath, "login.html"));
 });
 
-userRouter.post("/user/reg", async (req, res) => {
+userRouter.post("/user/reg", checkSession, async (req, res) => {
   const {
     user_name,
     user_lastname,
@@ -27,10 +28,6 @@ userRouter.post("/user/reg", async (req, res) => {
 
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = await bcrypt.hash(user_password, salt);
-
-    if (req.session.user) {
-      return res.status(400).json({ message: "Ищвините, вы уже авторизованы" });
-    }
 
     const userCheck = await Users.findOne({
       where: { user_email },
@@ -59,14 +56,10 @@ userRouter.post("/user/reg", async (req, res) => {
   }
 });
 
-userRouter.post("/user/log", async (req, res) => {
+userRouter.post("/user/log", checkSession, async (req, res) => {
   const { user_email, user_password } = req.body;
 
   try {
-    if (req.session.user) {
-      return res.status(400).json({ message: "Извините, вы уже авторизованы" });
-    }
-
     const user = await Users.findOne({ where: { user_email } });
 
     if (!user) {
@@ -122,7 +115,7 @@ userRouter.post("/user/logout", async (req, res) => {
   });
 });
 
-userRouter.get("/user/get/data", async (req, res) => {
+userRouter.get("/user/get/data", checkUnSession, async (req, res) => {
   if (req.session.user) {
     return res
       .status(200)
@@ -134,12 +127,28 @@ userRouter.get("/user/get/data", async (req, res) => {
 
 userRouter.post(
   "/user/upload/new/avatar",
+  checkUnSession,
   uploadImages.single("file"),
   async (req, res) => {
-    const { user_id } = req.body;
+    const user_id = req.session.user.id;
     const user_avatar = req.file.filename;
 
     try {
+      const oldAvatar = await Users.findOne({
+        attributes: ["user_avatar"],
+        where: { user_id },
+      });
+
+      await fs.unlink(
+        path.join(
+          __dirname,
+          "..",
+          "storages",
+          "images",
+          `${oldAvatar.user_avatar}`
+        )
+      );
+
       await Users.update(
         { user_avatar },
         {
@@ -156,17 +165,9 @@ userRouter.post(
   }
 );
 
-userRouter.patch("/user/update/user/data", async (req, res) => {
-  const { user_id, user_name, user_lastname, user_patronymic, user_email } =
-    req.body;
-  console.log(user_id, user_name, user_lastname, user_patronymic, user_email);
-  if (!user_id) {
-    return res.status(400).json({ message: "user_id обязателен" });
-  }
-
-  if (!req.session.user) {
-    return res.status(404).json({ message: "Вы не авторизованы" });
-  }
+userRouter.patch("/user/update/user/data", checkUnSession, async (req, res) => {
+  const { user_name, user_lastname, user_patronymic, user_email } = req.body;
+  const user_id = req.session.user.id;
   try {
     const [updatedRows] = await Users.update(
       { user_name, user_email, user_lastname, user_patronymic },
@@ -178,13 +179,13 @@ userRouter.patch("/user/update/user/data", async (req, res) => {
     }
 
     const new_userdata = await Users.findOne({
-      where: {user_id},
-    }); 
-    
-        req.session.user.username = new_userdata.user_name;
-        req.session.user.lastname = new_userdata.user_lastname;
-        req.session.user.patronymic = new_userdata.user_patronymic;         
-        req.session.user.email = new_userdata.user_email;
+      where: { user_id },
+    });
+
+    req.session.user.username = new_userdata.user_name;
+    req.session.user.lastname = new_userdata.user_lastname;
+    req.session.user.patronymic = new_userdata.user_patronymic;
+    req.session.user.email = new_userdata.user_email;
 
     return res.status(200).json({ message: "Данные успешно обновлены" });
   } catch (err) {
