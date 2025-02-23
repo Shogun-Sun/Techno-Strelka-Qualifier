@@ -35,28 +35,39 @@ function getAllRoutes() {
             let allCardImages = route.route_images.split(",")
 
             let routeCard = document.createElement("div")
-            routeCard.className = `flex flex-col justify-between items-center border-2 border-gray-900 bg-cover h-52`
+            routeCard.className = `flex flex-col justify-between items-center bg-cover h-64 shadow-prl dark:shadow-prd rounded-10 p-3 w-[295px] shrink-0`
             routeCard.style.backgroundImage = `url(./storages/images/${allCardImages[0]})`
             let routeName = document.createElement("span")
-            routeName.className="text-white"
-            routeName.innerText = route.route_name? route.route_name : "название отсутствует"
+            routeName.className="text-gray-100 text-xl"
+            routeName.innerText = route.route_name ? route.route_name : "название отсутствует"
 
 
             let desc_time_div = document.createElement("div")
-            desc_time_div.className = "flex flex-row justify-between w-full text-sm px-3"
+            desc_time_div.className = "flex justify-between w-full text-base items-center text-gray-200"
             let buttom = document.createElement("div")
-            buttom.className = "flex flex-col items-center w-full text-white"
+            buttom.className = "flex flex-col items-center w-full text-gray-200"
 
 
             let description = document.createElement("span")
-            description.innerText = route.route_description.length < 10 ? route.route_description : route.route_description.substr(0,10) + "..."
-            description.className = ""
-            let distanse = document.createElement("span")
-            distanse.innerText = route.route_distance
-            distanse.className = ""
+            description.innerText = route.route_description.length < 24 ? route.route_description : route.route_description.substr(0,24) + "..."
+            description.className = "mt-2";
+            let distanse = document.createElement("span");
+            distanse.innerHTML = `
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-none mr-1">
+                <path d="M6.81207 6.05324C9.53921 2.87158 14.4614 2.87158 17.1885 6.05324C19.382 8.61225 19.382 12.3884 17.1885 14.9474L13.0785 19.7424C12.7864 20.0831 12.6404 20.2535 12.4797 20.3413C12.1809 20.5045 11.8197 20.5045 11.5209 20.3413C11.3602 20.2535 11.2142 20.0831 10.9221 19.7424L6.81207 14.9474C4.61863 12.3884 4.61863 8.61225 6.81207 6.05324Z" class="stroke-2 stroke-gray-200"></path>
+                <path d="M14 10C14 11.1046 13.1046 12 12 12C10.8954 12 10 11.1046 10 10C10 8.89543 10.8954 8 12 8C13.1046 8 14 8.89543 14 10Z"class="stroke-2 stroke-gray-200"></path>
+            </svg>`;
+            distanse.insertAdjacentHTML('beforeend',`${route.route_distance}`);
+            distanse.className = "flex";
+
             let time = document.createElement("span")
-            time.innerText = route.route_time
-            time.classList = ""
+            time.innerHTML = `
+            <svg class="w-6 h-6 stroke-2 stroke-gray-200 fill-none mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                 <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            </svg>
+            `;
+            time.insertAdjacentHTML('beforeend', `${route.route_time}`);
+            time.classList = "flex";
 
             desc_time_div.append(distanse, time)
             buttom.append(desc_time_div, description)
@@ -84,61 +95,62 @@ async function renderRoute (route_id) {
         console.log(active_route)
         document.querySelector("main").remove()
         let main = document.createElement("main")
+        main.className = 'mt-14 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 mb-12';
         let routeMap = document.createElement("div")
         routeMap.id = "map"
-        routeMap.className = "h-[300px] w-[300px]"
+        routeMap.className = "h-[700px] w-full"
 
         let back_button = document.createElement("button")
-        back_button.className = "border-3"
-        back_button.innerText = "Назад"
+        back_button.className = " flex justify-between items-center text-sm w-10 mb-2 rounded-10 bg-yellow-500 text-gray-200 px-3 py-2";
+        back_button.innerHTML =`
+        <svg class="w-6 h-6 stroke-2 stroke-slate-900 dark:stroke-gray-200 fill-none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M3 9h13a5 5 0 0 1 0 10H7M3 9l4-4M3 9l4 4"/>
+        </svg>
+        `;
+        
         back_button.onclick = () => {location.reload()}
 
-        let userPoints_lable = document.createElement("lable")
-        userPoints_lable.innerText = "Точки маршрута:"
-        userPoints_lable.className = ""
-
         let className_conteiner = document.createElement("div")
+        className_conteiner.id = 'className_conteiner';
         className_conteiner.className = "flex justify-center"
-        let userPoints = document.createElement("div")
-        userPoints.className = "mt-5"
-        userPoints.append(userPoints_lable)
-
-
         let route_name = document.createElement("span")
-        route_name.className = "text-5xl"
+        route_name.className = "text-4xl font-semibold p-3 text-slate-900"
         route_name.innerText = active_route.route_name
-
         className_conteiner.append(route_name)
+
+
+        let act_description_lable = document.createElement("lable")
+        act_description_lable.innerText = "Описание маршрута:"
+        act_description_lable.className = "text-2xl text-slate-900 dark:text-gray-200"
 
         let act_description = document.createElement("p")
         act_description.innerText = active_route.route_description
-        act_description.classList = ""
+        act_description.classList = "text-lg text-slate-900 dark:text-gray-300 px-3 mb-4"
 
         let act_distance = document.createElement("span")
-        act_distance.innerText = `Дистанция маршрута: ${active_route.route_distance}`
-        act_distance.classList = ""
+        act_distance.innerText = `Дистанция - ${active_route.route_distance}`
+        act_distance.classList = "text-lg text-yellow-600"
 
         let act_time = document.createElement("span")
-        act_time.innerText = `время прохождения маршрута: ${active_route.route_time}`
-        act_time.classList = ""
+        act_time.innerText = `время прохождения - ${active_route.route_time}`
+        act_time.classList = " text-lg text-yellow-600"
+
+        let userPoints = document.createElement("div")
+        userPoints.className = "mt-5"
+        let userPoints_lable = document.createElement("lable")
+        userPoints_lable.innerText = "Посещаемые места"
+        userPoints_lable.className = "text-slate-900 dark:text-gray-200 text-2xl mb-2 "
+        userPoints.append(userPoints_lable)
 
         let allImages = document.createElement("div")
-        allImages.classList = "grid grid-cols-5 gap-5"
-        let images_desc = document.createElement("lable")
-        images_desc.className = "col-span-5 place-self-center p-0"
-        images_desc.innerText = "Фотографии этого маршрута:"
-        allImages.append(images_desc)
+        allImages.classList = "flex flex-row flex-wrap justify-around gap-8 mt-8"
         let act_images = active_route.route_images.split(",")
         act_images.forEach((image) => {
             let img = document.createElement("img")
             img.src = `./storages/images/${image}`
-            img.classList = "max-h-full h-auto"
+            img.classList = "h-64 w-auto shrink-0 rounded-10"
             allImages.append(img)
         })
-
-        let act_description_lable = document.createElement("lable")
-        act_description_lable.innerText = "Описание маршрута:"
-        act_description_lable.className = ""
 
 
         let act_description_div = document.createElement("div")
@@ -152,18 +164,12 @@ async function renderRoute (route_id) {
         route_info.classList = "flex flex-col"
 
         let comments_div = document.createElement("div")
-        comments_div.className = "mx-3"
+        comments_div.className = "mx-3 "
         comments_div.id= "comments_div"
 
         let rating = document.createElement("div")
-            rating.className = "flex gap-5 h-10"
+            rating.className = "flex gap-8 h-10 items-center mb-4"
             rating.id="rating"
-
-        
-
-       
-
-
 
         distanse_time_div.append(act_distance, act_time)
         route_info.append(act_description_div, distanse_time_div)
@@ -194,12 +200,12 @@ async function renderRoute (route_id) {
                 point_div.className = ""
 
                 let point_name = document.createElement("span")
-                point_name.className = "mx-3 border-2 px-3"
+                point_name.className = "px-3 text-2xl text-yellow-600"
                 point_name.innerText = point.name
 
                 let point_addres = document.createElement("span")
-                point_addres.className = "mx-3 border-2 px-3"
-                point_addres.innerText = `Адрес:  ${point.addres}`
+                point_addres.className = "px text-lg text-slate-900"
+                point_addres.innerText = `По адресу:  ${point.addres}`
 
                 point_div.append(point_name, point_addres)
                 userPoints.append(point_div)
@@ -244,22 +250,23 @@ function renderComments() {
             comments_div.id= "comments_div"
 
             let allComments = document.createElement("div")
-            allComments.className = ""
+            allComments.id =' allComments';
+            allComments.className = "px-8 text-xl text-slate-900 dark:text-gray-300 py-4 flex flex-col gap-6 rounded-10 shadow-xl shadow-slate-400 bg-white dark:shadow-slate-950 dark:bg-slate-900"
 
             commentsResponse.forEach((comment) => {
 
                 let com_div = document.createElement("div")
-                com_div.className = "border-2 rounded-xl my-2 p-2"
+                com_div.className = "border-2 border-yellow-500 rounded-10 bg-none w-full p-3"
 
                 let com_text = document.createElement("span")
                 com_text.innerText = comment.comment_text
-                com_text.className = "pl-14"
+                com_text.className = ""
 
                 let com_date = document.createElement("span")
                 time = comment.createdAt.split("T")
                 console.log(time)
                 com_date.innerText = time[0] + " " + time[1].slice(0, 5)
-                com_date.className = ""
+                com_date.className = "text-slate-900 dark:text-gray-300"
 
                 let com_user = document.createElement("span")
                 com_user.innerText = comment.User.user_lastname + " " + comment.User.user_name
@@ -267,7 +274,7 @@ function renderComments() {
 
                 let user_image = document.createElement("img")
                 user_image.src = `/storages/usersData/${comment.User.user_avatar}`
-                user_image.className = "rounded-full h-10 w-10"
+                user_image.className = "rounded-full h-10 w-10 border"
 
                 let imageAndUser = document.createElement("div")
                 imageAndUser.className = "flex items-end gap-4"
@@ -283,13 +290,14 @@ function renderComments() {
             comments_div.append(allComments)
             if (current_user.data) {
                 let createComment_div = document.createElement("div")
-                createComment_div.classList = ""
+                createComment_div.id = 'createComment_div'; 
+                createComment_div.className = "flex gap-4"
 
                 let com_input = document.createElement("input")
-                com_input.className = ""
+                com_input.className = "border-2 border-gray-500 w-full rounded-10 focus:outline-yellow-500 px-2 text-slate-900"
 
                 let commit_btn = document.createElement("button")
-                commit_btn.classList = ""
+                commit_btn.className = "text-white text-lg px-4 py-2 rounded-10 bg-yellow-500"
                 commit_btn.innerText = "Отправить"
                 commit_btn.onclick = () => {
                     let sendMessange = {
@@ -312,7 +320,7 @@ function renderComments() {
                     })
                 }
                 createComment_div.append(com_input, commit_btn)
-                comments_div.append(createComment_div)
+                allComments.append(createComment_div)
             }
             
             document.querySelector("#comments_div").remove()
@@ -335,7 +343,8 @@ function render_rating() {
         console.log(route_rating)
 
         let like_div = document.createElement("div")
-        like_div.className = "flex gap-3 items-center"
+        like_div.id = 'like_div';
+        like_div.className = "flex gap-3 items-center justify-between"
         like_div.onclick = () => {
             fetch("/ratingroute/post/rating", {
                 method: "POST",
@@ -352,9 +361,13 @@ function render_rating() {
             })
         }
 
-        let like_icon = document.createElement("img")
-        like_icon.className = "w-10, h-10"
-        like_icon.src = "/storages/images/like_icon.png"
+        let like_icon = document.createElement("div")
+        like_icon.className = ""
+        like_icon.innerHTML = `
+        <svg class="w-10 h-10 fill-none stroke-2 stroke-yellow-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M7 11c.889-.086 1.416-.543 2.156-1.057a22.323 22.323 0 0 0 3.958-5.084 1.6 1.6 0 0 1 .582-.628 1.549 1.549 0 0 1 1.466-.087c.205.095.388.233.537.406a1.64 1.64 0 0 1 .384 1.279l-1.388 4.114M7 11H4v6.5A1.5 1.5 0 0 0 5.5 19v0A1.5 1.5 0 0 0 7 17.5V11Zm6.5-1h4.915c.286 0 .372.014.626.15.254.135.472.332.637.572a1.874 1.874 0 0 1 .215 1.673l-2.098 6.4C17.538 19.52 17.368 20 16.12 20c-2.303 0-4.79-.943-6.67-1.475"/>
+        </svg>
+        `
 
         let like_count = document.createElement("span")
         like_count.className = ""
@@ -378,9 +391,12 @@ function render_rating() {
             })
         }
 
-        let dislike_icon = document.createElement("img")
-        dislike_icon.className = "w-10 h-10 p-1"
-        dislike_icon.src = "/storages/images/dislike_icon.png"
+        let dislike_icon = document.createElement("div")
+        dislike_icon.innerHTML=`
+        <svg class="w-10 h-10 fill-none stroke-2 stroke-rose-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M17 13c-.889.086-1.416.543-2.156 1.057a22.322 22.322 0 0 0-3.958 5.084 1.6 1.6 0 0 1-.582.628 1.549 1.549 0 0 1-1.466.087 1.587 1.587 0 0 1-.537-.406 1.666 1.666 0 0 1-.384-1.279l1.389-4.114M17 13h3V6.5A1.5 1.5 0 0 0 18.5 5v0A1.5 1.5 0 0 0 17 6.5V13Zm-6.5 1H5.585c-.286 0-.372-.014-.626-.15a1.797 1.797 0 0 1-.637-.572 1.873 1.873 0 0 1-.215-1.673l2.098-6.4C6.462 4.48 6.632 4 7.88 4c2.302 0 4.79.943 6.67 1.475"/>
+        </svg>
+        `
 
         let dislike_count = document.createElement("span")
         dislike_count.className = ""
