@@ -146,7 +146,6 @@ userRouter.post(
           where: { user_id },
         }
       );
-      io.emit("newAvatar", user_avatar);
 
       req.session.user.avatar = user_avatar;
 
@@ -177,6 +176,15 @@ userRouter.patch("/user/update/user/data", async (req, res) => {
     if (updatedRows === 0) {
       return res.status(404).json({ message: "Пользователь не найден" });
     }
+
+    const new_userdata = await Users.findOne({
+      where: {user_id},
+    }); 
+    
+        req.session.user.username = new_userdata.user_name;
+        req.session.user.lastname = new_userdata.user_lastname;
+        req.session.user.patronymic = new_userdata.user_patronymic;         
+        req.session.user.email = new_userdata.user_email;
 
     return res.status(200).json({ message: "Данные успешно обновлены" });
   } catch (err) {
