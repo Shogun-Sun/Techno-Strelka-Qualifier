@@ -253,6 +253,11 @@ function renderComments() {
             allComments.id =' allComments';
             allComments.className = "px-8 text-xl text-slate-900 dark:text-gray-300 py-4 flex flex-col gap-6 rounded-10 shadow-xl shadow-slate-400 bg-white dark:shadow-slate-950 dark:bg-slate-900"
 
+            let sup_div = document.createElement("div")
+            sup_div.className = "hidden"
+
+            allComments.append(sup_div)
+
             commentsResponse.forEach((comment) => {
 
                 let com_div = document.createElement("div")
@@ -285,7 +290,7 @@ function renderComments() {
                 userName_Date.append(imageAndUser, com_date)
 
                 com_div.append(userName_Date, com_text)
-                allComments.append(com_div)
+                allComments.insertBefore(com_div, allComments.children[0])
             })
             comments_div.append(allComments)
             if (current_user.data) {
