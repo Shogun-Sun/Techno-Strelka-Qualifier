@@ -10,7 +10,7 @@ const roleCheck = require("../modules/roleCheck");
 
 router.post(
   "/route/upload/new/route",
-  roleCheck(["user"]),
+  roleCheck(["user", "moder"]),
   checkUnSession,
   uploadImages.array("file"),
   async (req, res) => {
@@ -33,7 +33,7 @@ router.post(
       const imagesPaths = req.files.map((f) => f.filename).join(",");
 
       const route = await Routes.create({
-        route_status: status || "public",
+        route_status: status || "private",
         user_id: user_id,
       });
 
@@ -132,12 +132,18 @@ router.post(
   async (req, res) => {
     const {
       route_id,
-      point_data,
       route_name,
       route_description,
       route_distance,
       route_time,
     } = req.body;
+
+    let { point_data } = req.body;
+
+    if (typeof point_data === "string") {
+      point_data = JSON.parse(point_data);
+    }
+    
     try {
       const imagesPaths = req.files.map((f) => f.filename).join(",");
 

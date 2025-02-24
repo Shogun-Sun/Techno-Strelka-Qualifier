@@ -36,7 +36,7 @@ const Routes = sequelize.define(
     hooks: {
       beforeCreate: (route, options) => {
         if(route.route_status === "private"){
-          route.route_verifi = true;
+          route.route_verifi = false;
         } else{
           route.route_verifi = false;
         }
@@ -44,7 +44,7 @@ const Routes = sequelize.define(
 
       beforeUpdate: (route, options) => {
         if (route.route_status === "private") {
-          route.route_verifi = true;
+          route.route_verifi = false;
         } else {
           route.route_verifi = false;
         }
