@@ -7,6 +7,7 @@ const RoutesHistory = require("../db/models/routesHistory");
 const { uploadImages } = require("../modules/fileManager");
 const { checkUnSession, checkSession } = require("../modules/checks");
 const roleCheck = require("../modules/roleCheck");
+const { Sequelize } = require("sequelize");
 
 router.post(
   "/route/upload/new/route",
@@ -29,16 +30,17 @@ router.post(
       point_data = JSON.parse(point_data);
     }
 
-    const transaction = await sequelize.transaction();
+    const transaction = await sequelize.transaction({
+    });
 
     try {
-      const images = req.files.map((f) => f.filename);
-      const imagesPaths = images.join(",");
+      const imagesPaths = req.files.map((f) => f.filename).join(",");
 
       const route = await Routes.create({
         route_status: status || "public",
         user_id: user_id,
-      });
+      }
+    );
 
       const routesHistory = await RoutesHistory.create({
         route_id: route.route_id,
@@ -47,17 +49,17 @@ router.post(
         route_distance,
         route_time,
         route_images: imagesPaths,
-      });
+      }
+    );
 
       const point = await Points.create({
         route_id: route.route_id,
         point_data,
-      });
+      }
+    );
 
-      await transaction.commit();
       return res.status(200).json({ message: "Маршрут успешно добавлен" });
     } catch (err) {
-      await transaction.rollback();
       console.error("Ошибка при добавлении нового маршрута:", err);
       return res.status(400).json({ message: "Маршрут не сохранен" });
     }
@@ -130,10 +132,8 @@ router.post(
       route_distance,
       route_time,
     } = req.body;
-    const transaction = await sequelize.transaction();
     try {
-      const images = req.files.map((f) => f.filename);
-      const imagesPaths = images.join(",");
+      const imagesPaths = req.files.map((f) => f.filename).join(",");
 
       const updateRoute = await RoutesHistory.create({
         route_id,
@@ -148,12 +148,8 @@ router.post(
         route_id,
         point_data,
       });
-
-      transaction.commit();
-
       return res.status(200).json({ message: "Маршрут успешно обновлен" });
     } catch (err) {
-      transaction.rollback();
       console.error("Ошибка обновления маршрута", err);
       return res.status(500).json({ message: "Ошибка обновления маршрута" });
     }
@@ -162,7 +158,6 @@ router.post(
 
 router.delete("/route/delete/route", checkUnSession, async (req, res) => {
   const { route_id } = req.body;
-  const transaction = await sequelize.transaction();
   try {
     await RoutesHistory.destroy({
       where: { route_id },
@@ -176,10 +171,8 @@ router.delete("/route/delete/route", checkUnSession, async (req, res) => {
       where: { route_id },
     });
 
-    await transaction.commit();
     return res.status(200).json({ message: "Маршрут успешно удален" });
   } catch (err) {
-    transaction.rollback();
     console.error("Ошибка удаления маршрута:", err);
     return res.status(500).json({ message: "Произошла внутрення ошибка" });
   }
@@ -191,7 +184,14 @@ router.delete("/route/delete/route", checkUnSession, async (req, res) => {
     try{
       const allUserRoutes = await Routes.findAll({
         where: { user_id },
+        include: [
+          {
+            model: RoutesHistory,
+            required: true,
+          },
+        ],
       });
+      console.log(allUserRoutes);
 
       return res.status(200).json({message: "Маршруты успешно получены", data: allUserRoutes});
     }catch(err){

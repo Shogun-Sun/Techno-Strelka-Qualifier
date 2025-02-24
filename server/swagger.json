@@ -83,6 +83,16 @@
         }
       }
     },
+    "/moderation": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/users/log-reg/page": {
       "get": {
         "description": "",
@@ -450,9 +460,6 @@
                 "route_id": {
                   "example": "any"
                 },
-                "user_id": {
-                  "example": "any"
-                },
                 "rating": {
                   "example": "any"
                 }
@@ -519,9 +526,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "user_id": {
-                  "example": "any"
-                },
                 "route_id": {
                   "example": "any"
                 },
