@@ -137,14 +137,14 @@ async function renderRoute (route_id) {
 
         let userPoints = document.createElement("div")
         userPoints.id = 'userPoints';
-        userPoints.className = "mt-5 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-3"
+        userPoints.className = "mt-6 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-3"
         let userPoints_lable = document.createElement("lable")
         userPoints_lable.innerText = "Посещаемые места"
         userPoints_lable.className = "text-2xl underline decoration-solid decoration-yellow-500 font-semibold dark:text-gray-200"
         userPoints.append(userPoints_lable)
 
         let allImages = document.createElement("div")
-        allImages.className = "flex flex-row flex-wrap justify-around gap-8 mt-8 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-6 mb-6"
+        allImages.className = "flex flex-row flex-wrap justify-around gap-8 mt-6 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-6 mb-6"
         let act_images = active_route.route_images.split(",")
         act_images.forEach((image) => {
             let img = document.createElement("img")
