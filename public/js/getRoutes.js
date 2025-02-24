@@ -38,7 +38,7 @@ function getAllRoutes() {
             routeCard.className = `flex flex-col justify-between items-center bg-cover h-64 shadow-prl dark:shadow-prd rounded-10 p-3 w-[295px] shrink-0`
             routeCard.style.backgroundImage = `url(./storages/images/${allCardImages[0]})`
             let routeName = document.createElement("span")
-            routeName.className="text-gray-100 text-xl"
+            routeName.className="text-gray-200 text-xl"
             routeName.innerText = route.route_name ? route.route_name : "название отсутствует"
 
 

@@ -14,7 +14,7 @@
 
 /*  bg-gray-400/60 dark:bg-gray-700/70 */
 .pictures{
-    @apply shrink-0 w-96 h-48 rounded-10 shadow-2xl bg-white dark:shadow-xl dark:shadow-slate-800
+    @apply shrink-0 w-96 h-56 rounded-10 shadow-2xl bg-white dark:shadow-xl dark:shadow-slate-800
 }
 #small_imgs::-webkit-scrollbar {
     @apply m-[3px] h-[6px] w-[100%] rounded-xl bg-transparent
