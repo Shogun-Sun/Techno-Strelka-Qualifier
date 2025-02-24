@@ -1,3 +1,4 @@
+/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script> */ // скрипт фрхиватора нужно добавить на страницу где будет экспорт
 var KML;
 var GPX;
 function exportToGPX() {
