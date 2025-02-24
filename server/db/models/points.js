@@ -44,7 +44,7 @@ const Points = sequelize.define(
 Points.beforeCreate(async (newPointHistory, options) => {
   await Points.update(
     { point_status: "old" },
-    { where: { point_id: newPointHistory.route_id } }
+    { where: { route_id: newPointHistory.route_id } }
   );
 });
 

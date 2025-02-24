@@ -143,11 +143,11 @@ router.post(
     if (typeof point_data === "string") {
       point_data = JSON.parse(point_data);
     }
-    
+
     try {
       const imagesPaths = req.files.map((f) => f.filename).join(",");
 
-      const updateRoute = await RoutesHistory.create({
+      await RoutesHistory.create({
         route_id,
         route_name,
         route_images: imagesPaths,
@@ -156,10 +156,20 @@ router.post(
         route_time,
       });
 
-      const updatePoints = await Points.create({
-        route_id,
-        point_data,
-      });
+      await Points.update(
+        { point_status: "old" },
+        { where: { route_id } }
+      );
+
+      if (Array.isArray(point_data) && point_data.length > 0) {
+        await Points.bulkCreate(
+          point_data.map((point) => ({
+            route_id,
+            point_data: point,
+          }))
+        );
+      }
+
       return res.status(200).json({ message: "Маршрут успешно обновлен" });
     } catch (err) {
       console.error("Ошибка обновления маршрута", err);
@@ -167,6 +177,7 @@ router.post(
     }
   }
 );
+
 
 router.delete("/route/delete/route", checkUnSession, async (req, res) => {
   const { route_id } = req.body;

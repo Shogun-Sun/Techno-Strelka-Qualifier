@@ -375,9 +375,6 @@
                 "route_id": {
                   "example": "any"
                 },
-                "point_data": {
-                  "example": "any"
-                },
                 "route_name": {
                   "example": "any"
                 },
@@ -388,6 +385,9 @@
                   "example": "any"
                 },
                 "route_time": {
+                  "example": "any"
+                },
+                "point_data": {
                   "example": "any"
                 }
               }
