@@ -8,7 +8,7 @@ const pagesPath = path.join(__dirname, "..", "..", "public", "pages");
 router.get("/", (req, res) => {
   res.sendFile(path.join(pagesPath, "main_page.html"));
 });
-router.get("/map", roleCheck(["user"]), (req, res) => {
+router.get("/map", roleCheck(["user", "moder"]), (req, res) => {
   res.sendFile(path.join(pagesPath, "createMap.html"));
 });
 router.get("/log-reg", (req, res) => {
@@ -17,13 +17,13 @@ router.get("/log-reg", (req, res) => {
 router.get("/main", (req, res) => {
   res.sendFile(path.join(pagesPath, "main_page.html"));
 });
-router.get("/profile", roleCheck(["user"]), (req, res) => {
+router.get("/profile", roleCheck(["user", "moder"]), (req, res) => {
   res.sendFile(path.join(pagesPath, "profile.html"));
 });
 router.get("/allroutes", (req, res) => {
   res.sendFile(path.join(pagesPath, "getRoutes.html"))
 })
-router.get("/moderation", (req, res) => {
+router.get("/moderation", roleCheck(["moder"]), (req, res) => {
   res.sendFile(path.join(pagesPath, "moderation.html"))
 })
 

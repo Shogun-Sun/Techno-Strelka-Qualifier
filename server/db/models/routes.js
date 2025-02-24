@@ -14,7 +14,12 @@ const Routes = sequelize.define(
     route_status: {
       type: DataTypes.ENUM("public", "private"),
       allowNull: false,
-      defaultValue: "public",
+      defaultValue: "privte",
+    },
+
+    route_verifi: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
 
     user_id: {
@@ -28,6 +33,23 @@ const Routes = sequelize.define(
   },
   {
     timestamps: false,
+    hooks: {
+      beforeCreate: (route, options) => {
+        if(route.route_status === "private"){
+          route.route_verifi = true;
+        } else{
+          route.route_verifi = false;
+        }
+      },
+
+      beforeUpdate: (route, options) => {
+        if (route.route_status === "private") {
+          route.route_verifi = true;
+        } else {
+          route.route_verifi = false;
+        }
+      }
+    }
   }
 );
 
