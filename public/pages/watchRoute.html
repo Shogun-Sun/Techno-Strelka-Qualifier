@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
     <link rel="stylesheet" href="/css/login_out.css">
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=cfb17578-6c78-4dbc-9099-c50949c99d19&lang=ru_RU" type="text/javascript"></script>
+    <!-- <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script> -->
+
+    <title>alter map</title>
 </head>
-<body class="bg-gray-100 dark:bg-slate-800">
+<body class="dark:bg-slate-800">
     <nav class="w-full flex justify-center md:justify-center items-center pt-2 px-2 fixed z-[41] group/nav -mt-14">
 
         <div id="main_icon" class="w-32 md:w-36 lg:bg-white top-[7px] lg:top-[8px] left-3 md:left-5 rounded-3xl fixed z-[41] flex items-center justify-between h-[39px] lg:w-40 px-3 lg:dark:bg-slate-800
@@ -18,7 +20,7 @@
             <p class="text-base text-slate-900 font-semibold pt-1 dark:text-yellow-400 group-hover/nav:text-white  md:text-xl md:pt-0 lg:group-hover/nav:text-slate-900 lg:group-hover/nav:dark:text-yellow-500">TOUROU</p>
         </div>
 
-        <div class="lg:bg-white w-12 h-10 top-[7px]  lg:top-[10px] right-5 rounded-3xl fixed z-[41] flex items-center justify-center
+        <div class="lg:bg-white w-12 h-10 top-[7px]  lg:top-[8px] right-5 rounded-3xl fixed z-[41] flex items-center justify-center
             lg:dark:bg-slate-800 lg:dark:border lg:dark:border-white">
             <button type="button" id="theme-toggle" >
                     <span class="dark:hidden">
@@ -43,7 +45,7 @@
         </button>
 
         <div id="desktopMenu" class="h-10 md:w-[640px] px-2 border border-slate-300 rounded-3xl flex flex-row justify-around items-center bg-white z-10
-        dark:bg-slate-800 fixed top-[7px]">
+        dark:bg-slate-800 fixed top-[8px]">
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
                 <a href="/" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Main</a>
             </div>
@@ -57,7 +59,7 @@
                 <a href="/allroutes" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Public</a>
             </div>
             <div class="moderation_div group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="/moderation" class=" text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Модерация</a>
+                <a href="/moderation" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Модерация</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
                 <a href="/log-reg" class="log text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Log in</a>
@@ -78,7 +80,7 @@
                 </div>
                 <div class=" flex flex-col items-center gap-8 p-3">
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/main" class="text-xl text-gray-800 dark:text-gray-300 w-full">Main</a>
+                        <a href="/" class="text-xl text-gray-800 dark:text-gray-300 w-full">Main</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
                         <a href="/profile" class="text-xl text-gray-800 dark:text-gray-300 w-full">Profile</a>
@@ -89,78 +91,81 @@
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
                         <a href="/allroutes" class="text-xl text-gray-800 dark:text-gray-300 w-full">Public</a>
                     </div>
-                    <div class=" moderation_div group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/moderation" class=" text-xl text-gray-800 dark:text-gray-300 w-full">Модерация</a>
+                    <div class="moderation_div group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="/moderation" class="text-xl text-gray-800 dark:text-gray-300 w-full">Модерация</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/log-reg" class="log text-xl text-gray-800 dark:text-gray-300 w-full">Log in</a>
+                        <a href="/log-reg" class=" log text-xl text-gray-800 dark:text-gray-300 w-full">Log in</a>
                     </div>   
                 </div>
             </div>
         </div>
-    </nav> 
-    <main class="min-h-[100vh] mt-14 flex flex-col justify-around items-center gap-6 px-5 md:px-10 xl:px-0 pb-5">
-        <div id="user_info_settings"class="flex flex-col lg:flex-row justify-between items-center w-full xl:w-10/12 rounded-10 gap-6 lg:h-[450px] xl:h-[420px]">
-            <div  id="img_info" class="rounded-10 w-full md:w-9/12 lg:w-4/12 flex flex-col gap-3 bg-white shadow-xl shadow-slate-300 h-full
-             dark:shadow-slate-950 dark:bg-slate-900">
-                <div class="flex justify-center items-center w-full p-2">
-                    <label for="avatar" class="flex bg-slate-900 rounded-full h-32 w-32 bg-cover bg-center">
-                    </label>
-                    <input id="avatar" type="file" class="hidden">
-                </div>
-                <div id="Caption" class="h-full py-3 px-6 flex flex-col items-center gap-2">
-                    <p id="fio" class="text-xl sm:text-3xl font-semibold text-slate-900 tracking-tight w-full text-center border-b-2 border-yellow-500 dark:text-gray-200">
-                        
-                    </p>
-                    <p id="email" class="text-base sm:text-lg text-yellow-600 dark:text-yellow-400">
-                        
-                    </p>
+    </nav>     
+
+    <main class="lg:flex justify-between gap-8 lg:gap-4 mt-14 px-4 ">
+        <div id="map" class="w-full lg:w-1/2 pb-4 rounded-10 h-[50vh] md:h-[70vh] lg:h-[630px]"></div>
+
+        <div id="userPoints" class="flex flex-col w-full lg:w-1/2 mt-4 md:mt-0 pb-4 px-4 justify-between gap-3">
+
+            <div class="flex flex-col gap-2 mb-2 justify-center">
+                <lable for="routename" class="text-slate-900 text-center text-3xl font-medium dark:text-gray-300">Маршрут</lable>
+                <input id="routename" class="w-64 md:w-96 mx-auto h-8 border border-gray-500 rounded-10 md:h-9 px-2 focus:outline-yellow-500
+                invalid:border-pink-700 invalid:text-pink-600 text-xl dark:bg-gray-200">
+            </div>
+
+            <div class="h-72">
+                <div id="points" class = "w-full relative h-72  bg-white rounded-10 overflow-y-auto
+                dark:bg-slate-800 z-0  border border-yellow-400/50 p-2 space-y-4">
+                    <div class="point">
+                        <lable class="point_lable">Название</lable>
+                        <input class="savepoint addresname point_input">
+                        <lable class="point_lable"> Адрес</lable>
+                        <input class="savepoint addres point_input">
+                        <button id="selectAddres" class="point_btn">поставить на карте</button>
+                    </div>
                 </div>
             </div>
-            <div id="user_settings" class="h-96 sm:h-[450px] xl:h-[420px] rounded-10 shadow-xl shadow-slate-300 w-full lg:w-8/12 p-4 flex flex-col justify-between bg-white dark:shadow-slate-950 dark:bg-slate-900">
-                <h2 class="text-xl sm:text-3xl font-semibold text-slate-900 mb-4 tracking-tight w-full text-left border-b-2 border-yellow-500 dark:text-gray-200">Настройки профиля</h2>
-                <div class="flex flex-col w-full h-full gap-2">
-                    <div class="flex flex-col items-start p-2 rounded-lg w-full relative">
-                        <label for="name" class="text-yellow-500 px-2 text-base sm:text-lg font-semibold absolute -top-1 bg-gray-50 left-8 dark:bg-gray-400 rounded-10 dark:dark:bg-gray-700">Name</label>
-                        <input id="name" type="text" class="w-full px-3 pt-[11px] pb-1 sm:pt-4 sm:pb-2 rounded-10 outline-none bg-gray-50 border border-slate-700 focus:border-yellow-500 dark:border-2 dark:dark:bg-gray-700 dark:text-gray-300">
-                    </div>
-                    <div class="flex flex-col items-start p-2 rounded-lg w-full relative">
-                        <label for="surname" class="text-yellow-500 px-2 text-base sm:text-lg font-semibold absolute -top-1 bg-gray-50 left-8 dark:bg-gray-400 rounded-10 dark:dark:bg-gray-700">Surname</label>
-                        <input id="surname" type="text" class="w-full px-3 pt-[11px] pb-1 sm:pt-4 sm:pb-2 rounded-10 outline-none bg-gray-50 border border-slate-700 focus:border-yellow-500 dark:border-2 dark:dark:bg-gray-700 dark:text-gray-300">
-                    </div>
-                    <div class="flex flex-col items-start p-2 rounded-lg w-full relative">
-                        <label for="patronymic" class="text-yellow-500 px-2 text-base sm:text-lg font-semibold absolute -top-1 bg-gray-50 left-8 dark:bg-gray-400 rounded-10 dark:dark:bg-gray-700">Patronymic</label>
-                        <input id="patronymic" type="text" class="w-full px-3 pt-[11px] pb-1 sm:pt-4 sm:pb-2 rounded-10 outline-none bg-gray-50 border border-slate-700 focus:border-yellow-500 dark:border-2 dark:dark:bg-gray-700 dark:text-gray-300">
-                    </div>
-                    <div class="flex flex-col items-start p-2 rounded-lg w-full relative">
-                        <label for="email" class="text-yellow-500 px-2 text-base sm:text-lg font-semibold absolute -top-1 bg-gray-50 left-8 dark:bg-gray-400 rounded-10 dark:dark:bg-gray-700">Email</label>
-                        <input id="new_email" type="text" class="w-full px-3 pt-[11px] pb-1 sm:pt-4 sm:pb-2 rounded-10 outline-none bg-gray-50 border border-slate-700 focus:border-yellow-500 dark:border-2 dark:dark:bg-gray-700 dark:text-gray-300">
-                    </div>
-                </div>
-                <button id="save" class="bg-yellow-500 text-white text-lg md:text-xl rounded-10 px-4 py-3 md:px-5 md:py-2 outline-none
-                 hover:bg-yellow-400 flex items-center justify-around mx-2">сохранить изменения</button>
+            
+
+            <button id="newPoint" class="text-lg h-6 w-full flex items-center justify-center rounded-10 bg-yellow-500
+             text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400 mt-2">Добавить точку</button>
+
+            <div id="description_div">
+                <lable for="description" class="text-lg text-slate-900 dark:text-gray-300">Описание</lable>
+                <textarea id="description" class="save w-full h-36  rounded-10 resize-none border border-gray-500
+                focus:border-yellow-500 p-3 text-lg text-slate-900 dark:bg-gray-200"></textarea>
+            </div>
+
+            <div id="pictures" class="border border-yellow-400/50 w-full h-32 md:h-44 relative rounded-[10px_10px_0_0] flex gap-5 snap-x snap-mandatory
+             overflow-x-auto px-5 items-center dark:bg-slate-800 z-0 scroll-smooth scrollbar-gutter-stable py-4">
+                    
+                <div class="flex items-center justify-center w-28 md:w-32 h-full">
+                    <label for="inputpicture" class="flex flex-col items-center justify-center w-32 h-full border-2 border-gray-300
+                    border-dashed rounded-lg cursor-pointer bg-gray-50dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600
+                     dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                        <div class="flex flex-col items-center justify-center ">
+                            <svg class="w-8 h-8 text-yellow-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                            </svg>
+                            <p class="text-sm dark:text-gray-400 text-center"><span class="font-semibold text-yellow-500">Click to upload</span> </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 text-center px-2">SVG, PNG, JPG or GIF</p>
+                        </div>
+                        <input id="inputpicture" type="file" class="hidden" />
+                    </label>
+                </div> 
+
+                <div id="puctureArea" class="h-full flex space-x-4 w-full"></div>
+                
+                <!-- <button id="uploadButton" class="">Загрузить картинки</button> -->
+            </div>
+            <div id="buttons" class="">
+                <button id="savebtn" class="text-lg h-6 w-full flex items-center justify-center rounded-10 bg-yellow-500
+                text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400 mt-2">Сохранить маршрут</button>
             </div>
         </div>
-        <div id="user_routes" class="h-[600px] sm:h-[460px] w-full xl:w-10/12 p-4 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900">
-            <h2 class="text-xl sm:text-3xl font-semibold text-slate-900 mb-4 sm:mb-2 tracking-tight w-full text-left border-b-2 border-yellow-500 dark:text-gray-200">Мои маршруты</h2>
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 md:gap-6 h-[530px] sm:h-96 px-2 md:px-4">
-                <div id="new_route" class="w-44 h-44 md:w-56 md:h-56 flex flex-col items-center justify-center border-2 border-gray-500 border-dashed rounded-lg cursor-pointer
-                bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-200 dark:border-gray-600 dark:hover:border-gray-500 group bg-clip-padding shrink-0">
-                    <div class="flex flex-col items-center justify-center py-3 px-2 md:py-6 md:px-6">
-                        <svg class="h-20 w-20 stroke-1 fill-none mb-4" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" class="my-path stroke-yellow-400 group-hover:stroke-yellow-500"></path>
-                            <path d="M10.5927 10.3258L13.7265 13.4595M9.44071 11.6929L9.24875 12.2618C8.69082 13.9156 8.41186 14.7425 8.84729 15.1811C9.28272 15.6197 10.1116 15.3467 11.7694 14.8008L12.3397 14.613C13.2719 14.306 13.738 14.1525 14.0731 13.8199C14.4081 13.4873 14.565 13.0223 14.8787 12.0924L15.0707 11.5234C15.6286 9.8696 15.9076 9.04271 15.4721 8.60411C15.0367 8.16551 14.2078 8.43847 12.55 8.9844L11.9797 9.17223C11.0475 9.4792 10.5814 9.63269 10.2464 9.96533C9.9113 10.298 9.75443 10.7629 9.44071 11.6929Z" class="my-path stroke-yellow-400 group-hover:stroke-yellow-500"></path>
-                        </svg>
-                        <p class="text-lg text-slate-700 dark:text-gray-400 text-center group-hover:text-slate-900 dark:group-hover:text-gray-300">Создать новый маршрут</p>
-                    </div>
-                </div>
-                <div id="route_area" class="h-full sm:px-6 flex space-x-5 sm:space-x-10 w-full relative snap-x overflow-x-auto items-center dark:bg-slate-900 z-0 scroll-smooth scrollbar-gutter-stable py-2">
-                </div>
-            </div>
-        </div>  
     </main>
-    <script src="/js/profile.js"></script>
-    <script src="/js/darkmode.js"></script>
+    <script src="/js/watchRoute.js"></script>
     <script src="/js/nav.js"></script>
+    <script src="/js/darkmode.js"></script>
 </body>
 </html>

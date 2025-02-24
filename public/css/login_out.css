@@ -622,10 +622,6 @@ video {
   z-index: 41;
 }
 
-.col-span-5 {
-  grid-column: span 5 / span 5;
-}
-
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;

@@ -77,3 +77,35 @@ new_route.addEventListener("click", () => {
   });
 
 })();
+
+
+document.addEventListener("DOMContentLoaded", renderUserRoutes)
+
+async function renderUserRoutes () {
+  const response = await fetch("/rote/get/all/user/routes", {
+    method: "GET",
+  })
+  const userRoutes = await response.json()
+  console.log(userRoutes)
+  userRoutes.data.forEach(route => {
+    
+    let route_card = document.createElement("div")
+    route_card.className = `border-2 rounded-10 h-full w-72 sm:w-80 shadow-card bg-cover bg-clip-padding flex flex-col justify-end p-4 gap-3 bg-center hover:bg-[100%] duration-300 shrink-0 snap-center snap-mandatory snap-always`
+    route_card.style.backgroundImage = `url(/storages/Images/${route.RoutesHistories[0].route_images})`
+
+    route_card.onclick = () => {
+      window.location.href = `/route/watch?route_id=${route.route_id}`
+    }
+  
+    let routeName = document.createElement("p")
+    routeName.className = "text-gray-100 font-semibold text-2xl"
+    routeName.innerText = route.RoutesHistories[0].route_name
+
+    let routeDescription = document.createElement("p")
+    routeDescription.className = "text-gray-300 font-medium text-lg overflow-hidden w-full h-12 mb-4"
+    routeDescription.innerText = route.RoutesHistories[0].route_description.length < 24 ? route.RoutesHistories[0].route_description : route.RoutesHistories[0].route_description.substr(0,50) + "..."
+
+    route_card.append(routeName, routeDescription)
+    document.querySelector("#route_area").append(route_card)
+  })
+}

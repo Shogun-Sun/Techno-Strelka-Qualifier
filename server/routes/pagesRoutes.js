@@ -26,5 +26,8 @@ router.get("/allroutes", (req, res) => {
 router.get("/moderation", roleCheck(["moder"]), (req, res) => {
   res.sendFile(path.join(pagesPath, "moderation.html"))
 })
+router.get("/route/watch", (req, res) => {
+  res.sendFile(path.join(pagesPath, "watchRoute.html"))
+})
 
 module.exports = router;

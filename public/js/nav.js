@@ -14,14 +14,12 @@ fetch("/user/get/data", {
 })
 .then(res=>res.json())
 .then((userData) => {
-    console.log(userData)
+    // console.log(userData)
     if(userData.data) {
         if (userData.data.role == "user") {
             moderation_div.forEach(elem => elem.remove())
         }
         log.forEach((elem) => {
-            console.log(elem)
-            console.log(elem)
             elem.innerHTML = "Log out"
             elem.onclick = () => {
                 fetch("/user/logout", {
