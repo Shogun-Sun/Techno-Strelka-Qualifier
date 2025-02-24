@@ -95,10 +95,10 @@ async function renderRoute (route_id) {
         console.log(active_route)
         document.querySelector("main").remove()
         let main = document.createElement("main")
-        main.className = 'mt-14 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 mb-12';
+        main.className = 'mt-10 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 mb-12';
         let routeMap = document.createElement("div")
         routeMap.id = "map"
-        routeMap.className = "h-[700px] w-full"
+        routeMap.className = "h-[700px] w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 "
 
         let back_button = document.createElement("button")
         back_button.className = " flex justify-between items-center text-sm w-10 mb-2 rounded-10 bg-yellow-500 text-gray-200 px-3 py-2";
@@ -114,53 +114,56 @@ async function renderRoute (route_id) {
         className_conteiner.id = 'className_conteiner';
         className_conteiner.className = "flex justify-center"
         let route_name = document.createElement("span")
-        route_name.className = "text-4xl font-semibold p-3 text-slate-900"
+        route_name.className = "text-4xl font-semibold p-3 text-slate-900 underline decoration-solid decoration-yellow-500 underline-offset-[10px] dark:text-gray-200"
         route_name.innerText = active_route.route_name
         className_conteiner.append(route_name)
 
 
         let act_description_lable = document.createElement("lable")
         act_description_lable.innerText = "Описание маршрута:"
-        act_description_lable.className = "text-2xl text-slate-900 dark:text-gray-200"
+        act_description_lable.className = "text-2xl text-slate-900 dark:text-gray-200 underline decoration-solid decoration-yellow-500 font-semibold"
 
         let act_description = document.createElement("p")
         act_description.innerText = active_route.route_description
-        act_description.classList = "text-lg text-slate-900 dark:text-gray-300 px-3 mb-4"
+        act_description.classList = "text-lg text-slate-900 dark:text-gray-300 px-3 mb-5"
 
         let act_distance = document.createElement("span")
         act_distance.innerText = `Дистанция - ${active_route.route_distance}`
-        act_distance.classList = "text-lg text-yellow-600"
+        act_distance.classList = " text-2xl underline decoration-solid decoration-yellow-500 font-semibold underline-offset-4 dark:text-gray-200"
 
         let act_time = document.createElement("span")
         act_time.innerText = `время прохождения - ${active_route.route_time}`
-        act_time.classList = " text-lg text-yellow-600"
+        act_time.classList = " text-2xl underline decoration-solid decoration-yellow-500 font-semibold dark:text-gray-200"
 
         let userPoints = document.createElement("div")
-        userPoints.className = "mt-5"
+        userPoints.id = 'userPoints';
+        userPoints.className = "mt-5 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-3"
         let userPoints_lable = document.createElement("lable")
         userPoints_lable.innerText = "Посещаемые места"
-        userPoints_lable.className = "text-slate-900 dark:text-gray-200 text-2xl mb-2 "
+        userPoints_lable.className = "text-2xl underline decoration-solid decoration-yellow-500 font-semibold dark:text-gray-200"
         userPoints.append(userPoints_lable)
 
         let allImages = document.createElement("div")
-        allImages.classList = "flex flex-row flex-wrap justify-around gap-8 mt-8"
+        allImages.className = "flex flex-row flex-wrap justify-around gap-8 mt-8 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-6 mb-6"
         let act_images = active_route.route_images.split(",")
         act_images.forEach((image) => {
             let img = document.createElement("img")
             img.src = `./storages/images/${image}`
-            img.classList = "h-64 w-auto shrink-0 rounded-10"
+            img.className = "h-64 w-auto shrink-0 rounded-10 shadow-2xl shadow-slate-500"
             allImages.append(img)
         })
 
-
         let act_description_div = document.createElement("div")
-        act_description_div.className = "flex flex-col mb-3"
+        act_description_div.id = 'act_description_div';
+        act_description_div.className = "flex flex-col mb-5 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-3"
         act_description_div.append(act_description_lable, act_description)
 
         let distanse_time_div = document.createElement("div")
-        distanse_time_div.classList = "flex flex-col items-start w-full"
+        
+        distanse_time_div.classList = "flex flex-col items-start w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-3"
 
         let route_info = document.createElement("div")
+        route_info.id = 'route_info';
         route_info.classList = "flex flex-col"
 
         let comments_div = document.createElement("div")
@@ -168,7 +171,7 @@ async function renderRoute (route_id) {
         comments_div.id= "comments_div"
 
         let rating = document.createElement("div")
-            rating.className = "flex gap-8 h-10 items-center mb-4"
+            rating.className = "flex gap-10 h-10 items-center mb-6 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-6"
             rating.id="rating"
 
         distanse_time_div.append(act_distance, act_time)
@@ -197,14 +200,14 @@ async function renderRoute (route_id) {
             active_route.Route.Points[0].point_data.forEach((point) => {
                 refPoints.push(point.addres)
                 let point_div = document.createElement("div")
-                point_div.className = ""
+                point_div.className = "flex gap-4"
 
                 let point_name = document.createElement("span")
-                point_name.className = "px-3 text-2xl text-yellow-600"
+                point_name.className = "flex px-3 text-xl text-slate-9000 font-semibold w-32 items-center dark:text-gray-200"
                 point_name.innerText = point.name
 
                 let point_addres = document.createElement("span")
-                point_addres.className = "px text-lg text-slate-900"
+                point_addres.className = "px text-xl text-slate-900 flex items-center dark:text-gray-300"
                 point_addres.innerText = `По адресу:  ${point.addres}`
 
                 point_div.append(point_name, point_addres)
@@ -246,12 +249,12 @@ function renderComments() {
             console.log(commentsResponse)
 
             let comments_div = document.createElement("div")
-            comments_div.className = "mx-3"
+            comments_div.className = ""
             comments_div.id= "comments_div"
 
             let allComments = document.createElement("div")
             allComments.id =' allComments';
-            allComments.className = "px-8 text-xl text-slate-900 dark:text-gray-300 py-4 flex flex-col gap-6 rounded-10 shadow-xl shadow-slate-400 bg-white dark:shadow-slate-950 dark:bg-slate-900"
+            allComments.className = "px-6 text-xl text-slate-900 dark:text-gray-300 py-4 flex flex-col gap-6 rounded-10 shadow-xl shadow-slate-400 bg-white dark:shadow-slate-950 dark:bg-slate-900"
 
             let sup_div = document.createElement("div")
             sup_div.className = "hidden"
@@ -299,10 +302,10 @@ function renderComments() {
                 createComment_div.className = "flex gap-4"
 
                 let com_input = document.createElement("input")
-                com_input.className = "border-2 border-gray-500 w-full rounded-10 focus:outline-yellow-500 px-2 text-slate-900"
+                com_input.className = "border-2 border-gray-500 w-full rounded-10 focus:outline-yellow-500 px-2 text-slate-900 dark:border-none dark:dark:bg-gray-700 dark:text-gray-300"
 
                 let commit_btn = document.createElement("button")
-                commit_btn.className = "text-white text-lg px-4 py-2 rounded-10 bg-yellow-500"
+                commit_btn.className = "text-white text-lg px-4 py-2 rounded-10 bg-yellow-500 dark:text-slate-900"
                 commit_btn.innerText = "Отправить"
                 commit_btn.onclick = () => {
                     let sendMessange = {
@@ -349,7 +352,7 @@ function render_rating() {
 
         let like_div = document.createElement("div")
         like_div.id = 'like_div';
-        like_div.className = "flex gap-3 items-center justify-between"
+        like_div.className = "flex gap-2 items-center justify-between"
         like_div.onclick = () => {
             fetch("/ratingroute/post/rating", {
                 method: "POST",
@@ -375,11 +378,11 @@ function render_rating() {
         `
 
         let like_count = document.createElement("span")
-        like_count.className = ""
+        like_count.className = "text-2xl font-semibold text-slate-900 dark:text-gray-200"
         like_count.innerText =  route_rating.likes
 
         let dislike_div = document.createElement("div")
-        dislike_div.className = "flex gap-3 items-center"
+        dislike_div.className = "flex gap-2 items-center"
         dislike_div.onclick = () => {
             fetch("/ratingroute/post/rating", {
                 method: "POST",
@@ -404,7 +407,7 @@ function render_rating() {
         `
 
         let dislike_count = document.createElement("span")
-        dislike_count.className = ""
+        dislike_count.className = " text-2xl font-semibold text-slate-900 dark:text-gray-200"
         dislike_count.innerText =  route_rating.dislikes
 
         like_div.append(like_icon, like_count)
