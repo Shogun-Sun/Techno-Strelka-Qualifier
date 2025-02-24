@@ -5,11 +5,11 @@ function exportToGPX() {
     GPX = '<?xml version="1.0" encoding="UTF-8"?>\n';
     GPX += '<gpx version="1.1" creator="Yandex Maps">\n';
     GPX += '<metadata>\n';
-    GPX += '<name>Example Route</name>\n';                   // название маршрута
-    GPX += '<desc>Route created with Yandex Maps</desc>\n';  // описание маршрута
+    GPX += '<name>Example Route</name>\n';                   // название маршрута  // название --------
+    GPX += '<desc>Route created with Yandex Maps</desc>\n';  // описание маршрута  // описание ---------
     GPX += '</metadata>\n';
     GPX += '<trk>\n';                                        // начало трека
-    GPX += '<name>Route</name>\n';                           // название трека
+    GPX += '<name>Route</name>\n';                           // название трека     // название-----------
     GPX += '<trkseg>\n';                                     // начало  сегмента трека
 
     addresses.forEach(address => {
@@ -37,11 +37,11 @@ function createKML(){
     KML = '<?xml version="1.0" encoding="UTF-8"?>\n';
     KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
     KML += '<Document>\n';
-    KML += '<name>Route KML</name>\n';
+    KML += '<name>Route KML</name>\n';                                      // название 
     KML += '<description>A simple description example.</description>\n';
     KML += '<Placemark>\n';
-    KML += '<name>test_route</name>\n';
-    KML += '<description>This is a route example.</description>\n';
+    KML += '<name>test_route</name>\n';                                     // название
+    KML += '<description>This is a route example.</description>\n';         // описание
     KML += '<LineString>\n';
     KML += '<coordinates>\n';
 
