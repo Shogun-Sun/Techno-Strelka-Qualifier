@@ -139,15 +139,17 @@ userRouter.post(
         where: { user_id },
       });
 
-      await fs.unlink(
-        path.join(
-          __dirname,
-          "..",
-          "storages",
-          "images",
-          `${oldAvatar.user_avatar}`
-        )
-      );
+      if (oldAvatar.user_avatar != "cyclist.jpg") {
+        await fs.unlink(
+          path.join(
+            __dirname,
+            "..",
+            "storages",
+            "images",
+            `${oldAvatar.user_avatar}`
+          )
+        );
+      }
 
       await Users.update(
         { user_avatar },

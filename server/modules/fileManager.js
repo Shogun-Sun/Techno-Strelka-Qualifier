@@ -12,6 +12,16 @@ const uploadImagesDir = path.join(storagesDir, "images");
   }
 });
 
+const sourceFile = path.join(__dirname, "..", "..", "public", "css", "pictures", "cyclist.jpg");
+const destinationFile = path.join(uploadImagesDir, "cyclist.jpg");
+
+fs.copyFile(sourceFile, destinationFile, (err) => {
+  if (err) {
+    console.error("Ошибка при копировании файла:", err);
+  } else {
+    console.log("Файл успешно скопирован");
+  }
+});
 
 const imagesStorage = multer.diskStorage({
   destination: (req, file, cb) => {

@@ -12,5 +12,4 @@ const checkSession = async(req, res, next) => {
     next();
 };
 
-
 module.exports ={ checkSession, checkUnSession };
