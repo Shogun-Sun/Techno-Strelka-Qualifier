@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const { sequelize } = require("../db/database");
 const Points = require("../db/models/points");
 const Routes = require("../db/models/routes");
 const RoutesHistory = require("../db/models/routesHistory");
@@ -72,18 +71,8 @@ router.get("/route/get/all/public/routes/data", async (req, res) => {
           where: {
             route_status: "new",
           },
-          required: true,
-          attributes: [
-            "route_id",
-            "route_name",
-            "route_description",
-            "route_distance",
-            "route_time",
-            "route_images",
-          ],
         },
       ],
-      raw: true,
     });
 
     return res.status(200).json({
@@ -143,11 +132,11 @@ router.post(
     if (typeof point_data === "string") {
       point_data = JSON.parse(point_data);
     }
-
+    
     try {
       const imagesPaths = req.files.map((f) => f.filename).join(",");
 
-      await RoutesHistory.create({
+      const updateRoute = await RoutesHistory.create({
         route_id,
         route_name,
         route_images: imagesPaths,
@@ -156,20 +145,10 @@ router.post(
         route_time,
       });
 
-      await Points.update(
-        { point_status: "old" },
-        { where: { route_id } }
-      );
-
-      if (Array.isArray(point_data) && point_data.length > 0) {
-        await Points.bulkCreate(
-          point_data.map((point) => ({
-            route_id,
-            point_data: point,
-          }))
-        );
-      }
-
+      const updatePoints = await Points.create({
+        route_id,
+        point_data,
+      });
       return res.status(200).json({ message: "Маршрут успешно обновлен" });
     } catch (err) {
       console.error("Ошибка обновления маршрута", err);
@@ -177,7 +156,6 @@ router.post(
     }
   }
 );
-
 
 router.delete("/route/delete/route", checkUnSession, async (req, res) => {
   const { route_id } = req.body;
