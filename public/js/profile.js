@@ -91,7 +91,7 @@ async function renderUserRoutes () {
     
     let route_card = document.createElement("div")
     route_card.className = `border-2 rounded-10 h-full w-72 sm:w-80 shadow-card bg-cover bg-clip-padding flex flex-col justify-end p-4 gap-3 bg-center hover:bg-[100%] duration-300 shrink-0 snap-center snap-mandatory snap-always`
-    route_card.style.backgroundImage = `url(/storages/Images/${route.RoutesHistories[0].route_images})`
+    route_card.style.backgroundImage = `url(/storages/Images/${route.RoutesHistories[0].route_images.split(",")[0]})`
 
     route_card.onclick = () => {
       window.location.href = `/route/watch?route_id=${route.route_id}`

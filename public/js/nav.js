@@ -4,6 +4,8 @@ const closeModalButton = document.getElementById('closeModal');
 const modalContent = document.getElementById("mainModal");
 const log = document.querySelectorAll(".log")
 const moderation_div = document.querySelectorAll(".moderation_div")
+const profile_href = document.querySelectorAll(".profile_href")
+const private_href = document.querySelectorAll(".private_href")
 
 
 fetch("/user/get/data", {
@@ -38,6 +40,10 @@ fetch("/user/get/data", {
     } else {
         // console.log(moderation_div)
         moderation_div.forEach(elem => elem.remove())   
+        profile_href.forEach(e => e.href="/log-reg")
+        private_href.forEach(e => e.href="/log-reg")
+
+
     }
 })
 

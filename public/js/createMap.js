@@ -5,7 +5,7 @@ let points = document.querySelector("#points");
 let savebtn = document.querySelector("#savebtn");
 let clickAddres = -1;
 let pointCount = 1;
-const selectedFiles = [];
+let selectedFiles = [];
 
 //--------------------------------------------------------------карта
 function init() {
@@ -256,6 +256,7 @@ document.querySelector("#inputpicture").addEventListener("change", (event) => {
     let reader = new FileReader();
     let img = document.createElement("img");
 
+    let imsgeID = 0
     reader.onload = (e) => {
       img.src = e.target.result;
       // img.style.width = "100px";
@@ -265,6 +266,10 @@ document.querySelector("#inputpicture").addEventListener("change", (event) => {
 
     reader.readAsDataURL(file);
     selectedFiles.push(file);
+    img.onclick = ((elem) => {
+      selectedFiles = selectedFiles.filter(f => f.name!=file.name)
+      img.remove()
+    })
   }
 });
 
