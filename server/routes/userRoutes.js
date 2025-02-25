@@ -14,6 +14,7 @@ userRouter.get("/users/log-reg/page", (req, res) => {
   res.sendFile(path.join(pagesPath, "login.html"));
 });
 
+
 userRouter.post("/user/reg", checkSession, async (req, res) => {
   const {
     user_name,

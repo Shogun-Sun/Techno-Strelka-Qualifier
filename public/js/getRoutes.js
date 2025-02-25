@@ -30,63 +30,67 @@ function getAllRoutes() {
       console.log(allRoutes);
       document.querySelector("#loading").remove();
 
-      allRoutes.data.forEach((route) => {
-        let allCardImages = route["RoutesHistories.route_images"].split(",");
-
-        let routeCard = document.createElement("div");
-        routeCard.className = `flex flex-col justify-between items-center bg-cover h-64 shadow-prl dark:shadow-prd rounded-10 p-3 w-[295px] shrink-0`;
-        routeCard.style.backgroundImage = `url(./storages/images/${allCardImages[0]})`;
-        let routeName = document.createElement("span");
-        routeName.className = "text-gray-200 text-xl";
-        routeName.innerText = route["RoutesHistories.route_name"]
-          ? route["RoutesHistories.route_name"]
-          : "название отсутствует";
-
-        let desc_time_div = document.createElement("div");
-        desc_time_div.className =
-          "flex justify-between w-full text-base items-center text-gray-200";
-        let buttom = document.createElement("div");
-        buttom.className = "flex flex-col items-center w-full text-gray-200";
-
-        let description = document.createElement("span");
-        description.innerText =
-          route["RoutesHistories.route_description"].length < 24
-            ? route["RoutesHistories.route_description"]
-            : route["RoutesHistories.route_description"].substr(0, 24) + "...";
-        description.className = "mt-2";
-        let distanse = document.createElement("span");
-        distanse.innerHTML = `
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-none mr-1">
-                <path d="M6.81207 6.05324C9.53921 2.87158 14.4614 2.87158 17.1885 6.05324C19.382 8.61225 19.382 12.3884 17.1885 14.9474L13.0785 19.7424C12.7864 20.0831 12.6404 20.2535 12.4797 20.3413C12.1809 20.5045 11.8197 20.5045 11.5209 20.3413C11.3602 20.2535 11.2142 20.0831 10.9221 19.7424L6.81207 14.9474C4.61863 12.3884 4.61863 8.61225 6.81207 6.05324Z" class="stroke-2 stroke-gray-200"></path>
-                <path d="M14 10C14 11.1046 13.1046 12 12 12C10.8954 12 10 11.1046 10 10C10 8.89543 10.8954 8 12 8C13.1046 8 14 8.89543 14 10Z"class="stroke-2 stroke-gray-200"></path>
-            </svg>`;
-        distanse.insertAdjacentHTML(
-          "beforeend",
-          `${route["RoutesHistories.route_distance"]}`
-        );
-        distanse.className = "flex";
-
-        let time = document.createElement("span");
-        time.innerHTML = `
-            <svg class="w-6 h-6 stroke-2 stroke-gray-200 fill-none mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                 <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-            </svg>
-            `;
-        time.insertAdjacentHTML(
-          "beforeend",
-          `${route["RoutesHistories.route_time"]}`
-        );
-        time.classList = "flex";
-
-        desc_time_div.append(distanse, time);
-        buttom.append(desc_time_div, description);
-        routeCard.append(routeName, buttom);
-        routes.append(routeCard);
-        routeCard.onclick = () => {
-          renderRoute(route.route_id);
-        };
+      allRoutes.data.forEach((route) => { 
+  
+          const firstHistory = route.RoutesHistories[0];
+  
+          if (!firstHistory) { 
+            console.error("Маршрут не найден:", route.route_id);
+            return; 
+          }
+  
+          const allCardImages = firstHistory.route_images ? firstHistory.route_images.split(",") : []; 
+          let routeCard = document.createElement("div");
+          routeCard.className = `flex flex-col justify-between items-center bg-cover h-64 shadow-prl dark:shadow-prd rounded-10 p-3 w-[295px] shrink-0`;
+  
+          if (allCardImages.length > 0) { 
+              routeCard.style.backgroundImage = `url(./storages/images/${allCardImages[0]})`;
+          } else {
+            routeCard.style.backgroundColor = '#ccc'; 
+          }
+  
+          let routeName = document.createElement("span");
+          routeName.className = "text-gray-200 text-xl";
+          routeName.innerText = firstHistory.route_name || "название отсутствует"; 
+  
+          let desc_time_div = document.createElement("div");
+          desc_time_div.className = "flex justify-between w-full text-base items-center text-gray-200";
+          let buttom = document.createElement("div");
+          buttom.className = "flex flex-col items-center w-full text-gray-200";
+  
+          let description = document.createElement("span");
+          description.innerText = (firstHistory.route_description || "").length < 24 
+              ? firstHistory.route_description || "" 
+              : firstHistory.route_description.substr(0, 24) + "...";
+          description.className = "mt-2";
+  
+          let distanse = document.createElement("span");
+          distanse.innerHTML = `
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-none mr-1">
+                  <path d="M6.81207 6.05324C9.53921 2.87158 14.4614 2.87158 17.1885 6.05324C19.382 8.61225 19.382 12.3884 17.1885 14.9474L13.0785 19.7424C12.7864 20.0831 12.6404 20.2535 12.4797 20.3413C12.1809 20.5045 11.8197 20.5045 11.5209 20.3413C11.3602 20.2535 11.2142 20.0831 10.9221 19.7424L6.81207 14.9474C4.61863 12.3884 4.61863 8.61225 6.81207 6.05324Z" class="stroke-2 stroke-gray-200"></path>
+                  <path d="M14 10C14 11.1046 13.1046 12 12 12C10.8954 12 10 11.1046 10 10C10 8.89543 10.8954 8 12 8C13.1046 8 14 8.89543 14 10Z"class="stroke-2 stroke-gray-200"></path>
+              </svg>`;
+          distanse.insertAdjacentHTML("beforeend", `${firstHistory.route_distance || ""}`); 
+          distanse.className = "flex";
+  
+          let time = document.createElement("span");
+          time.innerHTML = `
+              <svg class="w-6 h-6 stroke-2 stroke-gray-200 fill-none mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                   <path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+              </svg>
+              `;
+          time.insertAdjacentHTML("beforeend", `${firstHistory.route_time || ""}`);
+          time.classList = "flex";
+  
+          desc_time_div.append(distanse, time);
+          buttom.append(desc_time_div, description);
+          routeCard.append(routeName, buttom);
+          routes.append(routeCard);
+          routeCard.onclick = () => {
+              renderRoute(route.route_id);
+          };
       });
-    });
+  });
 }
 
 async function renderRoute(route_id) {

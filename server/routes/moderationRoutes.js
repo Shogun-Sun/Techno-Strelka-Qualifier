@@ -2,6 +2,7 @@ const express = require("express");
 const Users = require("../db/models/users");
 const Routes = require("../db/models/routes");
 const RoutesHistory = require("../db/models/routesHistory");
+const Points = require("../db/models/points");
 const moderationRouter = express.Router();
 
 moderationRouter.get("/moderation/get/all/users", async (req, res) => {
@@ -46,11 +47,19 @@ moderationRouter.get(
           route_status: "public",
           route_verifi: false,
         },
-
         include: [
           {
             model: RoutesHistory,
+            where: {
+              route_status: "new",
+            },
           },
+          {
+            model: Points,
+            where:  {
+              point_status: "new",
+            }
+          }
         ],
       });
 
