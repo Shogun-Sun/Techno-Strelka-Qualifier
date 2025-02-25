@@ -387,6 +387,9 @@
                 "route_time": {
                   "example": "any"
                 },
+                "route_images": {
+                  "example": "any"
+                },
                 "point_data": {
                   "example": "any"
                 }

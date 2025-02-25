@@ -89,21 +89,41 @@ router.get("/route/get/all/public/routes/data", async (req, res) => {
 router.post("/route/get/route/by/id", async (req, res) => {
   const { route_id } = req.body;
   try {
-    const route_data = await RoutesHistory.findOne({
+
+    const route_data = await Routes.findOne({
       where: { route_id },
       include: [
         {
-          model: Routes,
-          include: [
-            {
-              model: Points,
-              where: { point_status: "new" },
-              required: true,
-            },
-          ],
+        model: RoutesHistory,
+        where: {
+          route_status: "new",
         },
-      ],
-    });
+        required: true,
+        },
+        {
+          model: Points,
+          where: { point_status: "new" },
+          required: true,
+        }
+      ]
+    })
+
+
+    // const route_data = await RoutesHistory.findOne({
+    //   where: { route_id },
+    //   include: [
+    //     {
+    //       model: Routes,
+    //       include: [
+    //         {
+    //           model: Points,
+    //           where: { point_status: "new" },
+    //           required: true,
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // });
 
     return res
       .status(200)
@@ -125,6 +145,7 @@ router.post(
       route_description,
       route_distance,
       route_time,
+      route_images,
     } = req.body;
 
     let { point_data } = req.body;
@@ -136,16 +157,16 @@ router.post(
     try {
       const imagesPaths = req.files.map((f) => f.filename).join(",");
 
-      const updateRoute = await RoutesHistory.create({
+      await RoutesHistory.create({
         route_id,
         route_name,
-        route_images: imagesPaths,
+        route_images: imagesPaths || route_images,
         route_description,
         route_distance,
         route_time,
       });
 
-      const updatePoints = await Points.create({
+      await Points.create({
         route_id,
         point_data,
       });
