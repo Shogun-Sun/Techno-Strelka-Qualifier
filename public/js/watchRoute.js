@@ -9,62 +9,6 @@ const selectedFiles = [];
 let edit_route
 let current_user
 
-loadPage()
-//--------------------------------------------------------------проверка доступа
-async function authenticator() {
-
-    const route = await fetch("/route/get/route/by/id", {
-        method: "POST",
-        headers: {
-            "Content-type" : "application/json"
-        },
-        body: JSON.stringify({route_id: new URL(window.location.href).searchParams.get("route_id")})
-    })
-    edit_route = await route.json()
-    console.log( await edit_route)
-
-
-    const user = await fetch("/user/get/data", {
-        method: "GET",
-        headers: {
-            "Content-type" : "application/json"
-        },
-    })
-    current_user = await user.json()
-    console.log( await current_user)
-    
-    if ((!edit_route.data)||(!current_user.data)||(edit_route.data.Route.user_id != current_user.data.id)) {
-        window.location.href = "/"
-    }
-}
-
-//--------------------------------------------------------------загрузка данных маршрута
-
-
-async function loadPage() {
-    await authenticator()
-    document.querySelector("#routename").value = edit_route.data.route_name
-    document.querySelector("#description").value = edit_route.data.route_description
-    document.querySelector(".addresname").value = edit_route.data.Route.Points[0].point_data[0].name
-    document.querySelector(".addres").value = edit_route.data.Route.Points[0].point_data[0].addres
-
-    document.querySelector(".addres").focus()
-    document.querySelector(".addres").blur()
-
-    let editPoints = edit_route.data.Route.Points[0].point_data
-
-    for (let i = 1; i<editPoints.length; i++) {
-        newPoint.click()
-        console.log(document.querySelector("#points"))
-        let lastPoint = document.querySelector("#points").lastChild
-        console.log(lastPoint)
-        lastPoint.querySelector(".addresname").value = editPoints[i].name
-        lastPoint.querySelector(".addres").value = editPoints[i].addres
-        lastPoint.querySelector(".addres").focus()
-        lastPoint.querySelector(".addres").blur()
-    }
-
-}
 
 
 //--------------------------------------------------------------карта
@@ -74,6 +18,156 @@ function init() {
         zoom: 7,
         controls: [],
     });
+
+    loadPage()
+    //--------------------------------------------------------------проверка доступа
+    async function authenticator() {
+    
+        const route = await fetch("/route/get/route/by/id", {
+            method: "POST",
+            headers: {
+                "Content-type" : "application/json"
+            },
+            body: JSON.stringify({route_id: new URL(window.location.href).searchParams.get("route_id")})
+        })
+        edit_route = await route.json()
+        console.log( await edit_route)
+    
+    
+        const user = await fetch("/user/get/data", {
+            method: "GET",
+            headers: {
+                "Content-type" : "application/json"
+            },
+        })
+        current_user = await user.json()
+        console.log( await current_user)
+        
+        if ((!edit_route.data)||(!current_user.data)||(edit_route.data.user_id != current_user.data.id)) {
+            window.location.href = "/"
+        }
+    }
+    
+    //--------------------------------------------------------------загрузка данных маршрута
+    
+    
+    async function loadPage() {
+        await authenticator()
+        document.querySelector("#routename").value = edit_route.data.RoutesHistories[0].route_name
+        document.querySelector("#description").value = edit_route.data.RoutesHistories[0].route_description
+        document.querySelector(".addresname").value = edit_route.data.Points[0].point_data[0].name
+        document.querySelector(".addres").value = edit_route.data.Points[0].point_data[0].addres
+    
+        document.querySelector(".addres").focus()
+        document.querySelector(".addres").blur()
+    
+        let editPoints = edit_route.data.Points[0].point_data
+    
+        for (let i = 1; i<editPoints.length; i++) {
+            // await newPoint.click()
+            
+            let cnt = pointCount;
+    
+            let point = document.createElement("div");
+            point.className = "point";
+        
+            let name_lable = document.createElement("lable");
+            name_lable.innerText = "Название";
+            name_lable.classList.add("point_lable");
+            
+            let name_input = document.createElement("input");
+            name_input.className = "savepoint addresname point_input";
+            
+            name_input.addEventListener("blur", (elem) => {
+                map.geoObjects.remove(multiRoute);
+                addreses[cnt] = addres_input.value;
+                multiRoute = new ymaps.multiRouter.MultiRoute(
+                  {
+                    referencePoints: addreses,
+                  },
+                  {
+                    boundsAutoApply: true,
+                  }
+                );
+                map.geoObjects.add(multiRoute);
+              });
+        
+            let delete_button = document.createElement("button");
+            delete_button.innerText = "Удалить точку";
+            delete_button.classList.add("point_btn");
+        
+            delete_button.onclick = () => {
+              map.geoObjects.remove(multiRoute);
+              addreses[cnt] = "";
+              multiRoute = new ymaps.multiRouter.MultiRoute(
+                {
+                  referencePoints: addreses,
+                },
+                {
+                  boundsAutoApply: true,
+                }
+              );
+              map.geoObjects.add(multiRoute);
+              point.remove();
+            };
+        
+            point.append(name_lable, name_input);
+        
+            let addres_lable = document.createElement("lable");
+            addres_lable.innerText = "Адрес";
+            addres_lable.classList.add("point_lable");
+            let addres_input = document.createElement("input");
+            addres_input.className = "savepoint addres  point_input";
+            let addres_button = document.createElement("button");
+            addres_button.innerText = "Поставить на карте";
+            addres_button.classList.add("point_btn");
+        
+            
+        
+            addres_button.onclick = () => {
+              clickAddres = {
+                target: addres_input,
+                index: cnt,
+              };
+            };
+        
+            addres_input.addEventListener("blur", (elem) => {
+              map.geoObjects.remove(multiRoute);
+              addreses[cnt] = addres_input.value;
+              multiRoute = new ymaps.multiRouter.MultiRoute(
+                {
+                  referencePoints: addreses,
+                },
+                {
+                  boundsAutoApply: true,
+                }
+              );
+              map.geoObjects.add(multiRoute);
+            });
+            let div_btns = document.createElement("div");
+            div_btns.className = "flex flex-betwen";
+        
+            div_btns.append(delete_button, addres_button);
+        
+            point.append(addres_lable, addres_input, div_btns);
+        
+            points.appendChild(point);
+            console.log(cnt);
+            pointCount = pointCount + 1;
+    
+    
+    
+            console.log(document.querySelector("#points"))
+            let lastPoint = document.querySelector("#points").lastChild
+            console.log(lastPoint)
+            lastPoint.querySelector(".addresname").value = editPoints[i].name
+            lastPoint.querySelector(".addres").value = editPoints[i].addres
+            lastPoint.querySelector(".addres").focus()
+            lastPoint.querySelector(".addres").blur()
+        }
+    
+    }
+    
 
   map.events.add("click", function (e) {
     if (clickAddres != null) {
@@ -256,7 +350,7 @@ function init() {
       formData.append("file", file);
     });
 
-    formData.append("route_id", edit_route.data.Route.route_id);
+    formData.append("route_id", edit_route.data.route_id);
     formData.append("point_data", JSON.stringify(sevedPoints));
     formData.append("route_description", document.querySelector("#description").value);
     formData.append("route_name", document.querySelector("#routename").value);

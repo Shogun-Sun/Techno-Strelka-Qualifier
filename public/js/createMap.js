@@ -6,6 +6,57 @@ let savebtn = document.querySelector("#savebtn");
 let clickAddres = -1;
 let pointCount = 1;
 let selectedFiles = [];
+let addresErrors
+let passErrors = []
+
+
+async function geocode(checkAddres) {
+  // Забираем запрос из поля ввода.
+  var request = checkAddres
+  // Геокодируем введённые данные.
+  await ymaps.geocode(request).then(function (res) {
+      var obj = res.geoObjects.get(0),
+          error, hint;
+
+      if (obj) {
+          switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
+              case 'exact':
+                  break;
+              case 'number':
+              case 'near':
+              case 'range':
+                  error = 'Неточный адрес, требуется уточнение';
+                  hint = 'Уточните номер дома';
+                  break;
+              case 'street':
+                  error = 'Неполный адрес, требуется уточнение';
+                  hint = 'Уточните номер дома';
+                  break;
+              case 'other':
+              default:
+                  error = 'Неточный адрес, требуется уточнение';
+                  hint = 'Уточните адрес';
+          }
+      } else {
+          error = 'Адрес не найден';
+          hint = 'Уточните адрес';
+      }
+
+      // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
+      if (error) {
+          console.log(error);
+          console.log(hint);
+          addresErrors = {error: error, hint: hint}
+      } else {
+          addresErrors = {}
+          console.log(obj);
+      }
+  }, function (e) {
+      console.log(e)
+      addresErrors = {error: e}
+  })
+}
+
 
 //--------------------------------------------------------------карта
 function init() {
@@ -100,19 +151,19 @@ function init() {
     addres_button.innerText = "Поставить на карте";
     addres_button.classList.add("point_btn");
 
-    name_input.addEventListener("blur", (elem) => {
-      map.geoObjects.remove(multiRoute);
-      addreses[cnt] = addres_input.value;
-      multiRoute = new ymaps.multiRouter.MultiRoute(
-        {
-          referencePoints: addreses,
-        },
-        {
-          boundsAutoApply: true,
-        }
-      );
-      map.geoObjects.add(multiRoute);
-    });
+    // name_input.addEventListener("blur", (elem) => {
+    //   map.geoObjects.remove(multiRoute);
+    //   addreses[cnt] = addres_input.value;
+    //   multiRoute = new ymaps.multiRouter.MultiRoute(
+    //     {
+    //       referencePoints: addreses,
+    //     },
+    //     {
+    //       boundsAutoApply: true,
+    //     }
+    //   );
+    //   map.geoObjects.add(multiRoute);
+    // });
 
     addres_button.onclick = () => {
       clickAddres = {
@@ -121,7 +172,22 @@ function init() {
       };
     };
 
-    addres_input.addEventListener("blur", (elem) => {
+    addres_input.addEventListener("blur", async (elem) => {
+
+      if (typeof elem.target.value != []) {
+        geocode(elem.target.value)
+      }
+      // console.log(addresErrors)
+      let error_div = elem.target.parentNode.querySelector(".error")
+      if (addresErrors.error) {
+        error_div.innerText = addresErrors.hint
+        error_div.classList.remove("hidden")
+        passErrors[cnt] = addresErrors.error
+        return
+      }
+      error_div.classList.add("hidden")
+      delete passErrors[cnt]
+
       map.geoObjects.remove(multiRoute);
       addreses[cnt] = addres_input.value;
       multiRoute = new ymaps.multiRouter.MultiRoute(
@@ -133,20 +199,39 @@ function init() {
         }
       );
       map.geoObjects.add(multiRoute);
+      // process = true
     });
+
+    let error_plase = document.createElement("div")
+    error_plase.classList = "error hidden"
+
     let div_btns = document.createElement("div");
     div_btns.className = "flex flex-betwen";
 
     div_btns.append(delete_button, addres_button);
 
-    point.append(addres_lable, addres_input, div_btns);
+    point.append(addres_lable, addres_input, error_plase, div_btns);
 
     points.appendChild(point);
-    console.log(cnt);
+    
     pointCount = pointCount + 1;
   };
 
-  document.querySelector(".addres").addEventListener("blur", (elem) => {
+  document.querySelector(".addres").addEventListener("blur", async (elem) => {
+
+    await geocode(elem.target.value)
+    // console.log(addresErrors)
+    let error_div = elem.target.parentNode.querySelector(".error")
+    if (addresErrors.error) {
+      error_div.innerText = addresErrors.hint
+      error_div.classList.remove("hidden")
+      passErrors[0] = addresErrors.error
+      // process = true
+      return
+    }
+    error_div.classList.add("hidden")
+    delete passErrors[0]
+
     map.geoObjects.remove(multiRoute);
     addreses[0] = elem.target.value;
     multiRoute = new ymaps.multiRouter.MultiRoute(
@@ -160,7 +245,20 @@ function init() {
     map.geoObjects.add(multiRoute);
   });
 
+
+
   savebtn.onclick = async () => {
+    
+    let allAddresinputs = document.querySelectorAll(".addres")
+    console.log(passErrors)
+    let passArr = passErrors.filter((item) => typeof item != "undefined")
+    console.log(passArr)
+
+    if (typeof activeRoute == "undefined" && passErrors == []) {
+      alert("Адрес не найден")
+      return
+    }
+    
     let savedRoute = {};
     let sevedPoints = [];
     let saveNodeList = document.querySelectorAll(".savepoint");
@@ -182,27 +280,6 @@ function init() {
         (pointdesc.order = i / 2 + 1);
       sevedPoints.push(pointdesc);
     }
-
-    // savedRoute.point_data = sevedPoints;
-    // savedRoute.route_description = document.querySelector("#description").value;
-    // savedRoute.route_name = document.querySelector("#routename").value;
-    // var activeRoute = multiRoute.getActiveRoute();
-    // savedRoute.route_distance = activeRoute.properties.get("distance").text;
-    // savedRoute.route_time = activeRoute.properties.get("duration").text;
-    // console.log(savedRoute);
-
-    // const newRouteResponse = await fetch("/route/upload/new/route", {
-    //   method: "POST",
-    //   body: JSON.stringify(savedRoute),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-
-    // const newRouteData = await newRouteResponse.json();
-    // const routeId = await newRouteData.id;
-
-    // formData.append("route_id", routeId);
 
     var activeRoute = multiRoute.getActiveRoute();
 
@@ -249,26 +326,30 @@ function init() {
 //   console.log('Отсоединение от сервера');
 // });
 
+let img_id = 0
 document.querySelector("#inputpicture").addEventListener("change", (event) => {
+  
   const files = event.target.files;
-
   for (const file of files) {
     let reader = new FileReader();
     let img = document.createElement("img");
 
-    let imsgeID = 0
     reader.onload = (e) => {
       img.src = e.target.result;
       // img.style.width = "100px";
-      img.className = "rounded-10 h-full w-full shadow-2xl shadow-slate-900";
+      img.className = "rounded-10 h-full w-auto shadow-2xl shadow-slate-900";
       document.querySelector("#puctureArea").append(img);
     };
 
     reader.readAsDataURL(file);
+    file.img_id = img_id
+    img_id += 1
     selectedFiles.push(file);
-    img.onclick = ((elem) => {
-      selectedFiles = selectedFiles.filter(f => f.name!=file.name)
+    console.log(selectedFiles)
+    img.onclick = (() => {
+      selectedFiles = selectedFiles.filter(f => f.img_id!=file.img_id)
       img.remove()
+      console.log(selectedFiles)
     })
   }
 });
