@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/login_out.css">
     <script src="https://api-maps.yandex.ru/2.1/?apikey=cfb17578-6c78-4dbc-9099-c50949c99d19&lang=ru_RU" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 
     <title>create map</title>
@@ -102,7 +103,13 @@
         </div>
     </nav>     
 
+    
     <main class="lg:flex justify-between gap-8 lg:gap-4 mt-14 px-4 ">
+        <div id="exportButtons">
+            <button id="GPX_btn">GPX</button>
+            <button id="KML_btn">KML</button>
+            <button id="KMZ_btn">KMZ</button>
+        </div>
         <div id="map" class="w-full lg:w-1/2 pb-4 rounded-10 h-[50vh] md:h-[70vh] lg:h-[630px]"></div>
 
         <div id="userPoints" class="flex flex-col w-full lg:w-1/2 mt-4 md:mt-0 pb-4 px-4 justify-between gap-3">
@@ -159,6 +166,10 @@
                 
                 <!-- <button id="uploadButton" class="">Загрузить картинки</button> -->
             </div>
+            <div>
+                <lable for="status">Сделать открытым</lable>
+                <input id="status" type="checkbox">
+            </div>
             <div id="buttons" class="">
                 <button id="savebtn" class="text-lg h-6 w-full flex items-center justify-center rounded-10 bg-yellow-500
                 text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400 mt-2">Сохранить маршрут</button>
@@ -168,5 +179,6 @@
     <script type="module" src="/js/createMap.js"></script>
     <script src="/js/nav.js"></script>
     <script src="/js/darkmode.js"></script>
+    <script src="/js/export.js"></script>
 </body>
 </html>

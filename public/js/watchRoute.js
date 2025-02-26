@@ -356,6 +356,7 @@ function init() {
     formData.append("route_name", document.querySelector("#routename").value);
     formData.append("route_distance", activeRoute.properties.get("distance").text);
     formData.append("route_time", activeRoute.properties.get("duration").text);
+    formData.append("status", document.querySelector("#status").checked?"public":"private")
     //formData.append("status", )
     for (key of formData.keys()) {
         console.log(`${key}: ${formData.get(key)}`);
@@ -367,7 +368,7 @@ function init() {
 
     const uploadData = await uploadResponse.json();
     console.log(uploadData)
-    // window.location.href = "/";
+    // window.location.href = "/profile";
   };
 }
 

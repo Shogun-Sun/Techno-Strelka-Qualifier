@@ -1,4 +1,4 @@
-let addreses = [];
+var addreses = [];
 let photos = [];
 let newPoint = document.querySelector("#newPoint");
 let points = document.querySelector("#points");
@@ -8,6 +8,9 @@ let pointCount = 1;
 let selectedFiles = [];
 let addresErrors
 let passErrors = []
+
+console.log(`нижний Новгород`.indexOf("#"))
+console.log(`CustomPoint#56.127148095342605,44.653265510319265`.slice(`CustomPoint#56.127148095342605,44.653265510319265`.indexOf("#") == -1? 0 :`CustomPoint#56.127148095342605,44.653265510319265`.indexOf("#")+1, -1))
 
 
 async function geocode(checkAddres) {
@@ -44,6 +47,7 @@ async function geocode(checkAddres) {
 
       // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
       if (error) {
+
           console.log(error);
           console.log(hint);
           addresErrors = {error: error, hint: hint}
@@ -52,8 +56,8 @@ async function geocode(checkAddres) {
           console.log(obj);
       }
   }, function (e) {
+      addresErrors = {error: "Аддрес не введен", hint: "Аддрес не введен"}
       console.log(e)
-      addresErrors = {error: e}
   })
 }
 
@@ -70,7 +74,7 @@ function init() {
     if (clickAddres != null) {
       var coords = e.get("coords");
       addreses[clickAddres.index] = coords;
-      clickAddres.target.value = coords;
+      clickAddres.target.value = `CustomPoint#${coords}`;
       map.geoObjects.remove(multiRoute);
       multiRoute = new ymaps.multiRouter.MultiRoute(
         {
@@ -93,12 +97,20 @@ function init() {
   };
 
   map.controls.add("geolocationControl"); // удаляем геолокацию
-  map.controls.add("searchControl"); // удаляем поиск
+  // map.controls.add("searchControl"); // удаляем поиск
   map.controls.add("trafficControl"); // удаляем контроль трафика
   map.controls.add("typeSelector"); // удаляем тип
   map.controls.add("fullscreenControl"); // удаляем кнопку перехода в полноэкранный режим
   map.controls.add("zoomControl"); // удаляем контрол зуммирования
   map.controls.add("rulerControl"); // удаляем контрол правил
+
+  var searchControl = new ymaps.control.SearchControl({
+    options: {
+        provider: 'yandex#search'
+    }
+});
+
+map.controls.add(searchControl);
 
   let multiRoute = new ymaps.multiRouter.MultiRoute(
     {
@@ -174,22 +186,28 @@ function init() {
 
     addres_input.addEventListener("blur", async (elem) => {
 
-      if (typeof elem.target.value != []) {
-        geocode(elem.target.value)
-      }
+      // if (typeof elem.target.value != []) {
+      //   geocode(elem.target.value)
+      // }
       // console.log(addresErrors)
       let error_div = elem.target.parentNode.querySelector(".error")
-      if (addresErrors.error) {
-        error_div.innerText = addresErrors.hint
-        error_div.classList.remove("hidden")
-        passErrors[cnt] = addresErrors.error
-        return
-      }
+
+      if (elem.target.value.indexOf("#") == -1) {
+        await geocode(elem.target.value)
+        if (addresErrors.error) {
+          error_div.innerText = addresErrors.hint
+          error_div.classList.remove("hidden")
+          passErrors[0] = addresErrors.error
+          return
+        }
+      } 
+
+      
       error_div.classList.add("hidden")
       delete passErrors[cnt]
 
       map.geoObjects.remove(multiRoute);
-      addreses[cnt] = addres_input.value;
+      addreses[cnt] = addres_input.value.slice(addres_input.value.indexOf("#") == -1? 0 :addres_input.value.indexOf("#")+1);
       multiRoute = new ymaps.multiRouter.MultiRoute(
         {
           referencePoints: addreses,
@@ -219,21 +237,27 @@ function init() {
 
   document.querySelector(".addres").addEventListener("blur", async (elem) => {
 
-    await geocode(elem.target.value)
-    // console.log(addresErrors)
     let error_div = elem.target.parentNode.querySelector(".error")
-    if (addresErrors.error) {
-      error_div.innerText = addresErrors.hint
-      error_div.classList.remove("hidden")
-      passErrors[0] = addresErrors.error
-      // process = true
-      return
+
+    if (elem.target.value.indexOf("#") == -1) {
+      await geocode(elem.target.value)
+      if (addresErrors.error) {
+        error_div.innerText = addresErrors.hint
+        error_div.classList.remove("hidden")
+        passErrors[0] = addresErrors.error
+        return
+      }
     }
+   
+    // console.log(addresErrors)
+    
+    
     error_div.classList.add("hidden")
     delete passErrors[0]
 
     map.geoObjects.remove(multiRoute);
-    addreses[0] = elem.target.value;
+    addreses[0] = elem.target.value.slice(elem.target.value.indexOf("#") == -1? 0 :elem.target.value.indexOf("#")+1);
+    console.log(addreses)
     multiRoute = new ymaps.multiRouter.MultiRoute(
       {
         referencePoints: addreses,
@@ -253,18 +277,26 @@ function init() {
     console.log(passErrors)
     let passArr = passErrors.filter((item) => typeof item != "undefined")
     console.log(passArr)
+    console.log(passArr != [])
 
-    if (typeof activeRoute == "undefined" && passErrors == []) {
+    if (typeof activeRoute == "undefined" && passArr.length != 0) {
       alert("Адрес не найден")
       return
     }
+
+
+  
+
+
+    
     
     let savedRoute = {};
     let sevedPoints = [];
     let saveNodeList = document.querySelectorAll(".savepoint");
     for (let i = 0; i < saveNodeList.length; i += 2) {
       let pointdesc = {};
-      await ymaps.geocode(saveNodeList[i + 1].value).then(
+      console.log(saveNodeList[i + 1].value.slice(saveNodeList[i + 1].value.indexOf("#") == -1? 0 :saveNodeList[i + 1].value.indexOf("#")+1, -1))
+      await ymaps.geocode(saveNodeList[i + 1].value.slice(saveNodeList[i + 1].value.indexOf("#") == -1? 0 :saveNodeList[i + 1].value.indexOf("#")+1, -1)).then(
         function (res) {
           let firstGeoObject = res.geoObjects.get(0);
           let coord = firstGeoObject.geometry.getCoordinates();
@@ -294,6 +326,8 @@ function init() {
     formData.append("route_name", document.querySelector("#routename").value);
     formData.append("route_distance", activeRoute.properties.get("distance").text);
     formData.append("route_time", activeRoute.properties.get("duration").text);
+    console.log(document.querySelector("#status").checked)
+    formData.append("status", document.querySelector("#status").checked?"public":"private")
     //formData.append("status", )
 
     const uploadResponse = await fetch(`/route/upload/new/route`, {
@@ -305,26 +339,6 @@ function init() {
     window.location.href = "/";
   };
 }
-
-// fetch('', {
-//   headers,
-//   method
-// })
-
-// const socket = io('http://localhost:3000'); 
-
-// socket.on('newComment', (comments) => {
-//   console.log('Соединение с сервером установлено');
-//   console.log(comments);
-// });
-
-// socket.on('connect', () => {
-//   console.log(`Подключен к серверу с id: ${socket.id}`);
-// });
-
-// socket.on('disconnect', () => {
-//   console.log('Отсоединение от сервера');
-// });
 
 let img_id = 0
 document.querySelector("#inputpicture").addEventListener("change", (event) => {
@@ -355,3 +369,132 @@ document.querySelector("#inputpicture").addEventListener("change", (event) => {
 });
 
 ymaps.ready(init);
+
+
+
+
+
+/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script> */ // скрипт фрхиватора нужно добавить на страницу где будет экспорт
+var KML;
+var GPX;
+
+document.querySelector("#GPX_btn").onclick = exportToGPX
+document.querySelector("#KML_btn").onclick = exportToKML
+document.querySelector("#KMZ_btn").onclick = exportToKMZ
+
+async function exportToGPX() {
+let addresses = []
+for (let i = 0; i < addreses.length; i++) {
+  await ymaps.geocode(addreses[i]).then(
+    function (res) {
+      let firstGeoObject = res.geoObjects.get(0);
+      let coord = firstGeoObject.geometry.getCoordinates();
+      addresses.push(coord)
+    },
+    function (error) {
+      console.error("Ошибка геокодирования адреса:", error);
+      alert("Ошибка, проверьте достоверность всех адресов");
+    }
+  );
+}
+    GPX = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    GPX += '<gpx version="1.1" creator="Yandex Maps">\n';
+    GPX += '<metadata>\n';
+    GPX += `<name>${document.querySelector("#routename").value}</name>\n`;                   // название маршрута  // название --------
+    GPX += `<desc>${document.querySelector("#description").value}</desc>\n`;                      // описание маршрута  // описание ---------
+    GPX += '</metadata>\n';
+    GPX += '<trk>\n';                                        // начало трека
+    GPX += `<name>${document.querySelector("#routename").value}</name>\n `;                           // название трека     // название-----------
+    GPX += '<trkseg>\n';                                     // начало  сегмента трека
+
+    
+
+    addresses.forEach(address => {
+      console.log(Array.isArray(address))
+        if (Array.isArray(address)) {
+            GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  //добавление точки
+            GPX += '</trkpt>\n';
+        }
+    });
+    GPX += '</trkseg>\n';// конец  сегмента трека
+    GPX += '</trk>\n';   // конец трека
+    GPX += '</gpx>';
+
+    var blob = new Blob([GPX], { type: 'application/gpx+xml' });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'tourou.gpx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+async function createKML(){
+  let addresses = []
+  for (let i = 0; i < addreses.length; i++) {
+    await ymaps.geocode(addreses[i]).then(
+      function (res) {
+        let firstGeoObject = res.geoObjects.get(0);
+        let coord = firstGeoObject.geometry.getCoordinates();
+        addresses.push(coord)
+      },
+      function (error) {
+        console.error("Ошибка геокодирования адреса:", error);
+        alert("Ошибка, проверьте достоверность всех адресов");
+      }
+    );
+  }
+
+    KML = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
+    KML += '<Document>\n';
+    KML += `<name>${document.querySelector("#routename").value}</name>\n`;                                      // название 
+    KML += '<description>A simple description example.</description>\n';
+    KML += '<Placemark>\n';
+    KML += `<name>${document.querySelector("#routename").value}</name>\n`;                                     // название
+    KML += `<description>${document.querySelector("#description").value}</description>\n`;         // описание
+    KML += '<LineString>\n';
+    KML += '<coordinates>\n';
+
+    addresses.forEach(address => {
+        if (Array.isArray(address)) {
+            KML += `${address[1]},${address[0]} `; // Долгота,Широта, разделенные пробелом
+        }
+    });
+
+    KML += '</coordinates>\n';
+    KML += '</LineString>\n';
+    KML += '</Placemark>\n';
+    KML += '</Document>\n';
+    KML += '</kml>\n';
+}
+function exportToKML() {  
+    createKML();      
+    var blob = new Blob([KML], { type: 'application/vnd.google-earth.kml+xml' });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'tourou.kml';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+function exportToKMZ(){
+    createKML();
+    var zip = new JSZip();
+    zip.file("route.kml", KML);
+
+    zip.generateAsync({ type: "blob" }).then(function (blob) {
+        var url = URL.createObjectURL(blob);
+
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'route.kmz';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    });
+}

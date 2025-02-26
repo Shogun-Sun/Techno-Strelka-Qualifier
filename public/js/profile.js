@@ -21,7 +21,7 @@ new_route.addEventListener("click", () => {
   document.querySelector(
     "label[for='avatar']"
   ).style.backgroundImage = `url(http://localhost:3000/storages/images/${data.data.avatar})`;
-  document.getElementById("fio").innerText = `${data.data.username} ${data.data.lastname} ${data.data.patronymic}`;
+  document.getElementById("fio").innerText = `${data.data.lastname} ${data.data.username} ${data.data.patronymic}`;
   document.getElementById("email").innerText = `${data.data.email}`;
 
   new_patronymic.value = `${data.data.patronymic}`;

@@ -12,7 +12,7 @@ function exportToGPX() {
     GPX += '<name>Route</name>\n';                           // название трека     // название-----------
     GPX += '<trkseg>\n';                                     // начало  сегмента трека
 
-    addresses.forEach(address => {
+    addreses.forEach(address => {
         if (Array.isArray(address)) {
             GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  //добавление точки
             GPX += '</trkpt>\n';
@@ -45,7 +45,7 @@ function createKML(){
     KML += '<LineString>\n';
     KML += '<coordinates>\n';
 
-    addresses.forEach(address => {
+    addreses.forEach(address => {
         if (Array.isArray(address)) {
             KML += `${address[1]},${address[0]} `; // Долгота,Широта, разделенные пробелом
         }
