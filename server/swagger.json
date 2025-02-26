@@ -397,11 +397,7 @@
                 "route_time": {
                   "example": "any"
                 },
-<<<<<<< Updated upstream
-                "route_images": {
-=======
                 "status": {
->>>>>>> Stashed changes
                   "example": "any"
                 },
                 "point_data": {

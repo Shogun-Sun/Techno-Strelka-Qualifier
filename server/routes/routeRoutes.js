@@ -128,7 +128,7 @@ router.post(
       route_description,
       route_distance,
       route_time,
-      status
+      status,
     } = req.body;
 
     let { point_data } = req.body;
@@ -140,14 +140,20 @@ router.post(
     try {
       const imagesPaths = req.files.map((f) => f.filename).join(",");
 
+      await Routes.update(
+        {route_status: status || "private"},
+        {
+        where: { route_id },
+        }
+      );
+
       await RoutesHistory.create({
         route_id,
         route_name,
-        route_images: imagesPaths || route_images,
+        route_images: imagesPaths,
         route_description,
         route_distance,
         route_time,
-        route_status: status || "private",
       });
 
       await Points.create({
