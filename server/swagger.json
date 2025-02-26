@@ -99,6 +99,16 @@
         }
       }
     },
+    "/route/watch": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/users/log-reg/page": {
       "get": {
         "description": "",
@@ -387,7 +397,11 @@
                 "route_time": {
                   "example": "any"
                 },
+<<<<<<< Updated upstream
                 "route_images": {
+=======
+                "status": {
+>>>>>>> Stashed changes
                   "example": "any"
                 },
                 "point_data": {

@@ -128,7 +128,7 @@ router.post(
       route_description,
       route_distance,
       route_time,
-      route_images,
+      status
     } = req.body;
 
     let { point_data } = req.body;
@@ -147,6 +147,7 @@ router.post(
         route_description,
         route_distance,
         route_time,
+        route_status: status || "private",
       });
 
       await Points.create({
