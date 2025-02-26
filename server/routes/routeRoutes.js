@@ -234,4 +234,31 @@ router.post("/route/set/route/public", checkUnSession, async (req, res) => {
     return res.status(400).json({ message: "Ошибка обновления статуса" });
   }
 });
+
+router.post("/route/get/route/history/by/id", async (req, res) => {
+  const { route_id } = req.body;
+  try {
+
+    const route_data = await Routes.findOne({
+      where: { route_id },
+      include: [
+        {
+        model: RoutesHistory,
+        required: true,
+        },
+        {
+          model: Points,
+          required: true,
+        }
+      ]
+    })
+
+    return res
+      .status(200)
+      .json({ message: "История маршрута успешно получена", data: route_data });
+  } catch (err) {
+    console.error("Ошибка при получении маршрута:", err);
+    return res.status(400).json({ message: "Ошибка получения истории маршрута" });
+  }
+});
 module.exports = router;
