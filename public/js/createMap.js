@@ -74,7 +74,7 @@ function init() {
     if (clickAddres != null) {
       var coords = e.get("coords");
       addreses[clickAddres.index] = coords;
-      clickAddres.target.value = `CustomPoint#${coords}`;
+      clickAddres.target.value = coords
       map.geoObjects.remove(multiRoute);
       multiRoute = new ymaps.multiRouter.MultiRoute(
         {
@@ -207,7 +207,7 @@ map.controls.add(searchControl);
       delete passErrors[cnt]
 
       map.geoObjects.remove(multiRoute);
-      addreses[cnt] = addres_input.value.slice(addres_input.value.indexOf("#") == -1? 0 :addres_input.value.indexOf("#")+1);
+      addreses[cnt] = addres_input.value
       multiRoute = new ymaps.multiRouter.MultiRoute(
         {
           referencePoints: addreses,

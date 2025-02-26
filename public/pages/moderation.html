@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moderation</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=cfb17578-6c78-4dbc-9099-c50949c99d19&lang=ru_RU" type="text/javascript"></script>
     <link rel="stylesheet" href="/css/login_out.css">
 </head>
 <body class="bg-gray-100 dark:bg-slate-800">
+    <div class="hidden text-gray-300 font-medium text-lg overflow-hidden w-full h-12 mb-4 text-slate-900 rounded-lg bg-emerald-500 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300 border-2 rounded-10 h-full w-72 sm:w-80 shadow-card bg-cover bg-clip-padding flex flex-col justify-end p-4 gap-3 bg-center hover:bg-[100%] duration-300 shrink-0 snap-center snap-mandatory snap-always "></div>
     <nav class="w-full flex justify-center md:justify-center items-center pt-2 px-2 fixed z-[41] group/nav -mt-14">
 
         <div id="main_icon" class="w-32 md:w-36 lg:bg-white top-[7px] lg:top-[8px] left-3 md:left-5 rounded-3xl fixed z-[41] flex items-center justify-between h-[39px] lg:w-40 px-3 lg:dark:bg-slate-800
@@ -113,35 +115,8 @@
                         <th class="sticky top-0 text-lg md:text-xl lg:text-2xl text-gray-100 w-[400px] md:w-[430px] lg:w-[500px] shrink-0 dark:text-slate-900">Действия</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-900 dark:gray-100">
-                    <tr class="moder_table_row">
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Название</td>
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Иванов Иван</td>
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">20.02.2025</td>
-                        <td class="flex justify-around items-center h-12 w-[370px] md:w-[430px] lg:w-[500px] gap-4 px-2">
-                            <button class="text-slate-900 rounded-lg bg-red-600 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300">Отклонить</button>
-                            <button class="text-slate-900 rounded-lg bg-emerald-500 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300">Подтвердить</button>
-                        </td>
-                    </tr>
-                    <tr class="moder_table_row">
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Название</td>
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Иванов Иван</td>
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">20.02.2025</td>
-                        <td class="flex justify-around items-center h-12 w-[370px] md:w-[430px] lg:w-[500px] gap-4 px-2">
-                            <button class="text-slate-900 rounded-lg bg-red-600 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300">Отклонить</button>
-                            <button class="text-slate-900 rounded-lg bg-emerald-500 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300">Подтвердить</button>
-                        </td>
-                    </tr>
-                    <tr class="moder_table_row">
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Название</td>
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Иванов Иван</td>
-                        <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">20.02.2025</td>
-                        <td class="flex justify-around items-center h-12 w-[370px] md:w-[430px] lg:w-[500px] gap-4 px-2">
-                            <button class="text-slate-900 rounded-lg bg-red-600 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300">Отклонить</button>
-                            <button class="text-slate-900 rounded-lg bg-emerald-500 text-base lg:text-lg px-1 py-1 w-28 md:w-32 lg:w-40 z-10 dark:text-gray-300">Подтвердить</button>
-                        </td>
-                    </tr>
-                    <tr class="moder_table_row">
+                <tbody id="moderTableBody" class="divide-y divide-slate-900 dark:gray-100">
+                    <tr class="hidden moder_table_row">
                         <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Название</td>
                         <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Иванов Иван</td>
                         <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">20.02.2025</td>
@@ -154,13 +129,13 @@
             </table>
         </div>
 
-        <div id="modal" class="fixed inset-0 bg-slate-900 bg-opacity-60 flex items-center justify-center opacity-0 hidden transition-opacity duration-500 py-5 z-50 px-3 md:px-0">
-            <div id="mainModal" class="bg-white rounded-lg shadow-2xl w-full md:w-10/12 lg:w-8/12 h-[850px] px-6 py-2 transform transition-transform
+        <div id="modalModer" class="fixed inset-0 bg-slate-900 bg-opacity-60 flex items-center justify-center opacity-0 hidden transition-opacity duration-500 py-5 z-50 px-3 md:px-0">
+            <div id="mainModalModer" class="bg-white rounded-lg shadow-2xl w-full md:w-10/12 lg:w-8/12 h-[850px] px-6 py-2 transform transition-transform
              duration-500 flex flex-col z-50 dark:bg-slate-900">
                 <!-- Заголовок -->
                 <div class="flex justify-between items-center mb-4">
                     <h2 id="name" class="text-xl sm:text-2xl md:text-3xl font-semibold text-center pl-3 text-slate-900 dark:text-gray-200"></h2>
-                    <button id="closeModal" class="border-2 border-white dark:border-slate-900 rounded-lg hover:border-2 hover:border-yellow-500">
+                    <button id="closeModalModer" class="border-2 border-white dark:border-slate-900 rounded-lg hover:border-2 hover:border-yellow-500">
                         <svg class="w-[25px] h-[25px] stroke-yellow-500 stroke-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M6 18 17.94 6M18 18 6.06 6"/>
                         </svg>
@@ -171,19 +146,15 @@
                 <div class="flex flex-col justify-between overflow-y-auto h-[684px]">
                     <div id="map" class="border-2 border-rose-700 w-full h-[400px]"></div>
                     <div class="flex flex-col justify-between gap-4 w-full px-4 overflow-y-auto h-[284px]">
-                        <p id="author" class="text-lg text-slate-900 flex dark:text-gray-300"></p>
-                        <p id="date" class="text-lg text-slate-900 flex dark:text-gray-300"></p>
                         <p id="description" class="text-lg text-slate-900 flex h-full w-full text-wrap dark:text-gray-300"></p>
+                        <div id="photos"></div>
                     </div>
                 </div>
 
                 <!-- Кнопки -->
                 <div class="self-end flex justify-between space-x-4 p-2 mt-4">
                     <button id="cancelButton" class="p-1 text-sm sm:text-lg h-8 w-40 rounded-lg bg-gray-100 text-yellow-400 md:text-xl md:h-10 md:py-1 hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700">
-                        Отклонить
-                    </button>
-                    <button class="p-1 text-xs sm:text-lg h-8 w-40 rounded-lg bg-yellow-500 text-white md:text-xl md:h-10 md:py-1 hover:bg-yellow-400 dark:text-slate-900">
-                        Подтвердить
+                        Закрыть
                     </button>
                 </div>
             </div>
