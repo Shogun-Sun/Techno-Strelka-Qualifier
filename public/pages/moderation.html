@@ -101,7 +101,7 @@
         </div>
     </nav>
 
-    <main class="mt-14 min-h-[200vh] w-full flex flex-col items-center px-0 md:px-4 lg:px-0">
+    <main class="mt-14 w-full flex flex-col items-center px-0 md:px-4 lg:px-0">
         <div class="w-[750px] md:w-full lg:w-10/12  mx-auto shadow-xl shadow-slate-300 min-h-10 rounded-lg p-4 bg-white dark:bg-slate-900 dark:shadow-slate-950">
             <h1 class="w-full mx-auto text-xl sm:text-3xl font-semibold text-slate-900 mb-4 tracking-tight text-left border-b-4 border-yellow-500 dark:text-gray-200">
                 Модерация маршрутов
@@ -116,7 +116,7 @@
                     </tr>
                 </thead>
                 <tbody id="moderTableBody" class="divide-y divide-slate-900 dark:gray-100">
-                    <tr class="hidden moder_table_row">
+                    <tr class="hidden moder_table_row h-[150px]">
                         <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Название</td>
                         <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">Иванов Иван</td>
                         <td class="px-2 text-base lg:text-lg text-slate-900 dark:text-gray-300">20.02.2025</td>
@@ -129,12 +129,11 @@
             </table>
         </div>
 
-        <div id="modalModer" class="fixed inset-0 bg-slate-900 bg-opacity-60 flex items-center justify-center opacity-0 hidden transition-opacity duration-500 py-5 z-50 px-3 md:px-0">
-            <div id="mainModalModer" class="bg-white rounded-lg shadow-2xl w-full md:w-10/12 lg:w-8/12 h-[850px] px-6 py-2 transform transition-transform
+        <div id="modalModer" class="fixed inset-0 bg-slate-900 bg-opacity-60 flex items-center justify-center opacity-0 hidden transition-opacity duration-500 py-5 z-50 px-3 md:px-0 h-full">
+            <div id="mainModalModer" class="bg-white rounded-lg shadow-2xl w-full md:w-10/12 lg:w-8/12 h-[650px] px-6 py-2 transform transition-transform
              duration-500 flex flex-col z-50 dark:bg-slate-900">
-                <!-- Заголовок -->
                 <div class="flex justify-between items-center mb-4">
-                    <h2 id="name" class="text-xl sm:text-2xl md:text-3xl font-semibold text-center pl-3 text-slate-900 dark:text-gray-200"></h2>
+                    <h2 id="name" class="text-xl sm:text-2xl md:text-3xl font-semibold text-center pl-3 text-slate-900 dark:text-gray-200 underline decoration-yellow-500"></h2>
                     <button id="closeModalModer" class="border-2 border-white dark:border-slate-900 rounded-lg hover:border-2 hover:border-yellow-500">
                         <svg class="w-[25px] h-[25px] stroke-yellow-500 stroke-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <path d="M6 18 17.94 6M18 18 6.06 6"/>
@@ -142,16 +141,15 @@
                     </button>
                 </div>
 
-                <!-- Контент -->
-                <div class="flex flex-col justify-between overflow-y-auto h-[684px]">
-                    <div id="map" class="border-2 border-rose-700 w-full h-[400px]"></div>
-                    <div class="flex flex-col justify-between gap-4 w-full px-4 overflow-y-auto h-[284px]">
-                        <p id="description" class="text-lg text-slate-900 flex h-full w-full text-wrap dark:text-gray-300"></p>
-                        <div id="photos"></div>
+                <div class="flex flex-col justify-between overflow-y-auto h-[550px] w-full gap-6">
+                    <div id="map" class="w-full h-[400px]"></div>
+                    <div class="flex flex-col justify-between gap-4 w-full px-4 overflow-y-auto h-[280px]">
+                        <div id="photos" class="flex flex-wrap justify-around mt-4"></div>
+                        <p id="description" class="text-lg text-slate-900 block h-full w-full text-wrap dark:text-gray-300"></p>
+                        
                     </div>
                 </div>
 
-                <!-- Кнопки -->
                 <div class="self-end flex justify-between space-x-4 p-2 mt-4">
                     <button id="cancelButton" class="p-1 text-sm sm:text-lg h-8 w-40 rounded-lg bg-gray-100 text-yellow-400 md:text-xl md:h-10 md:py-1 hover:bg-gray-50 dark:bg-slate-800 dark:hover:bg-slate-700">
                         Закрыть
@@ -159,6 +157,7 @@
                 </div>
             </div>
         </div>
+
     </main>
     <script src="/js/moderation.js"></script>
     <script src="/js/darkmode.js"></script>

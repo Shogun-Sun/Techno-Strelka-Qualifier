@@ -34,11 +34,13 @@ async function loadContent() {
               );
               map.geoObjects.add(multiRoute);
 
+              document.querySelector('#name').innerText = route.RoutesHistories[0].route_name;
               document.querySelector("#description").innerText = route.RoutesHistories[0].route_description
 
               console.log(route.RoutesHistories[0].route_images.split(","))
               route.RoutesHistories[0].route_images.split(",").forEach((photo) => {
                 let img = document.createElement("img")
+                img.className = 'h-[150px] w-auto';
                 img.src = `/storages/images/${photo}`
                 document.querySelector("#photos").append(img)
               })

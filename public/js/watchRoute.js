@@ -229,7 +229,7 @@ function init() {
         edit_route.data.RoutesHistories[0].route_images.split(",").forEach((photo) => {
             let img = document.createElement("img")
             img.src = `/storages/images/${photo}`
-            img.className="w-auto h-32"
+            img.className="rounded-10 h-full w-auto shadow-2xl shadow-slate-900"
       
             document.querySelector("#puctureArea").append(img)
         })
@@ -493,7 +493,7 @@ map.controls.add(searchControl);
     });
 
     const uploadData = await uploadResponse.json();
-    // window.location.href = "/";
+    window.location.href = "/profile";
   };
 
 
