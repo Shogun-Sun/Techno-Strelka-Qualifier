@@ -520,11 +520,11 @@ for (let i = 0; i < refPoints.length; i++) {
     GPX = '<?xml version="1.0" encoding="UTF-8"?>\n';
     GPX += '<gpx version="1.1" creator="Yandex Maps">\n';
     GPX += '<metadata>\n';
-    GPX += `<name>${active_route.RoutesHistories.route_name}</name>\n`;                   // название маршрута  // название --------
-    GPX += `<desc>${active_route.RoutesHistories.route_description}</desc>\n`;                      // описание маршрута  // описание ---------
+    GPX += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                   // название маршрута  // название --------
+    GPX += `<desc>${active_route.RoutesHistories[0].route_description}</desc>\n`;                      // описание маршрута  // описание ---------
     GPX += '</metadata>\n';
     GPX += '<trk>\n';                                        // начало трека
-    GPX += `<name>${active_route.RoutesHistories.route_name}</name>\n `;                           // название трека     // название-----------
+    GPX += `<name>${active_route.RoutesHistories[0].route_name}</name>\n `;                           // название трека     // название-----------
     GPX += '<trkseg>\n';                                     // начало  сегмента трека
 
     
@@ -570,11 +570,11 @@ async function createKML(){
     KML = '<?xml version="1.0" encoding="UTF-8"?>\n';
     KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
     KML += '<Document>\n';
-    KML += `<name>${active_route.RoutesHistories.route_name}</name>\n`;                                      // название 
-    KML += '<description>A simple description example.</description>\n';
+    KML += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                                      // название 
+    KML += `<description>${active_route.RoutesHistories[0].route_description}</description>\n`;
     KML += '<Placemark>\n';
-    KML += `<name>${active_route.RoutesHistories.route_name}</name>\n`;                                     // название
-    KML += `<description>${active_route.RoutesHistories.route_description}</description>\n`;         // описание
+    KML += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                                     // название
+    KML += `<description>${active_route.RoutesHistories[0].route_description}</description>\n`;         // описание
     KML += '<LineString>\n';
     KML += '<coordinates>\n';
 
@@ -590,8 +590,8 @@ async function createKML(){
     KML += '</Document>\n';
     KML += '</kml>\n';
 }
-function exportToKML() {  
-    createKML();      
+async function exportToKML() {  
+    await createKML();      
     var blob = new Blob([KML], { type: 'application/vnd.google-earth.kml+xml' });
     var url = URL.createObjectURL(blob);
 
@@ -602,8 +602,8 @@ function exportToKML() {
     a.click();
     document.body.removeChild(a);
 }
-function exportToKMZ(){
-    createKML();
+async function exportToKMZ(){
+    await createKML();
     var zip = new JSZip();
     zip.file("route.kml", KML);
 

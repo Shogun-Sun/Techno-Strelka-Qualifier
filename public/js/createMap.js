@@ -351,11 +351,14 @@ let img_id = 0
 document.querySelector("#inputpicture").addEventListener("change", (event) => {
   
   const files = event.target.files;
+  console.log(files)
   for (const file of files) {
+    console.log(file)
     let reader = new FileReader();
     let img = document.createElement("img");
 
     reader.onload = (e) => {
+      console.log(e)
       img.src = e.target.result;
       // img.style.width = "100px";
       img.className = "rounded-10 h-full w-auto shadow-2xl shadow-slate-900";
@@ -440,7 +443,9 @@ for (let i = 0; i < addreses.length; i++) {
 
 async function createKML(){
   let addresses = []
-  for (let i = 0; i < addreses.length; i++) {
+  for (let i = 0; i < addreses.length; i++ 
+
+  ) {
     await ymaps.geocode(addreses[i]).then(
       function (res) {
         let firstGeoObject = res.geoObjects.get(0);
@@ -458,7 +463,7 @@ async function createKML(){
     KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
     KML += '<Document>\n';
     KML += `<name>${document.querySelector("#routename").value}</name>\n`;                                      // название 
-    KML += '<description>A simple description example.</description>\n';
+    KML += `<description>${document.querySelector("#description").value}</description>\n`;
     KML += '<Placemark>\n';
     KML += `<name>${document.querySelector("#routename").value}</name>\n`;                                     // название
     KML += `<description>${document.querySelector("#description").value}</description>\n`;         // описание
@@ -477,8 +482,8 @@ async function createKML(){
     KML += '</Document>\n';
     KML += '</kml>\n';
 }
-function exportToKML() {  
-    createKML();      
+async function exportToKML() {  
+    await createKML();      
     var blob = new Blob([KML], { type: 'application/vnd.google-earth.kml+xml' });
     var url = URL.createObjectURL(blob);
 
@@ -489,8 +494,8 @@ function exportToKML() {
     a.click();
     document.body.removeChild(a);
 }
-function exportToKMZ(){
-    createKML();
+async function exportToKMZ(){
+    await createKML();
     var zip = new JSZip();
     zip.file("route.kml", KML);
 

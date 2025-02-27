@@ -631,8 +631,8 @@ async function createKML(){
     KML += '</Document>\n';
     KML += '</kml>\n';
 }
-function exportToKML() {  
-    createKML();      
+async function exportToKML() {  
+    await createKML();
     var blob = new Blob([KML], { type: 'application/vnd.google-earth.kml+xml' });
     var url = URL.createObjectURL(blob);
 
@@ -643,8 +643,8 @@ function exportToKML() {
     a.click();
     document.body.removeChild(a);
 }
-function exportToKMZ(){
-    createKML();
+async function exportToKMZ(){
+    await createKML();
     var zip = new JSZip();
     zip.file("route.kml", KML);
 
