@@ -3,6 +3,7 @@ let current_user;
 let active_route;
 var map
 var refPoints = [];
+var multiRoute;
 
 let currentDate = new Date();
 console.log(currentDate.getMonth());
@@ -234,9 +235,29 @@ async function renderRoute(route_id) {
 
       distanse_time_div.append(act_distance, act_time);
       route_info.append(act_description_div, distanse_time_div);
+
+      let transport_type = document.createElement('div');
+      let select_type = document.createElement('select');
+      select_type.innerHTML = `
+                                    <option value="auto">Автомобиль</option> 
+                                    <option value="pedestrian">Пешком</option> 
+                                    <option value="bicycle">Велосипед</option> 
+                                    <option value="masstransit">Общественный транспорт</option> 
+                               `
+
+      select_type.addEventListener("change",() => {
+        var selectedTransportType = select_type.value; 
+        multiRoute.model.setParams({ 
+          routingMode: selectedTransportType
+      }, true);
+      })
+
+      transport_type.append(select_type)
+
       main.append(
         back_button,
         routeMap,
+        transport_type,
         export_buttons,
         className_conteiner,
         route_info,
@@ -284,9 +305,12 @@ async function renderRoute(route_id) {
           userPoints.append(point_div);
         });
 
-        let multiRoute = new ymaps.multiRouter.MultiRoute(
+        multiRoute = new ymaps.multiRouter.MultiRoute(
           {
             referencePoints: refPoints,
+            params:{
+              routingMode: 'auto'
+            }
           },
           {
             boundsAutoApply: true,
