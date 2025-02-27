@@ -29,8 +29,6 @@ const io = socketIo(server);
 
   server.listen(Number(process.env.PORT), () => {
     console.log(`Сервер запущен на http://localhost:${process.env.PORT}`);
-    console.log(`Swagger доступен по адресу: http://localhost:${process.env.PORT}/doc`
-    );
   });
 })();
 
