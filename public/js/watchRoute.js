@@ -225,6 +225,15 @@ function init() {
             
         }
     
+        console.log(edit_route)
+        edit_route.data.RoutesHistories[0].route_images.split(",").forEach((photo) => {
+            let img = document.createElement("img")
+            img.src = `/storages/images/${photo}`
+            img.className="w-auto h-32"
+      
+            document.querySelector("#puctureArea").append(img)
+        })
+
     }
     
 
@@ -268,6 +277,7 @@ function init() {
     options: {
         provider: 'yandex#search'
     }
+
 });
 
 map.controls.add(searchControl);
@@ -485,6 +495,11 @@ map.controls.add(searchControl);
     const uploadData = await uploadResponse.json();
     // window.location.href = "/";
   };
+
+
+
+
+
 }
 
 let img_id = 0
