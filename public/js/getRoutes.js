@@ -237,13 +237,13 @@ async function renderRoute(route_id) {
       route_info.append(act_description_div, distanse_time_div);
 
       let transport_type = document.createElement('div');
+      transport_type.className = 'rounded-10 flex gap-4 p-3 bg-white shadow-xl shadow-slate-300 dark:shadow-slate-950 dark:bg-slate-900 mt-6';
       let select_type = document.createElement('select');
-      select_type.innerHTML = `
-                                    <option value="auto">Автомобиль</option> 
-                                    <option value="pedestrian">Пешком</option> 
-                                    <option value="bicycle">Велосипед</option> 
-                                    <option value="masstransit">Общественный транспорт</option> 
-                               `
+      select_type.className = 'rounded-10 border-2 border-yellow-500 text-xl text-slate-900 dark:text-gray-300 p-3 dark:bg-slate-900';
+      select_type.innerHTML = `<option value="auto">Автомобиль</option> 
+                               <option value="pedestrian">Пешком</option> 
+                               <option value="bicycle">Велосипед</option> 
+                               <option value="masstransit">Общественный транспорт</option> `
 
       select_type.addEventListener("change",() => {
         var selectedTransportType = select_type.value; 
