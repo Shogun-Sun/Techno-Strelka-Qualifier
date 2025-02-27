@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/login_out.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
     <script src="https://api-maps.yandex.ru/2.1/?apikey=cfb17578-6c78-4dbc-9099-c50949c99d19&lang=ru_RU" type="text/javascript"></script>
     <!-- <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script> -->
 
@@ -102,9 +103,19 @@
         </div>
     </nav>     
 
-    <main class="lg:flex justify-between gap-8 lg:gap-4 mt-14 px-4 ">
-        <div id="map" class="w-full lg:w-1/2 pb-4 rounded-10 h-[50vh] md:h-[70vh] lg:h-[630px]"></div>
 
+    <main class="lg:flex justify-between gap-8 lg:gap-4 mt-14 px-4 ">
+        <div class="w-full flex flex-col">
+            <div id="exportButtons">
+                <button id="GPX_btn">GPX</button>
+                <button id="KML_btn">KML</button>
+                <button id="KMZ_btn">KMZ</button>
+            </div>
+            <div id="map" class="w-full pb-4 rounded-10 h-[50vh] md:h-[70vh] lg:h-[630px]"></div>
+            <div id="history" class="">
+                <button id="new" class="w-10 h-10 bg-yellow-500 rounded-10">new</button>
+            </div>
+        </div>
         <div id="userPoints" class="flex flex-col w-full lg:w-1/2 mt-4 md:mt-0 pb-4 px-4 justify-between gap-3">
 
             <div class="flex flex-col gap-2 mb-2 justify-center">
@@ -116,11 +127,12 @@
             <div class="h-72">
                 <div id="points" class = "w-full relative h-72  bg-white rounded-10 overflow-y-auto
                 dark:bg-slate-800 z-0  border border-yellow-400/50 p-2 space-y-4">
-                    <div class="point">
+                    <div class="hidden point">
                         <lable class="point_lable">Название</lable>
                         <input class="savepoint addresname point_input">
                         <lable class="point_lable"> Адрес</lable>
                         <input class="savepoint addres point_input">
+                        <div class="error hidden"></div>
                         <button id="selectAddres" class="point_btn">поставить на карте</button>
                     </div>
                 </div>
@@ -158,7 +170,7 @@
                 
                 <!-- <button id="uploadButton" class="">Загрузить картинки</button> -->
             </div>
-            <div>
+            <div id="stat">
                 <lable for="status">Сделать открытым</lable>
                 <input id="status" type="checkbox">
             </div>

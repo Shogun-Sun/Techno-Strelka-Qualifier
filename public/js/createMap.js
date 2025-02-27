@@ -75,6 +75,8 @@ function init() {
       var coords = e.get("coords");
       addreses[clickAddres.index] = coords;
       clickAddres.target.value = coords
+      clickAddres.target.focus()
+      clickAddres.target.blur()
       map.geoObjects.remove(multiRoute);
       multiRoute = new ymaps.multiRouter.MultiRoute(
         {
@@ -192,7 +194,7 @@ map.controls.add(searchControl);
       // console.log(addresErrors)
       let error_div = elem.target.parentNode.querySelector(".error")
 
-      if (elem.target.value.indexOf("#") == -1) {
+      if (isNaN(elem.target.value[0])) {
         await geocode(elem.target.value)
         if (addresErrors.error) {
           error_div.innerText = addresErrors.hint
@@ -202,7 +204,6 @@ map.controls.add(searchControl);
         }
       } 
 
-      
       error_div.classList.add("hidden")
       delete passErrors[cnt]
 
@@ -239,7 +240,7 @@ map.controls.add(searchControl);
 
     let error_div = elem.target.parentNode.querySelector(".error")
 
-    if (elem.target.value.indexOf("#") == -1) {
+    if (isNaN(elem.target.value[0])) {
       await geocode(elem.target.value)
       if (addresErrors.error) {
         error_div.innerText = addresErrors.hint
@@ -256,7 +257,7 @@ map.controls.add(searchControl);
     delete passErrors[0]
 
     map.geoObjects.remove(multiRoute);
-    addreses[0] = elem.target.value.slice(elem.target.value.indexOf("#") == -1? 0 :elem.target.value.indexOf("#")+1);
+    addreses[0] = elem.target.value
     console.log(addreses)
     multiRoute = new ymaps.multiRouter.MultiRoute(
       {
@@ -312,6 +313,7 @@ map.controls.add(searchControl);
         (pointdesc.order = i / 2 + 1);
       sevedPoints.push(pointdesc);
     }
+  
 
     var activeRoute = multiRoute.getActiveRoute();
 
@@ -319,6 +321,11 @@ map.controls.add(searchControl);
     selectedFiles.forEach((file) => {
       formData.append("file", file);
     });
+
+    if (!formData.has("file")) {
+      alert("Загрузите фото")
+      return
+    }
 
     // formData.append("user_id", );
     formData.append("point_data", JSON.stringify(sevedPoints));

@@ -1,6 +1,8 @@
 let routes = document.querySelector("#routes");
 let current_user;
 let active_route;
+var map
+var refPoints = [];
 
 let currentDate = new Date();
 console.log(currentDate.getMonth());
@@ -109,6 +111,23 @@ async function renderRoute(route_id) {
       let main = document.createElement("main");
       main.className =
         "mt-10 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 mb-12";
+        //--------------------------------------------------------------------------экспорт
+      let exportGPX = document.createElement("button")
+      exportGPX.onclick = exportToGPX
+      exportGPX.innerText = "GPX"
+
+      let exportKML = document.createElement("button")
+      exportKML.onclick = exportToKML
+      exportKML.innerText = "KML"
+
+      let exportKMZ = document.createElement("button")
+      exportKMZ.onclick = exportToKMZ
+      exportKMZ.innerText = "KMZ"
+
+      
+
+
+        //--------------------------------------------------------------------------экспорт
       let routeMap = document.createElement("div");
       routeMap.id = "map";
       routeMap.className =
@@ -133,7 +152,7 @@ async function renderRoute(route_id) {
       let route_name = document.createElement("span");
       route_name.className =
         "text-4xl font-semibold p-3 text-slate-900 underline decoration-solid decoration-yellow-500 underline-offset-[10px] dark:text-gray-200";
-      route_name.innerText = active_route.route_name;
+      route_name.innerText = active_route.RoutesHistories[0].route_name;
       className_conteiner.append(route_name);
 
       let act_description_lable = document.createElement("lable");
@@ -142,17 +161,17 @@ async function renderRoute(route_id) {
         "text-2xl text-slate-900 dark:text-gray-200 underline decoration-solid decoration-yellow-500 font-semibold";
 
       let act_description = document.createElement("p");
-      act_description.innerText = active_route.route_description;
+      act_description.innerText = active_route.RoutesHistories[0].route_description;
       act_description.classList =
         "text-lg text-slate-900 dark:text-gray-300 px-3 mb-5";
 
       let act_distance = document.createElement("span");
-      act_distance.innerText = `Дистанция - ${active_route.route_distance}`;
+      act_distance.innerText = `Дистанция - ${active_route.RoutesHistories[0].route_distance}`;
       act_distance.classList =
         " text-2xl underline decoration-solid decoration-yellow-500 font-semibold underline-offset-4 dark:text-gray-200";
 
       let act_time = document.createElement("span");
-      act_time.innerText = `время прохождения - ${active_route.route_time}`;
+      act_time.innerText = `время прохождения - ${active_route.RoutesHistories[0].route_time}`;
       act_time.classList =
         " text-2xl underline decoration-solid decoration-yellow-500 font-semibold dark:text-gray-200";
 
@@ -169,7 +188,7 @@ async function renderRoute(route_id) {
       let allImages = document.createElement("div");
       allImages.className =
         "flex flex-row flex-wrap justify-around gap-8 mt-6 bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 p-6 mb-6";
-      let act_images = active_route.route_images.split(",");
+      let act_images = active_route.RoutesHistories[0].route_images.split(",");
       act_images.forEach((image) => {
         let img = document.createElement("img");
         img.src = `./storages/images/${image}`;
@@ -206,6 +225,9 @@ async function renderRoute(route_id) {
       route_info.append(act_description_div, distanse_time_div);
       main.append(
         back_button,
+        exportGPX,
+        exportKML,
+        exportKMZ,
         routeMap,
         className_conteiner,
         route_info,
@@ -228,13 +250,13 @@ async function renderRoute(route_id) {
       });
 
       function init() {
-        let map = new ymaps.Map("map", {
+        map = new ymaps.Map("map", {
           center: [56.304681092875974, 43.983099494694265],
           zoom: 10,
           controls: [],
         });
-        let refPoints = [];
-        active_route.Route.Points[0].point_data.forEach((point) => {
+        refPoints = [];
+        active_route.Points[0].point_data.forEach((point) => {
           refPoints.push(point.addres);
           let point_div = document.createElement("div");
           point_div.className = "flex gap-4";
@@ -273,13 +295,13 @@ async function renderRoute(route_id) {
 }
 
 function renderComments() {
-  console.log(active_route.Route.route_id);
+  console.log(active_route.route_id);
   fetch("/comment/get/route/comments", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ route_id: active_route.Route.route_id }),
+    body: JSON.stringify({ route_id: active_route.route_id }),
   })
     .then((res) => res.json())
     .then((commentsResponse) => {
@@ -352,7 +374,7 @@ function renderComments() {
         commit_btn.onclick = () => {
           let sendMessange = {
             user_id: current_user.data.id,
-            route_id: active_route.Route.route_id,
+            route_id: active_route.route_id,
             comment_text: com_input.value,
           };
           console.log(sendMessange);
@@ -384,7 +406,7 @@ function render_rating() {
     headers: {
       "Content-Type": "Application/json",
     },
-    body: JSON.stringify({ route_id: active_route.Route.route_id }),
+    body: JSON.stringify({ route_id: active_route.route_id }),
   })
     .then((res) => res.json())
     .then((route_rating) => {
@@ -400,7 +422,7 @@ function render_rating() {
             "Content-Type": "Application/json",
           },
           body: JSON.stringify({
-            route_id: active_route.Route.route_id,
+            route_id: active_route.route_id,
             user_id: current_user.data.id,
             rating: "1",
           }),
@@ -435,7 +457,7 @@ function render_rating() {
             "Content-Type": "Application/json",
           },
           body: JSON.stringify({
-            route_id: active_route.Route.route_id,
+            route_id: active_route.route_id,
             user_id: current_user.data.id,
             rating: "-1",
           }),
@@ -463,5 +485,127 @@ function render_rating() {
       like_div.append(like_icon, like_count);
       dislike_div.append(dislike_icon, dislike_count);
       document.querySelector("#rating").append(like_div, dislike_div);
+    });
+}
+
+
+/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script> */ // скрипт фрхиватора нужно добавить на страницу где будет экспорт
+var KML;
+var GPX;
+
+async function exportToGPX() {
+let addresses = []
+for (let i = 0; i < refPoints.length; i++) {
+  await ymaps.geocode(refPoints[i]).then(
+    function (res) {
+      let firstGeoObject = res.geoObjects.get(0);
+      let coord = firstGeoObject.geometry.getCoordinates();
+      addresses.push(coord)
+    },
+    function (error) {
+      console.error("Ошибка геокодирования адреса:", error);
+      alert("Ошибка, проверьте достоверность всех адресов");
+    }
+  );
+}
+    GPX = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    GPX += '<gpx version="1.1" creator="Yandex Maps">\n';
+    GPX += '<metadata>\n';
+    GPX += `<name>${active_route.RoutesHistories.route_name}</name>\n`;                   // название маршрута  // название --------
+    GPX += `<desc>${active_route.RoutesHistories.route_description}</desc>\n`;                      // описание маршрута  // описание ---------
+    GPX += '</metadata>\n';
+    GPX += '<trk>\n';                                        // начало трека
+    GPX += `<name>${active_route.RoutesHistories.route_name}</name>\n `;                           // название трека     // название-----------
+    GPX += '<trkseg>\n';                                     // начало  сегмента трека
+
+    
+
+    addresses.forEach(address => {
+      console.log(Array.isArray(address))
+        if (Array.isArray(address)) {
+            GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  //добавление точки
+            GPX += '</trkpt>\n';
+        }
+    });
+    GPX += '</trkseg>\n';// конец  сегмента трека
+    GPX += '</trk>\n';   // конец трека
+    GPX += '</gpx>';
+
+    var blob = new Blob([GPX], { type: 'application/gpx+xml' });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'tourou.gpx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+async function createKML(){
+  let addresses = []
+  for (let i = 0; i < refPoints.length; i++) {
+    await ymaps.geocode(refPoints[i]).then(
+      function (res) {
+        let firstGeoObject = res.geoObjects.get(0);
+        let coord = firstGeoObject.geometry.getCoordinates();
+        addresses.push(coord)
+      },
+      function (error) {
+        console.error("Ошибка геокодирования адреса:", error);
+        alert("Ошибка, проверьте достоверность всех адресов");
+      }
+    );
+  }
+
+    KML = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
+    KML += '<Document>\n';
+    KML += `<name>${active_route.RoutesHistories.route_name}</name>\n`;                                      // название 
+    KML += '<description>A simple description example.</description>\n';
+    KML += '<Placemark>\n';
+    KML += `<name>${active_route.RoutesHistories.route_name}</name>\n`;                                     // название
+    KML += `<description>${active_route.RoutesHistories.route_description}</description>\n`;         // описание
+    KML += '<LineString>\n';
+    KML += '<coordinates>\n';
+
+    addresses.forEach(address => {
+        if (Array.isArray(address)) {
+            KML += `${address[1]},${address[0]} `; // Долгота,Широта, разделенные пробелом
+        }
+    });
+
+    KML += '</coordinates>\n';
+    KML += '</LineString>\n';
+    KML += '</Placemark>\n';
+    KML += '</Document>\n';
+    KML += '</kml>\n';
+}
+function exportToKML() {  
+    createKML();      
+    var blob = new Blob([KML], { type: 'application/vnd.google-earth.kml+xml' });
+    var url = URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'tourou.kml';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+function exportToKMZ(){
+    createKML();
+    var zip = new JSZip();
+    zip.file("route.kml", KML);
+
+    zip.generateAsync({ type: "blob" }).then(function (blob) {
+        var url = URL.createObjectURL(blob);
+
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'route.kmz';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     });
 }
