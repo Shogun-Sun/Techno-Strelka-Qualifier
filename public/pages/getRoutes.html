@@ -49,16 +49,16 @@
                 <a href="/" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Main</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="/profile" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Profile</a>
+                <a href="/profile" class="profile_href text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Profile</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="/map" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Private</a>
+                <a href="/map" class="private_href text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Private</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
                 <a href="/allroutes" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Public</a>
             </div>
             <div class="moderation_div group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
-                <a href="/moderation" class=" text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Модерация</a>
+                <a href="/moderation" class="text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Модерация</a>
             </div>
             <div class="group border-b-[0.5px] border-white h-full hover:border-yellow-500 flex items-center dark:border-slate-900 dark:border-b-2">
                 <a href="/log-reg" class="log text-[15px] text-slate-800 font-semibold group-hover:text-yellow-500 w-14 text-center dark:text-white">Log in</a>
@@ -82,26 +82,26 @@
                         <a href="/main" class="text-xl text-gray-800 dark:text-gray-300 w-full">Main</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/profile" class="text-xl text-gray-800 dark:text-gray-300 w-full">Profile</a>
+                        <a href="/profile" class="profile_href text-xl text-gray-800 dark:text-gray-300 w-full">Profile</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/map" class="text-xl text-gray-800 dark:text-gray-300 w-full">Private</a>
+                        <a href="/map" class="private_href text-xl text-gray-800 dark:text-gray-300 w-full">Private</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
                         <a href="/allroutes" class="text-xl text-gray-800 dark:text-gray-300 w-full">Public</a>
                     </div>
-                    <div class=" moderation_div group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/moderation" class=" text-xl text-gray-800 dark:text-gray-300 w-full">Модерация</a>
+                    <div class="moderation_div group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
+                        <a href="/moderation" class="text-xl text-gray-800 dark:text-gray-300 w-full">Модерация</a>
                     </div>
                     <div class="group border-b border-b-slate-400 w-full h-full flex items-center pl-3">
-                        <a href="/log-reg" class="log text-xl text-gray-800 dark:text-gray-300 w-full">Log in</a>
+                        <a href="/log-reg" class=" log text-xl text-gray-800 dark:text-gray-300 w-full">Log in</a>
                     </div>   
                 </div>
             </div>
         </div>
     </nav> 
 
-    <main class="mt-14 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 pb-6">
+    <main class="mt-10 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 pb-6">
         <div id="routes" class="flex flex-row flex-wrap items-start gap-6 w-full 2xl:w-[1600px] mx-auto lg:justify-between justify-around">
             <div id="loading" class="bg-yellow-500 flex justify-center text-slate-900 dark:text-gray-300">Загрузка</div>
         </div>
@@ -111,7 +111,7 @@
     <script src="./js/getRoutes.js"></script>
     <script src="/js/darkmode.js"></script>
     <script src="/js/nav.js"></script>
-    <div class="hidden h-[700px] w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900  shadow-prl dark:shadow-prd w-10 h-10 stroke-yellow-600 stroke-rose-600 text-gray-200 text-xl w-6 h-6 stroke-slate-900 dark:stroke-gray-200 fill-none fill-none mr-1 stroke-2 stroke-gray-200 underline decoration-solid text-decoration-yellow-500 gap-10 dark:text-slate-900 mb-6 mt-6 mt-10 p-6 underline-offset-[10px] underline-offset-4 flex flex-col justify-between items-center bg-cover h-64 shadow-prl dark:shadow-prd rounded-10 p-3 w-[295px] shrink-0" id="properties_js">
+    <div class="hidden h-[700px] w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900  shadow-prl dark:shadow-prd w-10 h-10 stroke-yellow-600 stroke-rose-600 text-gray-200 text-xl w-6 h-6 stroke-slate-900 dark:stroke-gray-200 fill-none fill-none mr-1 stroke-2 stroke-gray-200 underline decoration-solid text-decoration-yellow-500 gap-10 dark:text-slate-900 mb-6 mt-6 mt-10 p-6 underline-offset-[10px] underline-offset-4 flex flex-col justify-between items-center bg-cover h-64 shadow-prl dark:shadow-prd rounded-10 p-3 w-[295px] shrink-0 h-[80vh] w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 " id="properties_js">
     </div>
 </body>
 </html>

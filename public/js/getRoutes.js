@@ -112,26 +112,37 @@ async function renderRoute(route_id) {
       main.className =
         "mt-10 w-full min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6 lg:px-8 pt-3 mb-12";
         //--------------------------------------------------------------------------экспорт
+
+      let export_buttons = document.createElement('div');
+      export_buttons.id = 'exportButt';
+      export_buttons.className = 'rounded-10 flex gap-4 p-3 bg-white shadow-xl shadow-slate-300 dark:shadow-slate-950 dark:bg-slate-900 mt-6';
+
       let exportGPX = document.createElement("button")
       exportGPX.onclick = exportToGPX
       exportGPX.innerText = "GPX"
+      exportGPX.className = 'text-lg h-6 w-full flex items-center justify-center rounded-10 bg-yellow-500 text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400'
 
       let exportKML = document.createElement("button")
       exportKML.onclick = exportToKML
       exportKML.innerText = "KML"
+      exportKML.className = 'text-lg h-6 w-full flex items-center justify-center rounded-10 bg-yellow-500 text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400'
 
       let exportKMZ = document.createElement("button")
       exportKMZ.onclick = exportToKMZ
       exportKMZ.innerText = "KMZ"
-
+      exportKMZ.className = 'text-lg h-6 w-full flex items-center justify-center rounded-10 bg-yellow-500 text-white md:text-xl md:h-8 md:py-2 hover:bg-yellow-400';
       
-
+      export_buttons.append(
+        exportGPX,
+        exportKML,
+        exportKMZ
+      )
 
         //--------------------------------------------------------------------------экспорт
       let routeMap = document.createElement("div");
       routeMap.id = "map";
       routeMap.className =
-        "h-[700px] w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 ";
+        "h-[80vh] w-full bg-white shadow-xl shadow-slate-300 rounded-10 dark:shadow-slate-950 dark:bg-slate-900 ";
 
       let back_button = document.createElement("button");
       back_button.className =
@@ -225,10 +236,8 @@ async function renderRoute(route_id) {
       route_info.append(act_description_div, distanse_time_div);
       main.append(
         back_button,
-        exportGPX,
-        exportKML,
-        exportKMZ,
         routeMap,
+        export_buttons,
         className_conteiner,
         route_info,
         userPoints,
