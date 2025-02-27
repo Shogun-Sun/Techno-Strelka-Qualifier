@@ -1,25 +1,24 @@
-/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script> */ // скрипт фрхиватора нужно добавить на страницу где будет экспорт
 var KML;
 var GPX;
 function exportToGPX() {
     GPX = '<?xml version="1.0" encoding="UTF-8"?>\n';
     GPX += '<gpx version="1.1" creator="Yandex Maps">\n';
     GPX += '<metadata>\n';
-    GPX += '<name>Example Route</name>\n';                   // название маршрута  // название --------
-    GPX += '<desc>Route created with Yandex Maps</desc>\n';  // описание маршрута  // описание ---------
+    GPX += '<name>Example Route</name>\n';                  
+    GPX += '<desc>Route created with Yandex Maps</desc>\n'; 
     GPX += '</metadata>\n';
-    GPX += '<trk>\n';                                        // начало трека
-    GPX += '<name>Route</name>\n';                           // название трека     // название-----------
-    GPX += '<trkseg>\n';                                     // начало  сегмента трека
+    GPX += '<trk>\n';                                        
+    GPX += '<name>Route</name>\n';                          
+    GPX += '<trkseg>\n';                                     
 
     addreses.forEach(address => {
         if (Array.isArray(address)) {
-            GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  //добавление точки
+            GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  
             GPX += '</trkpt>\n';
         }
     });
-    GPX += '</trkseg>\n';// конец  сегмента трека
-    GPX += '</trk>\n';   // конец трека
+    GPX += '</trkseg>\n';
+    GPX += '</trk>\n';  
     GPX += '</gpx>';
 
     var blob = new Blob([GPX], { type: 'application/gpx+xml' });
@@ -37,17 +36,17 @@ function createKML(){
     KML = '<?xml version="1.0" encoding="UTF-8"?>\n';
     KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
     KML += '<Document>\n';
-    KML += '<name>Route KML</name>\n';                                      // название 
+    KML += '<name>Route KML</name>\n';                                     
     KML += '<description>A simple description example.</description>\n';
     KML += '<Placemark>\n';
-    KML += '<name>test_route</name>\n';                                     // название
-    KML += '<description>This is a route example.</description>\n';         // описание
+    KML += '<name>test_route</name>\n';                                     
+    KML += '<description>This is a route example.</description>\n';        
     KML += '<LineString>\n';
     KML += '<coordinates>\n';
 
     addreses.forEach(address => {
         if (Array.isArray(address)) {
-            KML += `${address[1]},${address[0]} `; // Долгота,Широта, разделенные пробелом
+            KML += `${address[1]},${address[0]} `; 
         }
     });
 

@@ -16,7 +16,6 @@ fetch("/user/get/data", {
 })
 .then(res=>res.json())
 .then((userData) => {
-    // console.log(userData)
     if(userData.data) {
         if (userData.data.role == "user") {
             moderation_div.forEach(elem => elem.remove())
@@ -32,13 +31,11 @@ fetch("/user/get/data", {
                 })
                 .then(res=> res.json())
                 .then((userOutMessage) => {
-                    // console.log(userOutMessage)
                 })
             }
         })
         
     } else {
-        // console.log(moderation_div)
         moderation_div.forEach(elem => elem.remove())   
         profile_href.forEach(e => e.href="/log-reg")
         private_href.forEach(e => e.href="/log-reg")

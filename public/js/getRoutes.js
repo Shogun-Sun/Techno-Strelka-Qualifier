@@ -522,7 +522,6 @@ function render_rating() {
 }
 
 
-/* <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script> */ // скрипт фрхиватора нужно добавить на страницу где будет экспорт
 var KML;
 var GPX;
 
@@ -544,24 +543,24 @@ for (let i = 0; i < refPoints.length; i++) {
     GPX = '<?xml version="1.0" encoding="UTF-8"?>\n';
     GPX += '<gpx version="1.1" creator="Yandex Maps">\n';
     GPX += '<metadata>\n';
-    GPX += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                   // название маршрута  // название --------
-    GPX += `<desc>${active_route.RoutesHistories[0].route_description}</desc>\n`;                      // описание маршрута  // описание ---------
+    GPX += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                  
+    GPX += `<desc>${active_route.RoutesHistories[0].route_description}</desc>\n`;                      
     GPX += '</metadata>\n';
-    GPX += '<trk>\n';                                        // начало трека
-    GPX += `<name>${active_route.RoutesHistories[0].route_name}</name>\n `;                           // название трека     // название-----------
-    GPX += '<trkseg>\n';                                     // начало  сегмента трека
+    GPX += '<trk>\n';                                      
+    GPX += `<name>${active_route.RoutesHistories[0].route_name}</name>\n `;                         
+    GPX += '<trkseg>\n';                                     
 
     
 
     addresses.forEach(address => {
       console.log(Array.isArray(address))
         if (Array.isArray(address)) {
-            GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  //добавление точки
+            GPX += `<trkpt lat="${address[0]}" lon="${address[1]}">\n`;  
             GPX += '</trkpt>\n';
         }
     });
-    GPX += '</trkseg>\n';// конец  сегмента трека
-    GPX += '</trk>\n';   // конец трека
+    GPX += '</trkseg>\n';
+    GPX += '</trk>\n';   
     GPX += '</gpx>';
 
     var blob = new Blob([GPX], { type: 'application/gpx+xml' });
@@ -594,17 +593,17 @@ async function createKML(){
     KML = '<?xml version="1.0" encoding="UTF-8"?>\n';
     KML += '<kml xmlns="http://www.opengis.net/kml/2.2">\n';
     KML += '<Document>\n';
-    KML += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                                      // название 
+    KML += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                                     
     KML += `<description>${active_route.RoutesHistories[0].route_description}</description>\n`;
     KML += '<Placemark>\n';
-    KML += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                                     // название
-    KML += `<description>${active_route.RoutesHistories[0].route_description}</description>\n`;         // описание
+    KML += `<name>${active_route.RoutesHistories[0].route_name}</name>\n`;                                    
+    KML += `<description>${active_route.RoutesHistories[0].route_description}</description>\n`;       
     KML += '<LineString>\n';
     KML += '<coordinates>\n';
 
     addresses.forEach(address => {
         if (Array.isArray(address)) {
-            KML += `${address[1]},${address[0]} `; // Долгота,Широта, разделенные пробелом
+            KML += `${address[1]},${address[0]} `; 
         }
     });
 

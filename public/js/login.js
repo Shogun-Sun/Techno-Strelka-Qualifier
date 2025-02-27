@@ -1,4 +1,3 @@
-//-------------------------log in
 document.querySelector("#login_btn").onclick = login_function
 
 function login_function() {
@@ -31,7 +30,6 @@ function login_function() {
     }
 }
 
-//----------------------------------------------вывод ошибок на форму
 function create_err(element, message) {
     let errors = document.createElement("p")
     errors.classList.add("errors", "text-pink-600")
@@ -40,7 +38,6 @@ function create_err(element, message) {
     element.parentNode.append(errors)
 }
 
-//-------------------------------------------------------------проверка валидности формы
 function validate(user_data) {
     let pass = true;
     Object.values(user_data).forEach((elem) => {
@@ -74,14 +71,12 @@ function validate(user_data) {
     return pass
 }
 
-//-----------------------------------конвертация данных пользователя из DOM элементов в значения
 function convert(user_data) {
     Object.keys(user_data).forEach((key) => {
         user_data[key] = user_data[key].value 
     })
 }
 
-//------------------------------------удаление всех сообщений валидации
 function del_errs() {
     document.querySelectorAll(".errors").forEach((err) => {
         err.remove()
@@ -90,7 +85,7 @@ function del_errs() {
         input.classList.remove("border-pink-600")
     })
 }
-//-----------------------------------registration
+
 document.querySelector("#reg_btn").onclick = reg_function
 
 function reg_function() {
