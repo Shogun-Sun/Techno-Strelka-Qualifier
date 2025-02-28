@@ -285,6 +285,15 @@ async function renderRoute(route_id) {
           zoom: 10,
           controls: [],
         });
+
+        var searchControl = new ymaps.control.SearchControl({
+          options: {
+              provider: 'yandex#search'
+          }
+        });
+      
+       map.controls.add(searchControl);
+
         refPoints = [];
         active_route.Points[0].point_data.forEach((point) => {
           refPoints.push(point.addres);
